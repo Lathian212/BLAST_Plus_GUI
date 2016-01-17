@@ -23,11 +23,15 @@ class BLASTn(ttk.Frame):
         self.ROW = 1
         self.enter_query = Enter_Query_Sequence(self, 'Query')
         self.enter_query.grid(row = self.ROW, column =1)
+        #Get width in pixels to even out label frames
+        self.frame_max_width = self.enter_query.winfo_width()
         #Rows 2,3,4 will be space for Subject Query Box or Search Set Box Subject
         self.subject_query = Enter_Sequence(self, 'Subject')
         self.search_set = Choose_Search_Set(self)
         self.search_set.grid ( row =3, column = 1, sticky = 'W')
         self.ROW = 5
+        self.prg_selection = Program_Selection(self)
+        self.prg_selection.grid (row = self.ROW, column = 1, sticky = 'W')
 
     def buildMargins(self):
         """This method makes cells along the top and right side of the frame so that gridding can easier when it's time to place widgets""" 
@@ -37,11 +41,6 @@ class BLASTn(ttk.Frame):
             ttk.Label(self, text= '%s' % row, width = 3).grid(row = row, column = 0)
             
     #Handlers        
-    def set_sub_seq_ref(self, sub_enter_sequence, sub_row =3):
-        """Way to pass in reference of a subject enter widget that has already been constructed with it's parent so can forget grid it from here"""
-        self.sub_enter_sequence = sub_enter_sequence
-        self.sub_row = sub_row
-        
     def subject_vs_search_toggle(self):
         """It's either Subject Entry Box or Choose Search Set this method toggles between them. Loads with Choose Search Set"""
         #If below is true the check box for triggering a subject against query has just been triggered 

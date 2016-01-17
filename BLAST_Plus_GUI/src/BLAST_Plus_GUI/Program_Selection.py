@@ -7,13 +7,14 @@ import tkinter as tk
 from tkinter import ttk
 
 class Program_Selection(ttk.Labelframe):
-    def __init__(self, parent):
+    def __init__(self, parent, left_row_limit = 4):
         ttk.Labelframe.__init__(self, parent)
         self.ROW = 1
         self.parent = parent
         self.outer_label = ttk.Label(self, text = 'Program Selection', font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue', background = 'white')
         self.config(labelwidget = self.outer_label)
         self.blastn_type = tk.IntVar()
+        self.left_row_limit = left_row_limit
         self.buildMargins()
         self.buildPrgSelection()
         
@@ -22,7 +23,7 @@ class Program_Selection(ttk.Labelframe):
         """This method makes cells along the top and right side of the frame so that gridding can easier when it's time to place widgets""" 
         for col in range(10):
             ttk.Label(self, text= '%s' % (col+1) , width =10).grid(row = 0, column = (col+1))
-        for row in range(100):
+        for row in range(self.left_row_limit):
             ttk.Label(self, text= '%s' % row, width = 3).grid(row = row, column = 0)
         
     def buildPrgSelection(self):
@@ -38,7 +39,7 @@ class Program_Selection(ttk.Labelframe):
         self.ROW+=1
         self.R2 = tk.Radiobutton(self, text="More dissimilar sequences (discontiguous megablast)", font=('Arial', '12'),
                              variable=self.blastn_type, value=2, command=self.blastnTypeHandler)
-        self.R2.grid(row = self.ROW, column = 3, columnspan = 4, sticky = 'w')
+        self.R2.grid(row = self.ROW, column = 3, columnspan = 5, sticky = 'w')
         self.ROW+=1
         self.R3 = tk.Radiobutton(self, text="Somewhat similar sequences (blastn)", font=('Arial', '12'),
                              variable=self.blastn_type, value=3, command=self.blastnTypeHandler)
