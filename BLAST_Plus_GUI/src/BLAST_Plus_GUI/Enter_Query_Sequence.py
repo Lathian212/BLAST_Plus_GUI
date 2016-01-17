@@ -54,10 +54,11 @@ class Enter_Query_Sequence(Enter_Sequence):
         self.job_title.configure(width=80)
         self.ROW+=2
         
-        #check_button = tk.Checkbutton(self, text = 'Align two or more sequences', font=('Arial', 12, 'bold'),
-        #                              variable = self.checkBut, command = self.align2OrMore)
-        #check_button.grid(row = self.ROW, column = 1)
-        #self.ROW+=1
+        self.if_subject = tk.BooleanVar()
+        self.check_if_subject = tk.Checkbutton(self, text = 'Align two or more sequences', font=('Arial', 9, 'bold'),
+                                      variable = self.if_subject, command = self.align2OrMore)
+        self.check_if_subject.grid(row = self.ROW, column = 1, columnspan = 3, sticky = 'W')
+        self.ROW+=1
 
     #Callback Handlers
     def clear_query(self):
@@ -83,6 +84,9 @@ class Enter_Query_Sequence(Enter_Sequence):
     def outputFmtHandler(self, event):
         print(self.save_output_box.current())
         print(self.comboVar.get())
+        
+    def align2OrMore(self):
+        pass
 
 if __name__ == "__main__":
     root=tk.Tk()

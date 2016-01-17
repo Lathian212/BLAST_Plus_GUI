@@ -57,6 +57,8 @@ class Enter_Sequence(ttk.Labelframe):
         self.query_to.grid(row = self.ROW, column = 7, columnspan =2 , sticky = 'W')
     
         self.ROW+=5
+        #There are objects that inherit from this one that will need to know this value for genetic code widget
+        self.upload_file_row = self.ROW
         
         ttk.Label(self, text ='Or, Upload File:', font=('Arial', 10, 'bold')).grid(row = self.ROW, column=1, sticky = 'E')
         
