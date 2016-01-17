@@ -57,3 +57,16 @@ def makeBlastnOptionDict (dictionary):
     for opt in dictionary:
         dictionary[opt] = tk.StringVar()
     return dictionary
+
+#Labels for databse search Box
+db_box = ['Human genomic plus transcript (Human G+T)', 'Mouse genomic plus transcript (Mouse G+T)', 'Nucleotide collection (nr/nt)',
+              'Reference RNA sequences (refseq_rna)', 'Reference genomic sequences (refseq_genomic)', 
+              'RefSeq Representative genomes (refseq_representative_genomes)', 'NCBI Genomes (chromosome)', 'Expressed sequence tags (est)',
+              'Genomic surveys sequences (gss)' , 'High throughput genomic sequences (HTGS)', 'Patent sequences (pat)', 'Protein Data Bank (pdb)',
+              'Human ALU repeat elements (alu_repeats)', 'Sequence tagged sites (dbsts)', 'Whole-genome shotgun contigs (wgs)', 
+              'Transcriptome Shotgun Assembly (TSA)', '16S ribosomal RNA sequences (Bacteria and Archaea)', 'Sequences Read Archive (SRA)']
+
+#For command line
+db_abrv = ['"Human G+T"', '"Mouse G+T"', '"nr/nt"', 'refseq_rna', 'refseq_genomic', 'refseq_representative_genomes', 
+                            'chromosome', 'est','gss' , 'HTGS', 'pat', 'pdb', 'alu_repeats', 'dbsts', 'wgs', 'TSA', '"Bacteria and Archaea"', 'SRA']
+
