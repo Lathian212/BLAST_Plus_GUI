@@ -14,7 +14,8 @@ from Enter_Sequence import Enter_Sequence
 
 class Enter_Query_Sequence(Enter_Sequence):
     def __init__(self, parent, SubOrQuery):
-        Enter_Sequence.__init__(self, parent, SubOrQuery)
+        Enter_Sequence.__init__(self, parent, SubOrQuery, left_row_limit = 18)
+        self.parent = parent
         self.buildQuery()
         
     def buildQuery(self):    
@@ -55,8 +56,9 @@ class Enter_Query_Sequence(Enter_Sequence):
         self.ROW+=2
         
         self.if_subject = tk.BooleanVar()
+        self.if_subject.set(False)
         self.check_if_subject = tk.Checkbutton(self, text = 'Align two or more sequences', font=('Arial', 9, 'bold'),
-                                      variable = self.if_subject, command = self.align2OrMore)
+                                      variable = self.if_subject, command = self.parent.subject_vs_search_toggle)
         self.check_if_subject.grid(row = self.ROW, column = 1, columnspan = 3, sticky = 'W')
         self.ROW+=1
 
@@ -85,16 +87,16 @@ class Enter_Query_Sequence(Enter_Sequence):
         print(self.save_output_box.current())
         print(self.comboVar.get())
         
-    def align2OrMore(self):
-        pass
-
 if __name__ == "__main__":
     root=tk.Tk()
     w, h = root.winfo_screenwidth(), root.winfo_screenheight()
     root.geometry("%dx%d+0+0" % (w, h))
     
     frame = Enter_Query_Sequence(root, 'Query')
-    frame.grid(row = 0, column = 0)
+    frame.grid(row = 0, column = 1)
+    
+    subject_query = Enter_Sequence(root, 'Subject')
+    frame.set_sub_seq_ref(subject_query, 3)
     
     root.mainloop()        
     

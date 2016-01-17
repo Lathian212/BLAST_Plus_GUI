@@ -9,12 +9,13 @@ import BLASTn_Funcs_Dicts as bd
 import Organism_Exclude as oe
 
 class Choose_Search_Set(ttk.Labelframe):
-    def __init__(self, parent):
+    def __init__(self, parent, left_row_limit = 9):
         ttk.Labelframe.__init__(self, parent)
         self.ROW = 1
         self.parent = parent
-        self.outer_label = ttk.Label(root, text = 'Choose Search Set', font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue', background = 'white')
-        self.config(labelwidget = self.outer_label) 
+        self.outer_label = ttk.Label(self, text = 'Choose Search Set', font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue', background = 'white')
+        self.config(labelwidget = self.outer_label)
+        self.left_row_limit = left_row_limit 
         self.buildMargins()
         self.buildSearchSet()
             
@@ -22,7 +23,7 @@ class Choose_Search_Set(ttk.Labelframe):
         """This method makes cells along the top and right side of the frame so that gridding can easier when it's time to place widgets""" 
         for col in range(10):
             ttk.Label(self, text= '%s' % (col+1) , width =10).grid(row = 0, column = (col+1))
-        for row in range(100):
+        for row in range(self.left_row_limit):
             ttk.Label(self, text= '%s' % row, width = 3).grid(row = row, column = 0)
             
     def buildSearchSet(self):

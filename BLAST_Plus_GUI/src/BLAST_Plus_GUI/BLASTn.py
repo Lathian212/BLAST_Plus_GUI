@@ -10,143 +10,48 @@ from tkinter.filedialog import asksaveasfilename
 import CallBack_Handlers as cb
 import BLASTn_Funcs_Dicts as bd
 from tkinter import scrolledtext
-
+from Enter_Query_Sequence import Enter_Query_Sequence
+from Enter_Sequence import Enter_Sequence
+from Choose_Search_Set import Choose_Search_Set
+from Program_Selection import Program_Selection 
 
 class BLASTn(ttk.Frame):
     #Attached to radio buttons for switching between Blast types.
     def __init__(self, parent):
         ttk.Frame.__init__(self, parent)
-        #Globals
-        #Save a reference to canvas_frame so this class' frame can be destroyed and recreated.
-        self.parent = parent
-        #Widget wiring
-        self.query_from = tk.StringVar()
-        self.query_to   = tk.StringVar()
-        
-        #self.ROW needs to be kept track of so code can be moved around and all the griding doesn't need to be adjusted
-        self.ROW = 3
-        #Below tkinter boolean keeps track of align two or more sequences checkbutton, initializes to false.
-        self.checkBut = tk.BooleanVar()
-        #IntVar for radio button selection for blast type it's function handler will map it to a StringVar in the 
-        #option dictionary
-        self.blastn_type = tk.IntVar()
-        #Set up widgets by calling methods, grouped into convenient blocks.                             )
         self.buildMargins()
-        self.buildEnterQuery()
-        self.buildChooseSearchSet()
-        
+        self.ROW = 1
+        self.enter_query = Enter_Query_Sequence(self, 'Query')
+        self.enter_query.grid(row = self.ROW, column =1)
+        #Rows 2,3,4 will be space for Subject Query Box or Search Set Box Subject
+        self.subject_query = Enter_Sequence(self, 'Subject')
+        self.search_set = Choose_Search_Set(self)
+        self.search_set.grid ( row =3, column = 1, sticky = 'W')
+        self.ROW = 5
+
     def buildMargins(self):
         """This method makes cells along the top and right side of the frame so that gridding can easier when it's time to place widgets""" 
         for col in range(10):
             ttk.Label(self, text= '%s' % (col+1) , width =10).grid(row = 0, column = (col+1))
         for row in range(100):
             ttk.Label(self, text= '%s' % row, width = 3).grid(row = row, column = 0)
+            
+    #Handlers        
+    def set_sub_seq_ref(self, sub_enter_sequence, sub_row =3):
+        """Way to pass in reference of a subject enter widget that has already been constructed with it's parent so can forget grid it from here"""
+        self.sub_enter_sequence = sub_enter_sequence
+        self.sub_row = sub_row
+        
+    def subject_vs_search_toggle(self):
+        """It's either Subject Entry Box or Choose Search Set this method toggles between them. Loads with Choose Search Set"""
+        #If below is true the check box for triggering a subject against query has just been triggered 
+        if self.enter_query.if_subject.get():
+            self.search_set.grid_forget()
+            self.subject_query.grid (row = 3, column =1, sticky = 'W')
+        else :
+            self.subject_query.grid_forget()
+            self.search_set.grid(row =3, column =1, sticky = 'W')
     
-    #Widget Layout
-    def buildEnterQuery(self):    
-        """Builds Enter Query Sequence up to Job Title """    
-        
-        ttk.Label(self, text='Enter Query Sequence:', font=('Arial', '14', 'underline')).grid(row = self.ROW , column = 1, 
-                                                                                                    columnspan=4, sticky = 'w')
-        self.ROW += 1
-        
-        ttk.Label(self, text='Enter accession number(s), gi(s), or FASTA sequence(s)', 
-                 font=('Arial', '12', 'bold')).grid(row = self.ROW , column = 1, columnspan=4, sticky ='w')
-        self.clear_button = tk.Button(self, text='Clear', font=('Arial', '9', 'underline'), command = self.clear_query)
-        self.clear_button.grid(row = self.ROW, column =5, sticky = 'E')
-        ttk.Label(self, text='Query subrange:', font=('Arial', '12', 'bold', 'underline')
-                 ).grid(row = self.ROW, column = 6, columnspan = 2, sticky = 'E')
-        self.ROW += 1
-        
-        self.query_box = scrolledtext.ScrolledText(self, width = 70, height = 7, wrap=tk.CHAR)
-        self.query_box.grid(row = self.ROW, column = 1, rowspan = 6, columnspan = 5)
-
-        tk.Label(self, text = 'From:').grid(row = self.ROW, column = 6, sticky = 'E')
-        self.query_from = ttk.Entry(self, font=('Arial', 10), width = 15)
-        self.query_from.grid(row = self.ROW, column = 7, columnspan = 2, sticky = 'W')
-        
-        self.ROW+=2
-        
-        tk.Label(self, text = 'To:').grid(row = self.ROW, column = 6, sticky = 'E')
-        self.query_to = tk.Entry(self, font=('Arial', 10), width = 15)
-        self.query_to.grid(row = self.ROW, column = 7, columnspan =2 , sticky = 'W')
-    
-        self.ROW+=5
-        
-        ttk.Label(self, text ='Or, Upload File:', font=('Arial', 10, 'bold')).grid(row = self.ROW, column=1, sticky = 'E')
-        
-        self.load_query_button = ttk.Button(self, text='Choose File', command = (lambda : self.load_handler()))
-        self.load_query_button.grid(row = self.ROW, column = 2)
-        self.load_status = ttk.Label(self, text='No file chosen', font=('Arial', '10'))
-        self.load_status.grid(row = self.ROW , column = 3, columnspan = 7, sticky = 'W')
-        
-        self.ROW+=2
-        
-        ttk.Label(self, text ='Save File:', font=('Arial', 10, 'bold')).grid(row = self.ROW, 
-                                                                                                 column=1, sticky = 'E')
-        self.save_query_button = ttk.Button(self, text='Choose File', command = (lambda : self.saveHandler()))
-        self.save_query_button.grid(row = self.ROW, column = 2)
-        self.save_status = ttk.Label(self, text='No file chosen', font=('Arial', '10'))
-        self.save_status.grid(row = self.ROW , column = 3, columnspan = 7, sticky = 'W')
-        
-        self.ROW+=2
-
-        ttk.Label(self, text ='Save Format:', font=('Arial', 10, 'bold')).grid(row = self.ROW, 
-                                                                                         column=1, sticky = 'E')
-        
-        #bd is the blastFuncsDictionaries module
-        self.comboVar = tk.StringVar()
-        self.save_output_box = ttk.Combobox(self, values= bd.blastn_outputfmt,  textvariable = self.comboVar, state='readonly', width = 30)
-        #XML format is suggested by NCBI so make it default
-        self.save_output_box.current(5)
-        self.save_output_box.bind("<<ComboboxSelected>>", self.outputFmtHandler)
-        self.save_output_box.grid(row = self.ROW, column = 2, columnspan = 4, sticky = 'W', padx = 10)
-        #Save current ROW as global to class so if need to pop in additional widget func knows where
-        self.row_for_outputFmt = self.ROW
-        #If 6,7 or 10 picked additional options must open up
-
-        
-        
-        self.ROW+=2
-        ttk.Label(self, text ='Job Title', font=('Arial', 12, 'bold')).grid(row = self.ROW, column=1, sticky = 'E')
-        self.job_title = ttk.Entry(self, font=('Arial', 10))
-        self.job_title.grid(row = self.ROW, column = 2, columnspan = 8, sticky = 'W', padx = 10)
-        self.job_title.configure(width=80)
-        self.ROW+=2
-        
-        #check_button = tk.Checkbutton(self, text = 'Align two or more sequences', font=('Arial', 12, 'bold'),
-        #                              variable = self.checkBut, command = self.align2OrMore)
-        #check_button.grid(row = self.ROW, column = 1)
-        #self.ROW+=1
-        
-    #Callback Handlers
-    def clear_query(self):
-        input = self.query_box.get('1.0', 'end-1c')
-        end = str((len(input)/1.0))
-        self.query_box.delete('1.0', end)
-    
-    def get_query(self):
-        input = self.query_box.get('1.0', 'end-1c')
-        return input
-    
-    def get_query_loc(self):
-        """Location on the query sequence in 1-based offsets (Format: start-stop)"""
-        return(self.query_from.get()+'-'+self.query_to.get())
-    
-    def load_handler(self):
-        filename = askopenfilename()
-        self.load_status.configure(text = filename)
-        
-    def save_handler(self):
-        savefilename = asksaveasfilename()
-    
-    def outputFmtHandler(self, event):
-        print(self.save_output_box.current())
-        print(self.comboVar.get())
-    
-    
-    
-        
 
 if __name__ == "__main__":
     root=tk.Tk()

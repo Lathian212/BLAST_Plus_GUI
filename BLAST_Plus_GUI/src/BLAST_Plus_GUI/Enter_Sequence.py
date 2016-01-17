@@ -12,15 +12,16 @@ import BLASTn_Funcs_Dicts as bd
 from tkinter import scrolledtext
 
 class Enter_Sequence(ttk.Labelframe):
-    def __init__(self, parent, SubOrQuery):
+    def __init__(self, parent, SubOrQuery, left_row_limit = 10):
         ttk.Labelframe.__init__(self, parent)
         self.ROW = 1
         self.parent = parent
         #To identify the container as a Subject or Query container a String is passed in when constructor is called
         self.SubOrQuery = SubOrQuery
         self.outer_label = ttk.Label(self, text = 'Enter ' + self.SubOrQuery + ' Sequence', font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue', background = 'white')
-        self.config(labelwidget = self.outer_label) 
-        self.buildMargins()
+        self.config(labelwidget = self.outer_label)
+        self.left_row_limit = left_row_limit
+        self.buildMargins() 
         self.buildEnter()
 
     #Widget Layout
@@ -28,7 +29,7 @@ class Enter_Sequence(ttk.Labelframe):
         """This method makes cells along the top and right side of the frame so that gridding can easier when it's time to place widgets""" 
         for col in range(10):
             ttk.Label(self, text= '%s' % (col+1) , width =10).grid(row = 0, column = (col+1))
-        for row in range(100):
+        for row in range(self.left_row_limit):
             ttk.Label(self, text= '%s' % row, width = 3).grid(row = row, column = 0)
         
 
@@ -68,6 +69,9 @@ class Enter_Sequence(ttk.Labelframe):
         self.load_status.grid(row = self.ROW , column = 3, columnspan = 7, sticky = 'W')
 
     #Callback Handlers
+    def get_row(self):
+        """Returns how many rows the object spans"""
+        return self.ROW
     def clear_query(self):
         input = self.query_box.get('1.0', 'end-1c')
         end = str((len(input)/1.0))
