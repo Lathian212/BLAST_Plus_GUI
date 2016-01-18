@@ -24,8 +24,20 @@ class General_Parameters(ttk.Labelframe):
             #Widget Layout
     def buildWidgetSpecifics(self):    
         """Lay out Widgets in LabelFrame Container """ 
-        pass
-    
+        self.ROW += 1
+        ttk.Label(self, text='Expect threshold:', font=('Arial', '10', 'bold')).grid(row = self.ROW , column = 1, 
+                                                                                    columnspan=2, sticky = 'w')
+        
+        self.ROW += 2
+        ttk.Label(self, text='Word size:', font=('Arial', '10', 'bold')).grid(row = self.ROW, column = 1, 
+                                                                                    columnspan=2, sticky = 'w')
+        
+        self.ROW += 2
+        ttk.Label(self, text='Max matches in a', font=('Arial', '10', 'bold')).grid(row = self.ROW , column = 1, 
+                                                                                    columnspan=2, sticky = 'w')
+        self.ROW += 1
+        ttk.Label(self, text='query range:', font=('Arial', '10', 'bold')).grid(row = self.ROW , column = 1, 
+                                                                                    columnspan=2, sticky = 'w')
 
 if __name__ == "__main__":
     root=tk.Tk()

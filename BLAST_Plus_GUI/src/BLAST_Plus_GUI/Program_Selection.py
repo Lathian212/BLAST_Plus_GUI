@@ -13,20 +13,13 @@ class Program_Selection(ttk.Labelframe):
         self.parent = parent 
         self.ROW = 1
         self.parent = parent
-        self.outer_label = ttk.Label(self, text = 'Program Selection', font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue', background = 'white')
+        self.outer_label = ttk.Label(self, text = 'Program Selection', font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue', 
+                                     background = 'white')
         self.config(labelwidget = self.outer_label)
         self.blastn_type = tk.IntVar()
         self.left_row_limit = left_row_limit
         HF.buildMargins(self, self.left_row_limit)
         self.buildPrgSelection()
-        
-    #Widget Layout
-    def buildMargins(self):
-        """This method makes cells along the top and right side of the frame so that gridding can easier when it's time to place widgets""" 
-        for col in range(10):
-            ttk.Label(self, text= '%s' % (col+1) , width =10).grid(row = 0, column = (col+1))
-        for row in range(self.left_row_limit):
-            ttk.Label(self, text= '%s' % row, width = 3).grid(row = row, column = 0)
         
     def buildPrgSelection(self):
         #This will need a helper method to map the int values onto -task.
