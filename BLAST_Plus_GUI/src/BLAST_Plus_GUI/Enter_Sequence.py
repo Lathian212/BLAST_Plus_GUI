@@ -12,15 +12,15 @@ import BLASTn_Funcs_Dicts as bd
 from tkinter import scrolledtext
 
 class Enter_Sequence(ttk.Labelframe):
-    def __init__(self, parent, SubOrQuery, left_row_limit = 10):
-        ttk.Labelframe.__init__(self, parent)
+    def __init__(self, parent, SubOrQuery, left_row_limit = 10, *args, **kwargs):
+        ttk.Labelframe.__init__(self, parent, *args, **kwargs)
         self.ROW = 1
         self.parent = parent
         #To identify the container as a Subject or Query container a String is passed in when constructor is called
         self.SubOrQuery = SubOrQuery
         self.outer_label = ttk.Label(self, text = 'Enter ' + self.SubOrQuery + ' Sequence', font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue', background = 'white')
         self.config(labelwidget = self.outer_label)
-        self.left_row_limit = left_row_limit
+        self.left_row_limit = left_row_limit 
         self.buildMargins() 
         self.buildEnter()
 
@@ -96,6 +96,8 @@ if __name__ == "__main__":
     
     frame = Enter_Sequence(root, 'Subject')
     frame.grid(row = 0, column = 0)
-    
+    #This is so frame.winfo_width() returns its actual dimension rather than 1
+    root.update()
+    print(frame.winfo_width())
     root.mainloop()       
     

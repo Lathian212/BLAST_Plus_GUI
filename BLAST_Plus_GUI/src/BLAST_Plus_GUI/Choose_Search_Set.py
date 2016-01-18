@@ -9,8 +9,8 @@ import BLASTn_Funcs_Dicts as bd
 import Organism_Exclude as oe
 
 class Choose_Search_Set(ttk.Labelframe):
-    def __init__(self, parent, left_row_limit = 9):
-        ttk.Labelframe.__init__(self, parent)
+    def __init__(self, parent, left_row_limit = 9, *args, **kwargs):
+        ttk.Labelframe.__init__(self, parent, *args, **kwargs)
         self.ROW = 1
         self.parent = parent
         self.outer_label = ttk.Label(self, text = 'Choose Search Set', font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue', background = 'white')

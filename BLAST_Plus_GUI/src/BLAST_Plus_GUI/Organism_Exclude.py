@@ -7,8 +7,8 @@ import tkinter as tk
 from tkinter import ttk
 
 class Organism_Exclude(ttk.Frame):
-    def __init__(self, parent, row = 0):
-        ttk.Frame.__init__(self, parent)
+    def __init__(self, parent, row = 0, *args, **kwargs):
+        ttk.Frame.__init__(self, parent, *args, **kwargs)
         #So each member of this class is aware of the row it's gridded to in parent
         self.row = row
         self.entry = ttk.Entry(self, width = 50, foreground = 'gray')

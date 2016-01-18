@@ -13,8 +13,8 @@ from tkinter import scrolledtext
 from Enter_Sequence import Enter_Sequence
 
 class Enter_Query_Sequence(Enter_Sequence):
-    def __init__(self, parent, SubOrQuery):
-        Enter_Sequence.__init__(self, parent, SubOrQuery, left_row_limit = 18)
+    def __init__(self, parent, SubOrQuery, left_row_limit = 18, *args, **kwargs):
+        Enter_Sequence.__init__(self, parent, SubOrQuery, left_row_limit, *args, **kwargs)
         self.parent = parent
         self.buildQuery()
         
@@ -86,7 +86,9 @@ class Enter_Query_Sequence(Enter_Sequence):
     def outputFmtHandler(self, event):
         print(self.save_output_box.current())
         print(self.comboVar.get())
-        
+""" 
+This Class now depends on others in ways that need to be addressed if it is to run by 'itself'
+       
 if __name__ == "__main__":
     root=tk.Tk()
     w, h = root.winfo_screenwidth(), root.winfo_screenheight()
@@ -99,4 +101,4 @@ if __name__ == "__main__":
     frame.set_sub_seq_ref(subject_query, 3)
     
     root.mainloop()        
-    
+ """   

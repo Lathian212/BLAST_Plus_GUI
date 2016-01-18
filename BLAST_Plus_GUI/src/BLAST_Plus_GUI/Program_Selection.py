@@ -7,8 +7,8 @@ import tkinter as tk
 from tkinter import ttk
 
 class Program_Selection(ttk.Labelframe):
-    def __init__(self, parent, left_row_limit = 4):
-        ttk.Labelframe.__init__(self, parent)
+    def __init__(self, parent, left_row_limit = 4, *args, **kwargs):
+        ttk.Labelframe.__init__(self, parent, *args, **kwargs)
         self.ROW = 1
         self.parent = parent
         self.outer_label = ttk.Label(self, text = 'Program Selection', font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue', background = 'white')
@@ -57,5 +57,5 @@ if __name__ == "__main__":
     
     frame = Program_Selection(root)
     frame.grid(row = 0, column = 0)
-    
+
     root.mainloop()

@@ -17,14 +17,13 @@ from Program_Selection import Program_Selection
 
 class BLASTn(ttk.Frame):
     #Attached to radio buttons for switching between Blast types.
-    def __init__(self, parent):
-        ttk.Frame.__init__(self, parent)
+    def __init__(self, parent, *args, **kwargs):
+        ttk.Frame.__init__(self, parent, *args, **kwargs)
         self.buildMargins()
         self.ROW = 1
         self.enter_query = Enter_Query_Sequence(self, 'Query')
         self.enter_query.grid(row = self.ROW, column =1)
-        #Get width in pixels to even out label frames
-        self.frame_max_width = self.enter_query.winfo_width()
+
         #Rows 2,3,4 will be space for Subject Query Box or Search Set Box Subject
         self.subject_query = Enter_Sequence(self, 'Subject')
         self.search_set = Choose_Search_Set(self)
