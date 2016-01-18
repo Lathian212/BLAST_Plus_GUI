@@ -6,15 +6,15 @@ Created on Jan 15, 2016
 import tkinter as tk
 from tkinter import ttk
 
-class Organism_Exclude(ttk.Frame):
+class Organism_Exclude(tk.Frame):
     def __init__(self, parent, row = 0, *args, **kwargs):
         ttk.Frame.__init__(self, parent, *args, **kwargs)
         #So each member of this class is aware of the row it's gridded to in parent
         self.row = row
-        self.entry = ttk.Entry(self, width = 50, foreground = 'gray')
+        self.entry = tk.Entry(self, width = 50, foreground = 'gray')
         self.entry.bind('<FocusIn>', self.clear)
         self.entry.insert(0, 'Enter organism name or id')
-        self.entry.grid(row = 0, column = 0)
+        self.entry.grid(row = 0, column = 0, padx = 5)
         self.check_button = tk.BooleanVar()
         self.check_button = tk.Checkbutton(self, text = 'Exclude', font=('Arial', 9, 'bold'),
                                       variable = self.check_button)

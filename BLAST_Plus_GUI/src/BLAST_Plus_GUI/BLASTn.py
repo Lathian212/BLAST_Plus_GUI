@@ -14,12 +14,18 @@ from Enter_Query_Sequence import Enter_Query_Sequence
 from Enter_Sequence import Enter_Sequence
 from Choose_Search_Set import Choose_Search_Set
 from Program_Selection import Program_Selection 
+import Helper_Functions as HF
 
 class BLASTn(ttk.Frame):
     #Attached to radio buttons for switching between Blast types.
     def __init__(self, parent, *args, **kwargs):
+        if 'left_row_limit' in kwargs :
+            self.left_row_limit = kwargs['left_row_limit']
+            del kwargs['left_row_limit']
+        else :
+            self.left_row_limit = 50 
         ttk.Frame.__init__(self, parent, *args, **kwargs)
-        self.buildMargins()
+        HF.buildMargins(self, self.left_row_limit)
         self.ROW = 1
         self.enter_query = Enter_Query_Sequence(self, 'Query')
         self.enter_query.grid(row = self.ROW, column =1)
@@ -31,13 +37,6 @@ class BLASTn(ttk.Frame):
         self.ROW = 5
         self.prg_selection = Program_Selection(self)
         self.prg_selection.grid (row = self.ROW, column = 1, sticky = 'W')
-
-    def buildMargins(self):
-        """This method makes cells along the top and right side of the frame so that gridding can easier when it's time to place widgets""" 
-        for col in range(10):
-            ttk.Label(self, text= '%s' % (col+1) , width =10).grid(row = 0, column = (col+1))
-        for row in range(100):
-            ttk.Label(self, text= '%s' % row, width = 3).grid(row = row, column = 0)
             
     #Handlers        
     def subject_vs_search_toggle(self):
@@ -55,7 +54,7 @@ if __name__ == "__main__":
     root=tk.Tk()
     w, h = root.winfo_screenwidth(), root.winfo_screenheight()
     root.geometry("%dx%d+0+0" % (w, h))
-    blastn = BLASTn(root).grid(row = 0, column = 0)
+    blastn = BLASTn(root, left_row_limit = 20).grid(row = 0, column = 0)
     root.mainloop()
 
     

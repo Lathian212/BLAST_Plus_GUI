@@ -7,7 +7,7 @@ import BLASTn as bn
 import tkinter as tk
 from tkinter import ttk
 import ScrollableCanvas as sc 
-
+import Helper_Functions as HF
 
 root = tk.Tk()
 root.title('GUI for NCBI Blast+')
@@ -16,14 +16,7 @@ root.geometry("%dx%d+0+0" % (w, h))
 """Use scrollable canvas case in case widgets go vertical past the height of the screen"""
 sCanvas = sc.ScrollableCanvas(root)
 sFrame = sCanvas.getScrFrame()
-"""Put in cell blocks that will later be made invisible to get grid manager to be more predictable"""
-for col in range(20):
-    ttk.Label(sFrame, text= '%s' % (col+1) , width =10).grid(row = 0, column = (col+1))
-for row in range(100):
-    ttk.Label(sFrame, text= '%s' % row, width = 3).grid(row = row, column = 0)
-    
-ttk.Label(sFrame, text = 'For using NCBI command line BLAST+ tools in remote batch configuration:').grid(row =2 , column = 7,
-                                                                                                        columnspan = 10, sticky = 'W')
+HF.buildMargins(sFrame, 100)
 
 """Use notebook widget to create tabs for each of the 5 Blast tools"""
 #Template code for tabs from Python GUI Programming CookBook by Burkhard A. Meier 

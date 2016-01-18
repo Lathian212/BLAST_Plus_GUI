@@ -7,6 +7,7 @@ import tkinter as tk
 from tkinter import ttk
 import BLASTn_Funcs_Dicts as bd
 import Organism_Exclude as oe
+import Helper_Functions as HF
 
 class Choose_Search_Set(ttk.Labelframe):
     def __init__(self, parent, left_row_limit = 9, *args, **kwargs):
@@ -16,15 +17,8 @@ class Choose_Search_Set(ttk.Labelframe):
         self.outer_label = ttk.Label(self, text = 'Choose Search Set', font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue', background = 'white')
         self.config(labelwidget = self.outer_label)
         self.left_row_limit = left_row_limit 
-        self.buildMargins()
+        HF.buildMargins(self, self.left_row_limit)
         self.buildSearchSet()
-            
-    def buildMargins(self):
-        """This method makes cells along the top and right side of the frame so that gridding can easier when it's time to place widgets""" 
-        for col in range(10):
-            ttk.Label(self, text= '%s' % (col+1) , width =10).grid(row = 0, column = (col+1))
-        for row in range(self.left_row_limit):
-            ttk.Label(self, text= '%s' % row, width = 3).grid(row = row, column = 0)
             
     def buildSearchSet(self):
         """Adds all the widgets except the organism selection box to the label frame"""
@@ -92,14 +86,14 @@ class Choose_Search_Set(ttk.Labelframe):
         ttk.Label(self.organism_frame, text = 'Optional', font = ('Arial', '10'), foreground = 'light sky blue').grid(row = 1, column =0)
         self.organism_list = []
         self.organism_list.append(oe.Organism_Exclude(self.organism_frame, row = 0))
-        self.organism_list[0].grid(row = 0, column = 1)
+        self.organism_list[0].grid(row = 0, column = 1, padx = 23)
         self.plus_org = ttk.Button(self.organism_frame, text = '+', width = 3, command = self.addOrganismEntry)
         self.plus_org.grid(row = 0, column = 2)
         
     def addOrganismEntry(self):
-        print('called')
+        #print('called')
         newRow = self.organism_list[-1].row + 1
-        print(self.organism_list[-1].row )
+        #print(self.organism_list[-1].row )
         self.organism_list.append(oe.Organism_Exclude(self.organism_frame, newRow))
         self.organism_list[-1].grid(row = newRow, column = 1)
     #Handlers

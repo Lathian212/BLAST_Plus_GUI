@@ -5,6 +5,7 @@ Created on Jan 17, 2016
 '''
 import tkinter as tk
 from tkinter import ttk
+import Helper_Functions as HF
 
 class Program_Selection(ttk.Labelframe):
     def __init__(self, parent, left_row_limit = 4, *args, **kwargs):
@@ -15,7 +16,7 @@ class Program_Selection(ttk.Labelframe):
         self.config(labelwidget = self.outer_label)
         self.blastn_type = tk.IntVar()
         self.left_row_limit = left_row_limit
-        self.buildMargins()
+        HF.buildMargins(self, self.left_row_limit)
         self.buildPrgSelection()
         
     #Widget Layout
@@ -57,5 +58,6 @@ if __name__ == "__main__":
     
     frame = Program_Selection(root)
     frame.grid(row = 0, column = 0)
+    
 
     root.mainloop()

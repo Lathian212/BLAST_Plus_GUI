@@ -7,9 +7,10 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfilename
+from tkinter import scrolledtext
 import CallBack_Handlers as cb
 import BLASTn_Funcs_Dicts as bd
-from tkinter import scrolledtext
+import Helper_Functions as HF
 
 class Enter_Sequence(ttk.Labelframe):
     def __init__(self, parent, SubOrQuery, left_row_limit = 10, *args, **kwargs):
@@ -21,18 +22,10 @@ class Enter_Sequence(ttk.Labelframe):
         self.outer_label = ttk.Label(self, text = 'Enter ' + self.SubOrQuery + ' Sequence', font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue', background = 'white')
         self.config(labelwidget = self.outer_label)
         self.left_row_limit = left_row_limit 
-        self.buildMargins() 
+        HF.buildMargins(self, self.left_row_limit) 
         self.buildEnter()
 
     #Widget Layout
-    def buildMargins(self):
-        """This method makes cells along the top and right side of the frame so that gridding can easier when it's time to place widgets""" 
-        for col in range(10):
-            ttk.Label(self, text= '%s' % (col+1) , width =10).grid(row = 0, column = (col+1))
-        for row in range(self.left_row_limit):
-            ttk.Label(self, text= '%s' % row, width = 3).grid(row = row, column = 0)
-        
-
     def buildEnter(self):    
         """Builds Enter Query Sequence up to Job Title """    
         
