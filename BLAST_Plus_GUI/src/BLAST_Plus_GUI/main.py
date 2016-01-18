@@ -16,7 +16,7 @@ root.geometry("%dx%d+0+0" % (w, h))
 """Use scrollable canvas case in case widgets go vertical past the height of the screen"""
 sCanvas = sc.ScrollableCanvas(root)
 sFrame = sCanvas.getScrFrame()
-HF.buildMargins(sFrame, 100)
+#HF.buildMargins(sFrame, 100)
 
 """Use notebook widget to create tabs for each of the 5 Blast tools"""
 #Template code for tabs from Python GUI Programming CookBook by Burkhard A. Meier 
@@ -41,7 +41,7 @@ tabControl.add(tab5, text='tblastx')
 tabControl.grid(row = 4, column = 1, rowspan = 200, columnspan = 20,  sticky = 'NW')  # Pack to make visible
 
 #Now associate each BLAST page with its appropriate tab
-blastn = bn.BLASTn(tab1)
+blastn = bn.BLASTn(tab1, (w-1500))
 #Has to bee gridded onto tab1 to show
 blastn.grid(row = 0, column = 0)
 

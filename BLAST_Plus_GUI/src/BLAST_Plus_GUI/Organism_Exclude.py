@@ -10,6 +10,7 @@ class Organism_Exclude(tk.Frame):
     def __init__(self, parent, row = 0, *args, **kwargs):
         ttk.Frame.__init__(self, parent, *args, **kwargs)
         #So each member of this class is aware of the row it's gridded to in parent
+        self.parent = parent
         self.row = row
         self.entry = tk.Entry(self, width = 50, foreground = 'gray')
         self.entry.bind('<FocusIn>', self.clear)

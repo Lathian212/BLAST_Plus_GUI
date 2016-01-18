@@ -5,6 +5,7 @@ class ScrollableCanvas(tk.Frame):
     def __init__(self, root):
 
         tk.Frame.__init__(self, root)
+        self.parent = root
         self.canvas = tk.Canvas(root, borderwidth=0, background="#ffffff")
         self.frame = tk.Frame(self.canvas, background="#ffffff")
         self.vsb = tk.Scrollbar(root, orient="vertical", command=self.canvas.yview)

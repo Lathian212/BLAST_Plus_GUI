@@ -15,6 +15,7 @@ import Helper_Functions as HF
 class Enter_Sequence(ttk.Labelframe):
     def __init__(self, parent, SubOrQuery, left_row_limit = 10, *args, **kwargs):
         ttk.Labelframe.__init__(self, parent, *args, **kwargs)
+        self.parent = parent
         self.ROW = 1
         self.parent = parent
         #To identify the container as a Subject or Query container a String is passed in when constructor is called
@@ -89,8 +90,5 @@ if __name__ == "__main__":
     
     frame = Enter_Sequence(root, 'Subject')
     frame.grid(row = 0, column = 0)
-    #This is so frame.winfo_width() returns its actual dimension rather than 1
-    root.update()
-    print(frame.winfo_width())
     root.mainloop()       
     

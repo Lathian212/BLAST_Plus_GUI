@@ -12,9 +12,11 @@ import Helper_Functions as HF
 class Choose_Search_Set(ttk.Labelframe):
     def __init__(self, parent, left_row_limit = 9, *args, **kwargs):
         ttk.Labelframe.__init__(self, parent, *args, **kwargs)
+        self.parent = parent 
         self.ROW = 1
         self.parent = parent
-        self.outer_label = ttk.Label(self, text = 'Choose Search Set', font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue', background = 'white')
+        self.outer_label = ttk.Label(self, text = 'Choose Search Set', font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue',
+                                      background = 'white')
         self.config(labelwidget = self.outer_label)
         self.left_row_limit = left_row_limit 
         HF.buildMargins(self, self.left_row_limit)
@@ -96,6 +98,7 @@ class Choose_Search_Set(ttk.Labelframe):
         #print(self.organism_list[-1].row )
         self.organism_list.append(oe.Organism_Exclude(self.organism_frame, newRow))
         self.organism_list[-1].grid(row = newRow, column = 1)
+        self.parent.refresh_search_set()
     #Handlers
     def radio_db(self):
         """Linked to combo_db_handler"""
