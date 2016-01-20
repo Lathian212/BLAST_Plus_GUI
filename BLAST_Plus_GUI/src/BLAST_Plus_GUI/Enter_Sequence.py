@@ -17,7 +17,6 @@ class Enter_Sequence(ttk.Labelframe):
         ttk.Labelframe.__init__(self, parent, *args, **kwargs)
         self.parent = parent
         self.ROW = 1
-        self.parent = parent
         #To identify the container as a Subject or Query container a String is passed in when constructor is called
         self.SubOrQuery = SubOrQuery
         self.outer_label = ttk.Label(self, text = 'Enter ' + self.SubOrQuery + ' Sequence', font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue', background = 'white')

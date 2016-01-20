@@ -45,4 +45,8 @@ blastn = bn.BLASTn(tab1, (w-1500))
 #Has to bee gridded onto tab1 to show
 blastn.grid(row = 0, column = 0)
 
+themes = ttk.Style()
+print (themes.theme_names())
+print('From main: Theme Being Used' + themes.theme_use())
+
 root.mainloop() 

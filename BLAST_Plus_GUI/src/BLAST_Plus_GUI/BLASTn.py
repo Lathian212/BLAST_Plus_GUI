@@ -15,6 +15,7 @@ from Enter_Sequence import Enter_Sequence
 from Choose_Search_Set import Choose_Search_Set
 from Program_Selection import Program_Selection
 from BLAST_Button import BLAST_Button 
+import General_Parameters_Blastn as GP
 import Helper_Functions as HF
 
 class BLASTn(ttk.Frame):
@@ -61,6 +62,13 @@ class BLASTn(ttk.Frame):
         self.ROW += 2
         tk.Label(self, text = 'Algorithm Parameters:', font = ('Arial', '14', 'bold', 'underline')
                  ).grid(row = self.ROW, column = 1)
+                 
+        self.ROW += 2
+        #Fix so blastn_word_sizes deafults to 28
+        self.blastn_word_sizes = ['16', '20', '24', '28', '32', '48', '64', '128', '256']
+        self.general_parameters = GP.General_Parameters_Blastn(self, 8, 10, self.blastn_word_sizes, 0)
+        self.general_parameters.grid (row = self.ROW, column = 1, sticky = 'W')
+        self.blast_button = HF.makeWidgetWidthEven(self, self.set_width, self.general_parameters)
         
 
             

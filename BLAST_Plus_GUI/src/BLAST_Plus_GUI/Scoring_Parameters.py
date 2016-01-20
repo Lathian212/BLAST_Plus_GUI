@@ -12,7 +12,6 @@ class General_Parameters(ttk.Labelframe):
         ttk.Labelframe.__init__(self, parent, *args, **kwargs)
         self.parent = parent
         self.ROW = 1
-        self.parent = parent
         self.outer_label = ttk.Label(self, text = 'General Parameters', font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue', 
                                      background = 'white')
         self.config(labelwidget = self.outer_label)
