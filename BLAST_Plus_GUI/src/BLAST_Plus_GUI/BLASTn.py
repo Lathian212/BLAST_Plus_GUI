@@ -41,8 +41,7 @@ class BLASTn(ttk.Frame):
         
         self.buildWidgetLayout()
         
-        self.controller = BC.Blastn_Controller(self, self.enter_query, self.search_set, self.prg_selection, self.blast_button, self.general_parameters,
-                                               self.scoring_parameters, self.filters_and_masking)
+        #self.controller = BC.Blastn_Controller(self, self.enter_query, self.search_set, self.prg_selection, self.blast_button, self.general_parameters, self.scoring_parameters, self.filters_and_masking)
      
     def buildWidgetLayout(self):   
         self.ROW = 1
