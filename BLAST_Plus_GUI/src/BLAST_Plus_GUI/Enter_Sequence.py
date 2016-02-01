@@ -8,10 +8,9 @@ from tkinter import ttk
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfilename
 from tkinter import scrolledtext
-import CallBack_Handlers as cb
 import BLASTn_Funcs_Dicts as bd
 import Helper_Functions as HF
-
+#Unfinished because the text entry box has to lead to a pop up which saves the contents to file
 class Enter_Sequence(ttk.Labelframe):
     def __init__(self, parent, SubOrQuery, left_row_limit = 10, *args, **kwargs):
         ttk.Labelframe.__init__(self, parent, *args, **kwargs)
@@ -22,6 +21,7 @@ class Enter_Sequence(ttk.Labelframe):
         self.outer_label = ttk.Label(self, text = 'Enter ' + self.SubOrQuery + ' Sequence', font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue', background = 'white')
         self.config(labelwidget = self.outer_label)
         self.left_row_limit = left_row_limit 
+        #All the references the controller will need to handle
         HF.buildMargins(self, self.left_row_limit) 
         self.buildEnter()
 
@@ -41,7 +41,8 @@ class Enter_Sequence(ttk.Labelframe):
         self.query_box.grid(row = self.ROW, column = 1, rowspan = 6, columnspan = 5)
 
         tk.Label(self, text = 'From:').grid(row = self.ROW, column = 6, sticky = 'E')
-        self.query_from = ttk.Entry(self, font=('Arial', 10), width = 15)
+        self.query_from_Var = tk.StringVar()
+        self.query_from = ttk.Entry(self, textvariable = self.query_from_Var, font=('Arial', 10), width = 15)
         self.query_from.grid(row = self.ROW, column = 7, columnspan = 2, sticky = 'W')
         
         self.ROW+=2
@@ -81,6 +82,9 @@ class Enter_Sequence(ttk.Labelframe):
     def load_handler(self):
         filename = askopenfilename()
         self.load_status.configure(text = filename)
+        #Clear Query Box and Diasble It
+        self.clear_query()
+        self.query_box.config(state='disabled')
 
 if __name__ == "__main__":
     root=tk.Tk()

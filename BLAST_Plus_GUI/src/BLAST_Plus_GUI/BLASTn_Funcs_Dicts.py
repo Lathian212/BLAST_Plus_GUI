@@ -22,6 +22,10 @@ blastn_outputfmt = ['pairwise'  , 'query-anchored showing identities'  , 'query-
 for i, val in enumerate(blastn_outputfmt):
     print(str(i) +'  '+val)
 """
+"""Options 6, 7, and 10 can be additionally configured to produce
+   a custom format specified by space delimited format specifiers.
+   The supported format specifiers are: """
+   
 
 
 def makeBlastnOptionDict (dictionary):

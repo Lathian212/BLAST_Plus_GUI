@@ -7,7 +7,6 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfilename
-import CallBack_Handlers as cb
 import BLASTn_Funcs_Dicts as bd
 from tkinter import scrolledtext
 from Enter_Query_Sequence import Enter_Query_Sequence
@@ -16,7 +15,11 @@ from Choose_Search_Set import Choose_Search_Set
 from Program_Selection import Program_Selection
 from BLAST_Button import BLAST_Button 
 import General_Parameters_Blastn as GP
+import Scoring_Parameters as SP
+import Filters_and_Masking as FM
 import Helper_Functions as HF
+import ScrollableCanvas as sc 
+import Blastn_Controller as BC
 
 class BLASTn(ttk.Frame):
     #Attached to radio buttons for switching between Blast types.
@@ -32,10 +35,16 @@ class BLASTn(ttk.Frame):
         self.parent = parent
         self.parent.update()
         self.set_width = set_width
-        print('self.set_width = ' + str(self.set_width))
+        #print('self.set_width = ' + str(self.set_width))
         
         HF.buildMargins(self, self.left_row_limit)
         
+        self.buildWidgetLayout()
+        
+        self.controller = BC.Blastn_Controller(self, self.enter_query, self.search_set, self.prg_selection, self.blast_button, self.general_parameters,
+                                               self.scoring_parameters, self.filters_and_masking)
+     
+    def buildWidgetLayout(self):   
         self.ROW = 1
         self.enter_query = Enter_Query_Sequence(self, 'Query')
         self.enter_query.grid(row = 1, column = 1, sticky = 'W')
@@ -64,12 +73,24 @@ class BLASTn(ttk.Frame):
                  ).grid(row = self.ROW, column = 1)
                  
         self.ROW += 2
-        #Fix so blastn_word_sizes deafults to 28
-        self.blastn_word_sizes = ['16', '20', '24', '28', '32', '48', '64', '128', '256']
-        self.general_parameters = GP.General_Parameters_Blastn(self, 8, 10, self.blastn_word_sizes, 0)
+        self.general_parameters = GP.General_Parameters_Blastn(self)
         self.general_parameters.grid (row = self.ROW, column = 1, sticky = 'W')
-        self.blast_button = HF.makeWidgetWidthEven(self, self.set_width, self.general_parameters)
+        self.general_parameters = HF.makeWidgetWidthEven(self, self.set_width, self.general_parameters)
         
+        self.ROW += 2
+        self.scoring_parameters = SP.Scoring_Parameters(self)
+        self.scoring_parameters.grid (row = self.ROW, column = 1, sticky = 'W')
+        self.scoring_parameters = HF.makeWidgetWidthEven(self, self.set_width, self.scoring_parameters)
+        
+        self.ROW += 2
+        self.filters_and_masking = FM.Filters_and_Masking(self, ifBlastn = True)
+        self.filters_and_masking.grid (row = self.ROW, column = 1, sticky = 'W')
+        self.filters_and_masking = HF.makeWidgetWidthEven(self, self.set_width, self.filters_and_masking)
+        
+        self.ROW += 2
+        self.blast_button = BLAST_Button(self, 2)
+        self.blast_button.grid (row = self.ROW, column = 1, sticky = 'W')
+        self.blast_button = HF.makeWidgetWidthEven(self, self.set_width, self.blast_button)
 
             
     #Handlers        
@@ -97,7 +118,9 @@ if __name__ == "__main__":
     root=tk.Tk()
     w, h = root.winfo_screenwidth(), root.winfo_screenheight()
     root.geometry("%dx%d+0+0" % (w, h))
-    blastn = BLASTn(root, 1000, left_row_limit = 20).grid(row = 0, column = 0)
+    sCanvas = sc.ScrollableCanvas(root)
+    sFrame = sCanvas.getScrFrame()
+    blastn = BLASTn(sFrame, 1000, left_row_limit = 20).grid(row = 0, column = 0)
     root.mainloop()
 
     

@@ -9,9 +9,14 @@ import Helper_Functions as HF
 import General_Parameters as GP
 
 class General_Parameters_Blastn(GP.General_Parameters):
-    def __init__(self, parent, left_row_limit = 8, expectVar = 10, wordValues = ['0'], maxMatches = 0, *args, **kwargs):
-        GP.General_Parameters.__init__(self, parent, left_row_limit, expectVar, wordValues , maxMatches, *args, **kwargs)
-    pass
+    def __init__(self, parent, left_row_limit = 8, *args, **kwargs):
+        self.expectVar = 10
+        self.wordValues = ['16', '20', '24', '28', '32', '48', '64', '128', '256']
+        self.maxMatches = 0
+        GP.General_Parameters.__init__(self, parent, left_row_limit, expectVar = self.expectVar, wordValues = self.wordValues, 
+                                       maxMatches = self.maxMatches, *args, **kwargs)
+        #In parent is self.word_size_box
+        self.word_size_box.current(3)
 
     #Override method to add Short Queries CheckBox
     def buildWidgetSpecifics(self):
@@ -19,7 +24,7 @@ class General_Parameters_Blastn(GP.General_Parameters):
         ttk.Label(self, text='Short queries', font=('Arial', '10', 'bold')).grid(row = self.ROW , column = 1, 
                                                                                     columnspan=2, sticky = 'w')
         self.if_adjust_short = tk.BooleanVar()
-        self.if_adjust_short.set(False)
+        self.if_adjust_short.set(True)
         self.check_if_adjust_short = tk.Checkbutton(self, text = 'Automatically adjust parameters for short input sequences', font=('Arial', 9, 'bold'),
                                       variable = self.if_adjust_short, command = self.adjustShort)
         self.check_if_adjust_short.grid(row = self.ROW, column = 3, columnspan = 4, sticky = 'W')
