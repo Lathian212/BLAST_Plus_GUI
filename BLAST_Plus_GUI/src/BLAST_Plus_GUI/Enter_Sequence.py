@@ -8,14 +8,16 @@ from tkinter import ttk
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfilename
 from tkinter import scrolledtext
-import BLASTn_Funcs_Dicts as bd
 import Helper_Functions as HF
+import Blastn_Controller as BC
+
 #Unfinished because the text entry box has to lead to a pop up which saves the contents to file
 class Enter_Sequence(ttk.Labelframe):
-    def __init__(self, parent, SubOrQuery, left_row_limit = 10, *args, **kwargs):
+    def __init__(self, parent, SubOrQuery, controller, left_row_limit = 10, *args, **kwargs):
         ttk.Labelframe.__init__(self, parent, *args, **kwargs)
         self.parent = parent
         self.ROW = 1
+        self.Controller = controller
         #To identify the container as a Subject or Query container a String is passed in when constructor is called
         self.SubOrQuery = SubOrQuery
         self.outer_label = ttk.Label(self, text = 'Enter ' + self.SubOrQuery + ' Sequence', font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue', background = 'white')
@@ -31,7 +33,8 @@ class Enter_Sequence(ttk.Labelframe):
         
         ttk.Label(self, text='Enter accession number(s), gi(s), or FASTA sequence(s)', 
                  font=('Arial', '12', 'bold')).grid(row = self.ROW , column = 1, columnspan=4, sticky ='w')
-        self.clear_button = tk.Button(self, text='Clear', font=('Arial', '9', 'underline'), command = self.clear_query)
+        self.clear_button = tk.Button(self, text='Clear', font=('Arial', '9', 'underline'),command = 
+                                      (lambda : self.Controller.clear_query(self)))
         self.clear_button.grid(row = self.ROW, column =5, sticky = 'E')
         ttk.Label(self, text = self.SubOrQuery + ' subrange:', font=('Arial', '12', 'bold', 'underline')
                  ).grid(row = self.ROW, column = 6, columnspan = 2, sticky = 'E')
@@ -62,10 +65,6 @@ class Enter_Sequence(ttk.Labelframe):
         self.load_status = ttk.Label(self, text='No file chosen', font=('Arial', '10'))
         self.load_status.grid(row = self.ROW , column = 3, columnspan = 7, sticky = 'W')
 
-    #Callback Handlers
-    def get_row(self):
-        """Returns how many rows the object spans"""
-        return self.ROW
     def clear_query(self):
         input = self.query_box.get('1.0', 'end-1c')
         end = str((len(input)/1.0))
@@ -91,7 +90,8 @@ if __name__ == "__main__":
     w, h = root.winfo_screenwidth(), root.winfo_screenheight()
     root.geometry("%dx%d+0+0" % (w, h))
     
-    frame = Enter_Sequence(root, 'Subject')
+    blast_controller = BC.Blastn_Controller()
+    frame = Enter_Sequence(root, 'Subject', blast_controller)
     frame.grid(row = 0, column = 0)
     root.mainloop()       
     
