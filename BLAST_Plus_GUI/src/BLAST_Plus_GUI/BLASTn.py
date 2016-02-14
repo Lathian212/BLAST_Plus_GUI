@@ -37,6 +37,9 @@ class BLASTn(ttk.Frame):
         self.set_width = set_width
         #print('self.set_width = ' + str(self.set_width))
         
+        """Declare a controller object to take care of all callbacks/events and model"""
+        self.controller = BC.Blastn_Controller()
+        
         HF.buildMargins(self, self.left_row_limit)
         
         self.buildWidgetLayout()
@@ -45,13 +48,13 @@ class BLASTn(ttk.Frame):
      
     def buildWidgetLayout(self):   
         self.ROW = 1
-        self.enter_query = Enter_Query_Sequence(self, 'Query')
+        self.enter_query = Enter_Query_Sequence(self, 'Query', self.controller)
         self.enter_query.grid(row = 1, column = 1, sticky = 'W')
         self.enter_query = HF.makeWidgetWidthEven(self, self.set_width, self.enter_query)
         
 
         #Rows 2,3,4 will be space for Subject Query Box or Search Set Box Subject
-        self.subject_query = Enter_Sequence(self, 'Subject')
+        self.subject_query = Enter_Sequence(self, 'Subject', self.controller)
         
         self.search_set = Choose_Search_Set(self)
         self.search_set.grid ( row =3, column = 1, sticky = 'W')
