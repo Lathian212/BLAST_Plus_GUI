@@ -8,8 +8,9 @@ from tkinter import ttk
 import Helper_Functions as HF
 
 class General_Parameters(ttk.Labelframe):
-    def __init__(self, parent, left_row_limit = 8, expectVar = 10, wordValues = ['0'], maxMatches = 0, *args, **kwargs):
+    def __init__(self, parent, controller, left_row_limit = 8, expectVar = 10, wordValues = ['0'], maxMatches = 0, *args, **kwargs):
         ttk.Labelframe.__init__(self, parent, *args, **kwargs)
+        self.controller = controller 
         self.parent = parent
         self.expectVar = tk.StringVar()
         self.expectVar.set(expectVar)

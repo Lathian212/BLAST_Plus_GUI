@@ -8,10 +8,11 @@ from tkinter import ttk
 import Helper_Functions as HF
 
 class BLAST_Button(tk.Frame):
-    def __init__(self, parent, left_row_limit = 1, *args, **kwargs):
+    def __init__(self, parent, controller, left_row_limit = 1, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
         self.ROW = 1
+        self.controller = controller
         self.parent = parent
         #buildMargins allows easy frame expansion and makes gridding easier
         self.left_row_limit = left_row_limit 

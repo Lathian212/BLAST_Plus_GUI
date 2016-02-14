@@ -8,8 +8,9 @@ from tkinter import ttk
 import Helper_Functions as HF
 
 class Scoring_Parameters(ttk.Labelframe):
-    def __init__(self, parent, left_row_limit = 6, *args, **kwargs):
+    def __init__(self, parent, controller, left_row_limit = 6, *args, **kwargs):
         ttk.Labelframe.__init__(self, parent, *args, **kwargs)
+        self.controller = controller
         self.parent = parent
         self.ROW = 1
         self.outer_label = ttk.Label(self, text = 'Scoring Parameters', font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue', 

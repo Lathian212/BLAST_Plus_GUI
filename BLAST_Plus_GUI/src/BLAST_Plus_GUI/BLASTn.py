@@ -51,46 +51,55 @@ class BLASTn(ttk.Frame):
         self.enter_query = Enter_Query_Sequence(self, 'Query', self.controller)
         self.enter_query.grid(row = 1, column = 1, sticky = 'W')
         self.enter_query = HF.makeWidgetWidthEven(self, self.set_width, self.enter_query)
-        
+        # Passing controller references to all view objects.
+        self.controller.frame_refs['Enter_Query_Sequence'] = self.enter_query
 
         #Rows 2,3,4 will be space for Subject Query Box or Search Set Box Subject
         self.subject_query = Enter_Sequence(self, 'Subject', self.controller)
+        self.controller.frame_refs['Enter_Subject_Sequence'] = self.subject_query
         
-        self.search_set = Choose_Search_Set(self)
+        self.search_set = Choose_Search_Set(self, self.controller)
         self.search_set.grid ( row =3, column = 1, sticky = 'W')
         self.search_set = HF.makeWidgetWidthEven(self, self.set_width, self.search_set)
+        self.controller.frame_refs['Choose_Search_Set'] = self.search_set
         
         self.ROW = 5
-        self.prg_selection = Program_Selection(self)
+        self.prg_selection = Program_Selection(self, self.controller)
         self.prg_selection.grid (row = self.ROW, column = 1, sticky = 'W')
         self.prg_selection = HF.makeWidgetWidthEven(self, self.set_width, self.prg_selection)
+        self.controller.frame_refs['Program_Selection'] = self.prg_selection
+        
         
         self.ROW += 2
-        self.blast_button = BLAST_Button(self, 2)
+        self.blast_button = BLAST_Button(self, self.controller, 2)
         self.blast_button.grid (row = self.ROW, column = 1, sticky = 'W')
         self.blast_button = HF.makeWidgetWidthEven(self, self.set_width, self.blast_button)
+        self.controller.frame_refs['BLAST'] = self.blast_button
         
         self.ROW += 2
         tk.Label(self, text = 'Algorithm Parameters:', font = ('Arial', '14', 'bold', 'underline')
                  ).grid(row = self.ROW, column = 1)
                  
         self.ROW += 2
-        self.general_parameters = GP.General_Parameters_Blastn(self)
+        self.general_parameters = GP.General_Parameters_Blastn(self, self.controller)
         self.general_parameters.grid (row = self.ROW, column = 1, sticky = 'W')
         self.general_parameters = HF.makeWidgetWidthEven(self, self.set_width, self.general_parameters)
+        self.controller.frame_refs['General_Parameters'] = self.general_parameters
         
         self.ROW += 2
-        self.scoring_parameters = SP.Scoring_Parameters(self)
+        self.scoring_parameters = SP.Scoring_Parameters(self, self.controller)
         self.scoring_parameters.grid (row = self.ROW, column = 1, sticky = 'W')
         self.scoring_parameters = HF.makeWidgetWidthEven(self, self.set_width, self.scoring_parameters)
+        self.controller.frame_refs['Scoring_Parameters'] = self.scoring_parameters
         
         self.ROW += 2
-        self.filters_and_masking = FM.Filters_and_Masking(self, ifBlastn = True)
+        self.filters_and_masking = FM.Filters_and_Masking(self, self.controller, ifBlastn = True)
         self.filters_and_masking.grid (row = self.ROW, column = 1, sticky = 'W')
         self.filters_and_masking = HF.makeWidgetWidthEven(self, self.set_width, self.filters_and_masking)
+        self.controller.frame_refs['Filters_andMasking'] = self.filters_and_masking
         
         self.ROW += 2
-        self.blast_button = BLAST_Button(self, 2)
+        self.blast_button = BLAST_Button(self, self.controller, 2)
         self.blast_button.grid (row = self.ROW, column = 1, sticky = 'W')
         self.blast_button = HF.makeWidgetWidthEven(self, self.set_width, self.blast_button)
 

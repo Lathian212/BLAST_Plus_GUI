@@ -8,10 +8,11 @@ from tkinter import ttk
 import Helper_Functions as HF
 
 class Program_Selection(ttk.Labelframe):
-    def __init__(self, parent, left_row_limit = 4, *args, **kwargs):
+    def __init__(self, parent, controller, left_row_limit = 4, *args, **kwargs):
         ttk.Labelframe.__init__(self, parent, *args, **kwargs)
         self.parent = parent 
         self.ROW = 1
+        self.controller = controller
         self.parent = parent
         self.outer_label = ttk.Label(self, text = 'Program Selection', font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue', 
                                      background = 'white')

@@ -8,8 +8,9 @@ from tkinter import ttk
 import Helper_Functions as HF
 
 class Filters_and_Masking(ttk.Labelframe):
-    def __init__(self, parent, left_row_limit = 7, ifBlastn = False, *args, **kwargs):
+    def __init__(self, parent, controller, left_row_limit = 7, ifBlastn = False, *args, **kwargs):
         ttk.Labelframe.__init__(self, parent, *args, **kwargs)
+        self.controller = controller
         self.parent = parent
         self.ROW = 1
         self.ifBlastn = ifBlastn
