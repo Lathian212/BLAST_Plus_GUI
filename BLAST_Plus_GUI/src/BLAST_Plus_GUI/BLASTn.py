@@ -39,6 +39,7 @@ class BLASTn(ttk.Frame):
         
         """Declare a controller object to take care of all callbacks/events and model"""
         self.controller = BC.Blastn_Controller()
+        self.controller.view_refs['BLAST_Main'] = self
         
         HF.buildMargins(self, self.left_row_limit)
         
@@ -52,29 +53,29 @@ class BLASTn(ttk.Frame):
         self.enter_query.grid(row = 1, column = 1, sticky = 'W')
         self.enter_query = HF.makeWidgetWidthEven(self, self.set_width, self.enter_query)
         # Passing controller references to all view objects.
-        self.controller.frame_refs['Enter_Query_Sequence'] = self.enter_query
+        self.controller.view_refs['Enter_Query_Sequence'] = self.enter_query
 
         #Rows 2,3,4 will be space for Subject Query Box or Search Set Box Subject
         self.subject_query = Enter_Sequence(self, 'Subject', self.controller)
-        self.controller.frame_refs['Enter_Subject_Sequence'] = self.subject_query
+        self.controller.view_refs['Enter_Subject_Sequence'] = self.subject_query
         
         self.search_set = Choose_Search_Set(self, self.controller)
         self.search_set.grid ( row =3, column = 1, sticky = 'W')
         self.search_set = HF.makeWidgetWidthEven(self, self.set_width, self.search_set)
-        self.controller.frame_refs['Choose_Search_Set'] = self.search_set
+        self.controller.view_refs['Choose_Search_Set'] = self.search_set
         
         self.ROW = 5
         self.prg_selection = Program_Selection(self, self.controller)
         self.prg_selection.grid (row = self.ROW, column = 1, sticky = 'W')
         self.prg_selection = HF.makeWidgetWidthEven(self, self.set_width, self.prg_selection)
-        self.controller.frame_refs['Program_Selection'] = self.prg_selection
+        self.controller.view_refs['Program_Selection'] = self.prg_selection
         
         
         self.ROW += 2
         self.blast_button = BLAST_Button(self, self.controller, 2)
         self.blast_button.grid (row = self.ROW, column = 1, sticky = 'W')
         self.blast_button = HF.makeWidgetWidthEven(self, self.set_width, self.blast_button)
-        self.controller.frame_refs['BLAST'] = self.blast_button
+        self.controller.view_refs['BLAST'] = self.blast_button
         
         self.ROW += 2
         tk.Label(self, text = 'Algorithm Parameters:', font = ('Arial', '14', 'bold', 'underline')
@@ -84,19 +85,19 @@ class BLASTn(ttk.Frame):
         self.general_parameters = GP.General_Parameters_Blastn(self, self.controller)
         self.general_parameters.grid (row = self.ROW, column = 1, sticky = 'W')
         self.general_parameters = HF.makeWidgetWidthEven(self, self.set_width, self.general_parameters)
-        self.controller.frame_refs['General_Parameters'] = self.general_parameters
+        self.controller.view_refs['General_Parameters'] = self.general_parameters
         
         self.ROW += 2
         self.scoring_parameters = SP.Scoring_Parameters(self, self.controller)
         self.scoring_parameters.grid (row = self.ROW, column = 1, sticky = 'W')
         self.scoring_parameters = HF.makeWidgetWidthEven(self, self.set_width, self.scoring_parameters)
-        self.controller.frame_refs['Scoring_Parameters'] = self.scoring_parameters
+        self.controller.view_refs['Scoring_Parameters'] = self.scoring_parameters
         
         self.ROW += 2
         self.filters_and_masking = FM.Filters_and_Masking(self, self.controller, ifBlastn = True)
         self.filters_and_masking.grid (row = self.ROW, column = 1, sticky = 'W')
         self.filters_and_masking = HF.makeWidgetWidthEven(self, self.set_width, self.filters_and_masking)
-        self.controller.frame_refs['Filters_andMasking'] = self.filters_and_masking
+        self.controller.view_refs['Filters_andMasking'] = self.filters_and_masking
         
         self.ROW += 2
         self.blast_button = BLAST_Button(self, self.controller, 2)
@@ -104,25 +105,7 @@ class BLASTn(ttk.Frame):
         self.blast_button = HF.makeWidgetWidthEven(self, self.set_width, self.blast_button)
 
             
-    #Handlers        
-    def subject_vs_search_toggle(self):
-        """It's either Subject Entry Box or Choose Search Set this method toggles between them. Loads with Choose Search Set"""
-        #If below is true the check box for triggering a subject against query has just been triggered 
-        if self.enter_query.if_subject.get():
-            #The forget method defaults everything to smart container packing and loses set pixel dimensions
-            self.search_set.grid_forget()
-            self.subject_query.grid (row = 3, column =1, sticky = 'W')
-            self.subject_query = HF.makeWidgetWidthEven(self, self.set_width, self.subject_query)
-        else :
-            self.subject_query.grid_forget()
-            self.search_set.grid(row =3, column =1, sticky = 'W')
-            self.search_set = HF.makeWidgetWidthEven(self, self.set_width, self.search_set)
-            
-    def refresh_search_set(self):
-        """When start adding organisms need to expand vertically search set box"""
-        self.search_set.grid_forget()
-        self.search_set.grid(row =3, column =1, sticky = 'W')
-        self.search_set = HF.makeWidgetWidthEven(self, self.set_width, self.search_set)
+
     
 
 if __name__ == "__main__":
