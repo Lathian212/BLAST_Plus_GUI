@@ -9,6 +9,7 @@ from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfilename
 import Helper_Functions as HF
 import Organism_Exclude as OE
+import BLAST_Model as BM
 
 class Blastn_Controller(object):
     """Controller, handlers of All the GUI widgets in the view with a dictionary to hold all the tk global variables and references to make a mapping to
@@ -17,6 +18,7 @@ class Blastn_Controller(object):
         self.view_refs = { 'BLAST_Main' : None, 'Enter_Query_Sequence' : None, 'Enter_Subject_Sequence' : None, 'Choose_Search_Set' : None, 
                            'Program_Selection' : None, 'BLAST' : None, 'General_Parameters' : None, 'Scoring_Parameters' : None, 
                            'Filters_andMasking' : None }
+        self.model = BM.BLAST_Model(self)
         
 
         
@@ -68,15 +70,11 @@ class Blastn_Controller(object):
             #The forget method defaults everything to smart container packing and loses set pixel dimensions
             self.view_refs['Choose_Search_Set'].grid_forget()
             self.view_refs['Enter_Subject_Sequence'].grid (row = 3, column =1, sticky = 'W')
-            self.view_refs['Enter_Subject_Sequence'] = HF.makeWidgetWidthEven(self.view_refs['BLAST_Main'], 
-                                                                                self.view_refs['BLAST_Main'].set_width, 
-                                                                                self.view_refs['Enter_Subject_Sequence'])
+            self.view_refs['Enter_Subject_Sequence'] = self.makeWidgetWidthEven( self.view_refs['Enter_Subject_Sequence'])
         else :
             self.view_refs['Enter_Subject_Sequence'].grid_forget()
             self.view_refs['Choose_Search_Set'].grid(row =3, column =1, sticky = 'W')
-            self.view_refs['Choose_Search_Set'] = HF.makeWidgetWidthEven(self.view_refs['BLAST_Main'], 
-                                                                                self.view_refs['BLAST_Main'].set_width, 
-                                                                                self.view_refs['Choose_Search_Set'])
+            self.view_refs['Choose_Search_Set'] = self.makeWidgetWidthEven(self.view_refs['Choose_Search_Set'])
     
     def additional_formatting_handler(self, event, view):
         pass
@@ -133,5 +131,27 @@ class Blastn_Controller(object):
     #Scoring parameters
     
     #Filters and masking
+    
+    #Helper Methods For View
+    def buildMargins(self, view, left_row_limit):
+        """This method makes cells along the top and right side of the frame so that gridding can easier when it's time to place widgets""" 
+        for col in range(10):
+            ttk.Label(view, text= '%s' % (col+1) , width =10).grid(row = 0, column = (col+1))
+        for row in range(left_row_limit):
+            ttk.Label(view, text= '%s' % row, width = 3).grid(row = row, column = 0)
+                
+    def makeWidgetWidthEven (self, widget):
+        """Resizes widget to set_width"""
+        self.view_refs['BLAST_Main'].parent.update()
+        widget_height = widget.winfo_height()
+        #Turn off propagate which sets widget size based on what it contains and what it is contained in
+        widget.grid_propagate(False)
+        #widget.configure (width = self.model.frame_width, height = 500)
+        widget.configure (width = self.model.frame_width, height = widget_height)
+        return widget
+    
+    #Methods to Interact with Model
+    def set_frames_width(self, width):
+        self.model.frame_width = width
     
     

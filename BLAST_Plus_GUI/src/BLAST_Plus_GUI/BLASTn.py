@@ -40,7 +40,7 @@ class BLASTn(ttk.Frame):
         self.controller = BC.Blastn_Controller()
         self.controller.view_refs['BLAST_Main'] = self
         
-        HF.buildMargins(self, self.left_row_limit)
+        self.controller.buildMargins(self, self.left_row_limit)
         
         self.buildWidgetLayout()
         
@@ -50,7 +50,7 @@ class BLASTn(ttk.Frame):
         self.ROW = 1
         self.enter_query = Enter_Query_Sequence(self, 'Query', self.controller)
         self.enter_query.grid(row = 1, column = 1, sticky = 'W')
-        self.enter_query = HF.makeWidgetWidthEven(self, self.set_width, self.enter_query)
+        self.enter_query = self.controller.makeWidgetWidthEven(self.enter_query)
         # Passing controller references to all view objects.
         self.controller.view_refs['Enter_Query_Sequence'] = self.enter_query
 
@@ -60,20 +60,20 @@ class BLASTn(ttk.Frame):
         
         self.search_set = Choose_Search_Set(self, self.controller)
         self.search_set.grid ( row =3, column = 1, sticky = 'W')
-        self.search_set = HF.makeWidgetWidthEven(self, self.set_width, self.search_set)
+        self.search_set = self.controller.makeWidgetWidthEven(self.search_set)
         self.controller.view_refs['Choose_Search_Set'] = self.search_set
         
         self.ROW = 5
         self.prg_selection = Program_Selection(self, self.controller)
         self.prg_selection.grid (row = self.ROW, column = 1, sticky = 'W')
-        self.prg_selection = HF.makeWidgetWidthEven(self, self.set_width, self.prg_selection)
+        self.prg_selection = self.controller.makeWidgetWidthEven(self.prg_selection)
         self.controller.view_refs['Program_Selection'] = self.prg_selection
         
         
         self.ROW += 2
         self.blast_button = BLAST_Button(self, self.controller, 2)
         self.blast_button.grid (row = self.ROW, column = 1, sticky = 'W')
-        self.blast_button = HF.makeWidgetWidthEven(self, self.set_width, self.blast_button)
+        self.blast_button = self.controller.makeWidgetWidthEven(self.blast_button)
         self.controller.view_refs['BLAST'] = self.blast_button
         
         self.ROW += 2
@@ -83,25 +83,25 @@ class BLASTn(ttk.Frame):
         self.ROW += 2
         self.general_parameters = GP.General_Parameters_Blastn(self, self.controller)
         self.general_parameters.grid (row = self.ROW, column = 1, sticky = 'W')
-        self.general_parameters = HF.makeWidgetWidthEven(self, self.set_width, self.general_parameters)
+        self.general_parameters = self.controller.makeWidgetWidthEven(self.general_parameters)
         self.controller.view_refs['General_Parameters'] = self.general_parameters
         
         self.ROW += 2
         self.scoring_parameters = SP.Scoring_Parameters(self, self.controller)
         self.scoring_parameters.grid (row = self.ROW, column = 1, sticky = 'W')
-        self.scoring_parameters = HF.makeWidgetWidthEven(self, self.set_width, self.scoring_parameters)
+        self.scoring_parameters = self.controller.makeWidgetWidthEven(self.scoring_parameters)
         self.controller.view_refs['Scoring_Parameters'] = self.scoring_parameters
         
         self.ROW += 2
         self.filters_and_masking = FM.Filters_and_Masking(self, self.controller, ifBlastn = True)
         self.filters_and_masking.grid (row = self.ROW, column = 1, sticky = 'W')
-        self.filters_and_masking = HF.makeWidgetWidthEven(self, self.set_width, self.filters_and_masking)
+        self.filters_and_masking = self.controller.makeWidgetWidthEven(self.filters_and_masking)
         self.controller.view_refs['Filters_andMasking'] = self.filters_and_masking
         
         self.ROW += 2
         self.blast_button = BLAST_Button(self, self.controller, 2)
         self.blast_button.grid (row = self.ROW, column = 1, sticky = 'W')
-        self.blast_button = HF.makeWidgetWidthEven(self, self.set_width, self.blast_button)
+        self.blast_button = self.controller.makeWidgetWidthEven(self.blast_button)
 
             
 
@@ -113,7 +113,7 @@ if __name__ == "__main__":
     root.geometry("%dx%d+0+0" % (w, h))
     sCanvas = sc.ScrollableCanvas(root)
     sFrame = sCanvas.getScrFrame()
-    blastn = BLASTn(sFrame, 1000, left_row_limit = 20).grid(row = 0, column = 0)
+    blastn = BLASTn(sFrame, left_row_limit = 20).grid(row = 0, column = 0)
     root.mainloop()
 
     
