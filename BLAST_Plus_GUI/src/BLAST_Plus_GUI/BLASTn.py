@@ -23,7 +23,7 @@ import Blastn_Controller as BC
 
 class BLASTn(ttk.Frame):
     #Attached to radio buttons for switching between Blast types.
-    def __init__(self, parent, set_width, *args, **kwargs):
+    def __init__(self, parent, *args, **kwargs):
         if 'left_row_limit' in kwargs :
             self.left_row_limit = kwargs['left_row_limit']
             del kwargs['left_row_limit']
@@ -34,7 +34,6 @@ class BLASTn(ttk.Frame):
         #Get width of scrolled canvas parent in pixels, chop off some padding and then pass along to each frame so all same width 
         self.parent = parent
         self.parent.update()
-        self.set_width = set_width
         #print('self.set_width = ' + str(self.set_width))
         
         """Declare a controller object to take care of all callbacks/events and model"""

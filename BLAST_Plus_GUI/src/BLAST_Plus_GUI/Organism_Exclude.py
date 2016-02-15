@@ -12,7 +12,8 @@ class Organism_Exclude(tk.Frame):
         #So each member of this class is aware of the row it's gridded to in parent
         self.parent = parent
         self.row = row
-        self.entry = tk.Entry(self, width = 50, foreground = 'gray')
+        self.entry_var = tk.StringVar()
+        self.entry = tk.Entry(self, textvariable = self.entry_var, width = 50, foreground = 'gray')
         self.entry.bind('<FocusIn>', self.clear)
         self.entry.insert(0, 'Enter organism name or id')
         self.entry.grid(row = 0, column = 0, padx = 5)

@@ -41,7 +41,7 @@ tabControl.add(tab5, text='tblastx')
 tabControl.grid(row = 4, column = 1, rowspan = 200, columnspan = 20,  sticky = 'NW')  # Pack to make visible
 
 #Now associate each BLAST page with its appropriate tab
-blastn = bn.BLASTn(tab1, (w-1500))
+blastn = bn.BLASTn(tab1)
 #Has to bee gridded onto tab1 to show
 blastn.grid(row = 0, column = 0)
 
