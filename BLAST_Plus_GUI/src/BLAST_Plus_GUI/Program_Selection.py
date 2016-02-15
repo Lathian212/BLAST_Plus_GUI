@@ -6,6 +6,7 @@ Created on Jan 17, 2016
 import tkinter as tk
 from tkinter import ttk
 import Helper_Functions as HF
+import Blastn_Controller as BC
 
 class Program_Selection(ttk.Labelframe):
     def __init__(self, parent, controller, left_row_limit = 4, *args, **kwargs):
@@ -30,28 +31,29 @@ class Program_Selection(ttk.Labelframe):
                                                                                             columnspan=2, sticky = 'w')
         
         self.R1 = tk.Radiobutton(self, text="Highly similar sequences (megablast)", font=('Arial', '12'),
-                             variable=self.blastn_type, value=1, command=self.blastnTypeHandler)
+                             variable=self.blastn_type, value=1, command=self.controller.blastnTypeHandler)
         self.R1.grid(row = self.ROW, column = 3, columnspan = 4, sticky = 'w')
         self.ROW+=1
         self.R2 = tk.Radiobutton(self, text="More dissimilar sequences (discontiguous megablast)", font=('Arial', '12'),
-                             variable=self.blastn_type, value=2, command=self.blastnTypeHandler)
+                             variable=self.blastn_type, value=2, command=self.controller.blastnTypeHandler)
         self.R2.grid(row = self.ROW, column = 3, columnspan = 5, sticky = 'w')
         self.ROW+=1
         self.R3 = tk.Radiobutton(self, text="Somewhat similar sequences (blastn)", font=('Arial', '12'),
-                             variable=self.blastn_type, value=3, command=self.blastnTypeHandler)
+                             variable=self.blastn_type, value=3, command=self.controller.blastnTypeHandler)
         self.R3.grid(row = self.ROW, column = 3, columnspan = 4, sticky = 'w')
         self.blastn_type.set(1)
         self.ROW+=1
         
-    def blastnTypeHandler(self):
-        pass
+
         
 if __name__ == "__main__":
     root=tk.Tk()
     w, h = root.winfo_screenwidth(), root.winfo_screenheight()
     root.geometry("%dx%d+0+0" % (w, h))
     
-    frame = Program_Selection(root)
+    blast_controller = BC.Blastn_Controller()
+    frame = Program_Selection(root, blast_controller)
+    blast_controller.view_refs['Program_Selection'] = frame
     frame.grid(row = 0, column = 0)
     
 

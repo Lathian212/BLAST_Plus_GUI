@@ -123,8 +123,25 @@ class Blastn_Controller(object):
         view.grid(row =3, column =1, sticky = 'W')
         HF.makeWidgetWidthEven(view, view.set_width, view.search_set)
     #Program selection
+    def blastnTypeHandler(self):
+        """Radio buttons for type of Blastn, needs to update text associated with BLAST button"""
+        view = self.view_refs['Program_Selection']
+        print(str(view.blastn_type.get()))
     
     #BLAST Button
+    def blast(self):
+        """Needs to spin off a subprocess daemon"""
+        pass
+    
+    def updateText(self):
+        """Choose Search Set & Subject Sequence & Program Selection all change the text label associated with BLAST Button"""
+        #there will neede to be TWO text boxes that get updated for the two BLAST buttons and the MODEL needs to reflect this
+        return
+        self.text.configure(state = 'normal')
+        for key, value in self.view_refs.items():
+            if value is None:
+                self.text.insert('1.0', 'here is the default text', 'normal')
+                self.text.configure(state = 'disabled')
     
     #General parameters
     

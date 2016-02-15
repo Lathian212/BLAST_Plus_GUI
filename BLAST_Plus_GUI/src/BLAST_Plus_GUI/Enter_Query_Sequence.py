@@ -18,6 +18,13 @@ class Enter_Query_Sequence(Enter_Sequence):
         Enter_Sequence.__init__(self, parent, SubOrQuery, controller, left_row_limit, *args, **kwargs)
         self.parent = parent
         self.buildQuery()
+
+        print('Enter_Query_Sequence widget\'s is = ' + str(self.winfo_class()))
+        """
+        self.styles = ttk.Style()
+        print('TLabelFrame layout = ' + str(self.styles.layout('TFrame')))
+        print('Frame.border options = ' + str(self.styles.element_options('Frame.border')))
+        """
         
     def buildQuery(self):    
         """Tacks on to Enter_Sequence Save, Save Format, and Job Title """    

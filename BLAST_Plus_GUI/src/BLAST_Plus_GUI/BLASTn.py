@@ -34,7 +34,6 @@ class BLASTn(ttk.Frame):
         #Get width of scrolled canvas parent in pixels, chop off some padding and then pass along to each frame so all same width 
         self.parent = parent
         self.parent.update()
-        #print('self.set_width = ' + str(self.set_width))
         
         """Declare a controller object to take care of all callbacks/events and model"""
         self.controller = BC.Blastn_Controller()
@@ -43,8 +42,13 @@ class BLASTn(ttk.Frame):
         self.controller.buildMargins(self, self.left_row_limit)
         
         self.buildWidgetLayout()
-        
-        #self.controller = BC.Blastn_Controller(self, self.enter_query, self.search_set, self.prg_selection, self.blast_button, self.general_parameters, self.scoring_parameters, self.filters_and_masking)
+        """
+        #Experimenting with Styles
+        print('BLASTn widget\'s is = ' + str(self.winfo_class()))
+        self.styles = ttk.Style()
+        print('TFrame layout = ' + str(self.styles.layout('TFrame')))
+        print('Frame.border options = ' + str(self.styles.element_options('Frame.border')))
+        """
      
     def buildWidgetLayout(self):   
         self.ROW = 1
@@ -71,7 +75,7 @@ class BLASTn(ttk.Frame):
         
         
         self.ROW += 2
-        self.blast_button = BLAST_Button(self, self.controller, 2)
+        self.blast_button = BLAST_Button(self, self.controller)
         self.blast_button.grid (row = self.ROW, column = 1, sticky = 'W')
         self.blast_button = self.controller.makeWidgetWidthEven(self.blast_button)
         self.controller.view_refs['BLAST'] = self.blast_button
@@ -99,9 +103,9 @@ class BLASTn(ttk.Frame):
         self.controller.view_refs['Filters_andMasking'] = self.filters_and_masking
         
         self.ROW += 2
-        self.blast_button = BLAST_Button(self, self.controller, 2)
-        self.blast_button.grid (row = self.ROW, column = 1, sticky = 'W')
-        self.blast_button = self.controller.makeWidgetWidthEven(self.blast_button)
+        self.blast_button2 = BLAST_Button(self, self.controller)
+        self.blast_button2.grid (row = self.ROW, column = 1, sticky = 'W')
+        self.blast_button2 = self.controller.makeWidgetWidthEven(self.blast_button2)
 
             
 

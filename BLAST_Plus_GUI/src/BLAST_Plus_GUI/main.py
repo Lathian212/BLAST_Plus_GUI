@@ -13,6 +13,12 @@ root = tk.Tk()
 root.title('GUI for NCBI Blast+')
 w, h = root.winfo_screenwidth(), root.winfo_screenheight()
 root.geometry("%dx%d+0+0" % (w, h))
+#Set up a style modification for labelframe objects so their border is visible in the mac
+styles = ttk.Style()
+#print('TFrame layout = ' + str(self.styles.layout('TFrame')))
+#print('Frame.border options = ' + str(self.styles.element_options('Frame.border')))
+styles.configure('TLabelframe', borderwidth = '5')
+
 """Use scrollable canvas case in case widgets go vertical past the height of the screen"""
 sCanvas = sc.ScrollableCanvas(root)
 sFrame = sCanvas.getScrFrame()
@@ -44,9 +50,10 @@ tabControl.grid(row = 4, column = 1, rowspan = 200, columnspan = 20,  sticky = '
 blastn = bn.BLASTn(tab1)
 #Has to bee gridded onto tab1 to show
 blastn.grid(row = 0, column = 0)
-
+"""
 themes = ttk.Style()
 print (themes.theme_names())
 print('From main: Theme Being Used' + themes.theme_use())
+"""
 
 root.mainloop() 
