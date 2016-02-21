@@ -10,14 +10,15 @@ from tkinter.filedialog import asksaveasfilename
 import Helper_Functions as HF
 import Organism_Exclude as OE
 import BLAST_Model as BM
+import BLASTn_Funcs_Dicts as BD
 
 class Blastn_Controller(object):
     """Controller, handlers of All the GUI widgets in the view with a dictionary to hold all the tk global variables and references to make a mapping to
     the blastn_dict, which holds the command line options, when the BLAST button is pushed. Also the subprocess method """
     def __init__(self):        
         self.view_refs = { 'BLAST_Main' : None, 'Enter_Query_Sequence' : None, 'Enter_Subject_Sequence' : None, 'Choose_Search_Set' : None, 
-                           'Program_Selection' : None, 'BLAST' : None, 'General_Parameters' : None, 'Scoring_Parameters' : None, 
-                           'Filters_andMasking' : None }
+                           'Program_Selection' : None, 'BLAST' : [], 'General_Parameters' : None, 'Scoring_Parameters' : None, 
+                           'Filters_and_Masking' : None }
         self.model = BM.BLAST_Model(self)
         
 
@@ -75,6 +76,8 @@ class Blastn_Controller(object):
             self.view_refs['Enter_Subject_Sequence'].grid_forget()
             self.view_refs['Choose_Search_Set'].grid(row =3, column =1, sticky = 'W')
             self.view_refs['Choose_Search_Set'] = self.makeWidgetWidthEven(self.view_refs['Choose_Search_Set'])
+        #BLAST button text needs to be updated
+        self.updateText()
     
     def additional_formatting_handler(self, event, view):
         pass
@@ -93,6 +96,7 @@ class Blastn_Controller(object):
             view.db_box.current(2)
             if not view.organism_frame.winfo_ismapped() :
                 view.organism_frame.grid(row = view.row_organism, column = 1, columnspan = 10, sticky = 'W')
+        self.updateText()
                 
     def combo_db_handler(self, event):
         """When you change the drop down combo box this makes the radio buttons move apropiately"""
@@ -107,6 +111,7 @@ class Blastn_Controller(object):
             view.radio_int.set(3)
             if not view.organism_frame.winfo_ismapped() :
                 view.organism_frame.grid(row = view.row_organism, column = 1, columnspan = 10, sticky = 'W')
+        self.updateText()
         
     def addOrganismEntry(self):
         """Creates more organism include exclude view objects for users to enter species"""
@@ -127,6 +132,7 @@ class Blastn_Controller(object):
         """Radio buttons for type of Blastn, needs to update text associated with BLAST button"""
         view = self.view_refs['Program_Selection']
         print(str(view.blastn_type.get()))
+        self.updateText()
     
     #BLAST Button
     def blast(self):
@@ -135,13 +141,21 @@ class Blastn_Controller(object):
     
     def updateText(self):
         """Choose Search Set & Subject Sequence & Program Selection all change the text label associated with BLAST Button"""
-        #there will neede to be TWO text boxes that get updated for the two BLAST buttons and the MODEL needs to reflect this
-        return
-        self.text.configure(state = 'normal')
-        for key, value in self.view_refs.items():
-            if value is None:
-                self.text.insert('1.0', 'here is the default text', 'normal')
-                self.text.configure(state = 'disabled')
+        #there are two BLAST button references stored in BLAST
+        prg_sel = self.view_refs['Program_Selection']
+        fourth_string_index = prg_sel.blastn_type.get()-1
+        for i in self.view_refs['BLAST']:
+            i.text.configure(state = 'normal')
+            i.text.delete('1.0', 'end')
+            i.text.insert('end', 'Search ', ('normal'))
+            if self.view_refs['Enter_Query_Sequence'].if_subject.get() is True:
+                i.text.insert('end', 'nucleotide sequence ', ('blue'))
+            else :
+                database = self.view_refs['Choose_Search_Set'].combo_db_Var.get()
+                i.text.insert('end', 'database ' + str(database), ('blue'))
+            i.text.insert('end', ' using ', ('normal'))
+            i.text.insert('end', BD.blast_fourth_text_piece[fourth_string_index] , ('blue'))
+            i.text.configure(state = 'disabled')
     
     #General parameters
     

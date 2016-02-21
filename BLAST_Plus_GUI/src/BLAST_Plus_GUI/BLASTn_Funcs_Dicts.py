@@ -36,13 +36,17 @@ def makeBlastnOptionDict (dictionary):
         dictionary[opt] = tk.StringVar()
     return dictionary
 
-#Labels for databse search Box
+#Labels for database search Box and second part of the BLAST textbox text
 db_box = ['Human genomic plus transcript (Human G+T)', 'Mouse genomic plus transcript (Mouse G+T)', 'Nucleotide collection (nr/nt)',
               'Reference RNA sequences (refseq_rna)', 'Reference genomic sequences (refseq_genomic)', 
               'RefSeq Representative genomes (refseq_representative_genomes)', 'NCBI Genomes (chromosome)', 'Expressed sequence tags (est)',
               'Genomic surveys sequences (gss)' , 'High throughput genomic sequences (HTGS)', 'Patent sequences (pat)', 'Protein Data Bank (pdb)',
               'Human ALU repeat elements (alu_repeats)', 'Sequence tagged sites (dbsts)', 'Whole-genome shotgun contigs (wgs)', 
               'Transcriptome Shotgun Assembly (TSA)', '16S ribosomal RNA sequences (Bacteria and Archaea)', 'Sequences Read Archive (SRA)']
+
+#Text for last pieces of textbox text
+blast_fourth_text_piece = ['Megablast (Optimize for highly similar sequences)', 'Discontiguous megablast'+
+                           ' (Optimize for highly similar sequences)', 'Blastn (Optimize for somewhat similar sequences)']
 
 #For command line
 db_abrv = ['"Human G+T"', '"Mouse G+T"', '"nr/nt"', 'refseq_rna', 'refseq_genomic', 'refseq_representative_genomes', 

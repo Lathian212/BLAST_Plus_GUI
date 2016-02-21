@@ -78,7 +78,7 @@ class BLASTn(ttk.Frame):
         self.blast_button = BLAST_Button(self, self.controller)
         self.blast_button.grid (row = self.ROW, column = 1, sticky = 'W')
         self.blast_button = self.controller.makeWidgetWidthEven(self.blast_button)
-        self.controller.view_refs['BLAST'] = self.blast_button
+        self.controller.view_refs['BLAST'].append(self.blast_button)
         
         self.ROW += 2
         tk.Label(self, text = 'Algorithm Parameters:', font = ('Arial', '14', 'bold', 'underline')
@@ -100,12 +100,13 @@ class BLASTn(ttk.Frame):
         self.filters_and_masking = FM.Filters_and_Masking(self, self.controller, ifBlastn = True)
         self.filters_and_masking.grid (row = self.ROW, column = 1, sticky = 'W')
         self.filters_and_masking = self.controller.makeWidgetWidthEven(self.filters_and_masking)
-        self.controller.view_refs['Filters_andMasking'] = self.filters_and_masking
+        self.controller.view_refs['Filters_and_Masking'] = self.filters_and_masking
         
         self.ROW += 2
         self.blast_button2 = BLAST_Button(self, self.controller)
         self.blast_button2.grid (row = self.ROW, column = 1, sticky = 'W')
         self.blast_button2 = self.controller.makeWidgetWidthEven(self.blast_button2)
+        self.controller.view_refs['BLAST'].append(self.blast_button2)
 
             
 

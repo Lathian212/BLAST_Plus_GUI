@@ -19,8 +19,9 @@ class Enter_Query_Sequence(Enter_Sequence):
         self.parent = parent
         self.buildQuery()
 
-        print('Enter_Query_Sequence widget\'s is = ' + str(self.winfo_class()))
         """
+        print('Enter_Query_Sequence widget\'s is = ' + str(self.winfo_class()))
+        
         self.styles = ttk.Style()
         print('TLabelFrame layout = ' + str(self.styles.layout('TFrame')))
         print('Frame.border options = ' + str(self.styles.element_options('Frame.border')))

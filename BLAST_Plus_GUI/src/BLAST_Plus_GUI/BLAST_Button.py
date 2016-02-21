@@ -21,11 +21,17 @@ class BLAST_Button(tk.Frame):
         self.BLAST_button = tk.Button(self, text = 'BLAST', command = self.controller.blast, foreground = 'black', background = 'light sky blue')
         self.BLAST_button.grid ( row = 1, column = 1)
         
-        self.text = tk.Text(self, width = 80, height = 1, bd = -1)
+        self.text = tk.Text(self, width = 150, height = 1, bd = -1)
         self.text.tag_config('blue', foreground = 'light sky blue', font = 'arial 10 bold')
         self.text.tag_config('normal', font = 'arial 10')
         self.text.grid( row =1, column = 2, columnspan = 8, sticky = 'W')
-        self.controller.updateText()
+
+        #Default text reflects default options of chose search set and program selection
+        self.text.insert('end', 'Search ', ('normal'))
+        self.text.insert('end', 'database Nucleotide collection (nr/nt) ', ('blue'))
+        self.text.insert('end', 'using ', ('normal'))
+        self.text.insert('end', 'Megablast (Optimize for highly similar sequences)', ('blue'))
+        self.text.configure(state = 'disabled')
 
         
     #Handlers
