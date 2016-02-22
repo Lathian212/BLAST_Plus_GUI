@@ -42,14 +42,14 @@ class Choose_Search_Set(ttk.Labelframe):
         self.R3 = tk.Radiobutton(self, text="Others (nr etc.)", font=('Arial', '12'),
                              variable=self.radio_int, value=3, command=self.controller.radio_db)
         self.R3.grid(row = self.ROW, column = 8, columnspan = 3, sticky = 'w')
-        self.radio_int.set(1)
+        self.radio_int.set(3)
         self.ROW+=1
         
         #Combobox for select the database linked to the radio buttons
         self.combo_db_Var = tk.StringVar()
         self.db_box = ttk.Combobox(self, values= BD.db_box,  textvariable = self.combo_db_Var, state='readonly', width = 50)
         #XML format is suggested by NCBI so make it default
-        self.db_box.current(0)
+        self.db_box.current(2)
         self.db_box.bind("<<ComboboxSelected>>", self.controller.combo_db_handler)
         self.db_box.grid(row = self.ROW, column = 2, columnspan = 8, sticky = 'W', padx = 10)
         self.ROW+=1
@@ -57,6 +57,7 @@ class Choose_Search_Set(ttk.Labelframe):
         self.row_organism = self.ROW
         #This part needs to expand downards vertical as the '+' button is pressed
         self.buildOrganismExlude()
+        self.organism_frame.grid(row = self.row_organism, column = 1, columnspan = 10, sticky = 'W')
         self.ROW+=1 
         
         ttk.Label(self, text = 'Exclude', font = ('Arial', '10', 'bold')).grid(row = self.ROW, column = 1)

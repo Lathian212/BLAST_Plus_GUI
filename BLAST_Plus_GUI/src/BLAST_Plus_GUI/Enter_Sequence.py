@@ -17,6 +17,8 @@ class Enter_Sequence(ttk.Labelframe):
         ttk.Labelframe.__init__(self, parent, *args, **kwargs)
         self.parent = parent
         self.ROW = 1
+        #Each object will have all the tk.Vars BLAST button needs to execute it's task in a dictionary
+        self.vars_dict = {}
         self.controller = controller
         #To identify the container as a Subject or Query container a String is passed in when constructor is called
         self.SubOrQuery = SubOrQuery
@@ -42,17 +44,21 @@ class Enter_Sequence(ttk.Labelframe):
         
         self.query_box = scrolledtext.ScrolledText(self, width = 70, height = 7, wrap=tk.CHAR)
         self.query_box.grid(row = self.ROW, column = 1, rowspan = 6, columnspan = 5)
+        self.vars_dict['query_box'] = self.query_box
 
         tk.Label(self, text = 'From:').grid(row = self.ROW, column = 6, sticky = 'E')
         #All variables need to be moved to the Model
         self.query_from_Var = tk.StringVar()
+        self.vars_dict['query_from_Var'] = self.query_from_Var
         self.query_from = ttk.Entry(self, textvariable = self.query_from_Var, font=('Arial', 10), width = 15)
         self.query_from.grid(row = self.ROW, column = 7, columnspan = 2, sticky = 'W')
         
         self.ROW+=2
         
         tk.Label(self, text = 'To:').grid(row = self.ROW, column = 6, sticky = 'E')
-        self.query_to = tk.Entry(self, font=('Arial', 10), width = 15)
+        self.query_to_Var = tk.StringVar()
+        self.vars_dict['query_to_Var'] = self.query_to_Var
+        self.query_to = tk.Entry(self, textvariable = self.query_to_Var, font=('Arial', 10), width = 15)
         self.query_to.grid(row = self.ROW, column = 7, columnspan =2 , sticky = 'W')
     
         self.ROW+=5
@@ -75,6 +81,7 @@ if __name__ == "__main__":
     
     blast_controller = BC.Blastn_Controller()
     frame = Enter_Sequence(root, 'Subject', blast_controller)
+    blast_controller.printKeyValue(frame)
     frame.grid(row = 0, column = 0)
     root.mainloop()       
     

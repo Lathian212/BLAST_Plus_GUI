@@ -6,6 +6,7 @@ Created on Jan 18, 2016
 import tkinter as tk
 from tkinter import ttk
 import Helper_Functions as HF
+import Blastn_Controller as BC
 
 class General_Parameters(ttk.Labelframe):
     def __init__(self, parent, controller, left_row_limit = 8, expectVar = 10, wordValues = ['0'], maxMatches = 0, *args, **kwargs):
@@ -63,7 +64,8 @@ if __name__ == "__main__":
     w, h = root.winfo_screenwidth(), root.winfo_screenheight()
     root.geometry("%dx%d+0+0" % (w, h))
     
-    frame = General_Parameters(root)
+    blast_controller = BC.Blastn_Controller()
+    frame = General_Parameters(root, blast_controller)
     frame.grid(row = 0, column = 0)
     frame.setWordSizes(['8', '10'])
     root.mainloop()  

@@ -96,7 +96,6 @@ class Blastn_Controller(object):
             view.db_box.current(2)
             if not view.organism_frame.winfo_ismapped() :
                 view.organism_frame.grid(row = view.row_organism, column = 1, columnspan = 10, sticky = 'W')
-        self.updateText()
                 
     def combo_db_handler(self, event):
         """When you change the drop down combo box this makes the radio buttons move apropiately"""
@@ -180,6 +179,11 @@ class Blastn_Controller(object):
         #widget.configure (width = self.model.frame_width, height = 500)
         widget.configure (width = self.model.frame_width, height = widget_height)
         return widget
+    
+    def printKeyValue (self, widget):
+        """Helper function to see that I captured all the variables for a widget in the dictionary"""
+        for k, v in widget.vars_dict.items():
+            print('Key = ' + str(k), ' value = '+str(v))
     
     #Methods to Interact with Model
     def set_frames_width(self, width):

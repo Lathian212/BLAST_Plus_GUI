@@ -33,9 +33,6 @@ class BLAST_Button(tk.Frame):
         self.text.insert('end', 'Megablast (Optimize for highly similar sequences)', ('blue'))
         self.text.configure(state = 'disabled')
 
-        
-    #Handlers
-
 
 if __name__ == "__main__":
     root=tk.Tk()
