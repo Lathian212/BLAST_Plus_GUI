@@ -7,6 +7,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfilename
+import tkinter.messagebox as tm
 import Helper_Functions as HF
 import Organism_Exclude as OE
 import BLAST_Model as BM
@@ -19,6 +20,10 @@ class Blastn_Controller(object):
         self.view_refs = { 'BLAST_Main' : None, 'Enter_Query_Sequence' : None, 'Enter_Subject_Sequence' : None, 'Choose_Search_Set' : None, 
                            'Program_Selection' : None, 'BLAST' : [], 'General_Parameters' : None, 'Scoring_Parameters' : None, 
                            'Filters_and_Masking' : None }
+        
+        #Each view object will have a vars_dict containing tk.Vars and other references needed to map info to the command_line string
+        self.command_line_lst = ['blastn']
+        #Don't know if I can make use of the MVC design pattern
         self.model = BM.BLAST_Model(self)
         
 
@@ -28,10 +33,11 @@ class Blastn_Controller(object):
                 
     #Enter_Sequence Handlers, used by both Query and Subject View objects so need to take view as parameter
     def clear_query(self, view):
-        input = view.query_box.get('1.0', 'end-1c')
-        end = str((len(input)/1.0))
-        view.query_box.delete('1.0', end)
-    
+        """Clears text widget entry box used in both subject and query objects"""
+        view.query_box.delete(1.0, 'end')
+        #Re-enable load button so user can choose to use a file
+        view.load_query_button.configure(state = 'normal')
+            
     def get_query(self, view):
         input = view.query_box.get('1.0', 'end-1c')
         return input
@@ -44,8 +50,13 @@ class Blastn_Controller(object):
         filename = askopenfilename()
         view.load_status.configure(text = filename)
         #Clear Query Box and Diasble It
-        view.clear_query()
-        view.query_box.config(state='disabled')
+        self.clear_query(view)
+        view.query_box.configure(state='disabled')
+        
+    def temp_file (self, event,view):
+        """Temporary hidden files need to be created in background in text entry is used for subject or query object"""
+        #tm.showinfo('Temp File Will Be Created', 'Temp File Being Created')
+        view.load_query_button.configure(state = 'disabled')
     
     #Enter Query Sequence (Some handlers reused from above)
         
@@ -136,7 +147,8 @@ class Blastn_Controller(object):
     #BLAST Button
     def blast(self):
         """Needs to spin off a subprocess daemon"""
-        pass
+        for v in self.command_line_lst:
+            print (v)
     
     def updateText(self):
         """Choose Search Set & Subject Sequence & Program Selection all change the text label associated with BLAST Button"""

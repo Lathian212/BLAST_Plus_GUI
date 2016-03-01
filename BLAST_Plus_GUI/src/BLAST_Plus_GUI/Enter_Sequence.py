@@ -36,7 +36,7 @@ class Enter_Sequence(ttk.Labelframe):
         ttk.Label(self, text='Enter accession number(s), gi(s), or FASTA sequence(s)', 
                  font=('Arial', '12', 'bold')).grid(row = self.ROW , column = 1, columnspan=4, sticky ='w')
         self.clear_button = tk.Button(self, text='Clear', font=('Arial', '9', 'underline'),command = 
-                                      (lambda : self.controller.clear_query(self)))
+                                      (lambda view = self: self.controller.clear_query(view)))
         self.clear_button.grid(row = self.ROW, column =5, sticky = 'E')
         ttk.Label(self, text = self.SubOrQuery + ' subrange:', font=('Arial', '12', 'bold', 'underline')
                  ).grid(row = self.ROW, column = 6, columnspan = 2, sticky = 'E')
@@ -44,6 +44,10 @@ class Enter_Sequence(ttk.Labelframe):
         
         self.query_box = scrolledtext.ScrolledText(self, width = 70, height = 7, wrap=tk.CHAR)
         self.query_box.grid(row = self.ROW, column = 1, rowspan = 6, columnspan = 5)
+        
+        #Event generated only refers to scrolledtext need a reference to load_query_button
+         
+        self.query_box.bind('<Key>', lambda event, view = self : self.controller.temp_file(event, view))
         self.vars_dict['query_box'] = self.query_box
 
         tk.Label(self, text = 'From:').grid(row = self.ROW, column = 6, sticky = 'E')
@@ -68,7 +72,7 @@ class Enter_Sequence(ttk.Labelframe):
         ttk.Label(self, text ='Or, Upload File:', font=('Arial', 10, 'bold')).grid(row = self.ROW, column=1, sticky = 'E')
         
         self.load_query_button = ttk.Button(self, text='Choose File', command = 
-                                            (lambda : self.controller.load_handler(self)))
+                                            (lambda view = self: self.controller.load_handler(view)))
         self.load_query_button.grid(row = self.ROW, column = 2)
         self.load_status = ttk.Label(self, text='No file chosen', font=('Arial', '10'))
         self.load_status.grid(row = self.ROW , column = 3, columnspan = 7, sticky = 'W')
@@ -81,7 +85,7 @@ if __name__ == "__main__":
     
     blast_controller = BC.Blastn_Controller()
     frame = Enter_Sequence(root, 'Subject', blast_controller)
-    blast_controller.printKeyValue(frame)
+    #blast_controller.printKeyValue(frame)
     frame.grid(row = 0, column = 0)
     root.mainloop()       
     
