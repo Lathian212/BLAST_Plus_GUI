@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+import Blastn_Controller as BC
 
 class BLAST_Model(object):
     def __init__(self, controller, *args, **kwargs):
@@ -12,4 +13,9 @@ class BLAST_Model(object):
 
         self.enter_query_sequence = { '-query' : tk.StringVar(), '-query_loc' : tk.StringVar(), '-entrez_query' : tk.StringVar(), 
                                      '-out' : tk.StringVar(), '-outfmt' : tk.StringVar()}
+        
+
+if __name__ == "__main__":
+    controller = Blastn_Controller()
+    model =
 
