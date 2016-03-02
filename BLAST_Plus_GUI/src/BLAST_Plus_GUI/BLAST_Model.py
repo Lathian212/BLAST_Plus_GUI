@@ -10,8 +10,16 @@ class BLAST_Model(object):
         #Let's say store and declare all tk.Vars in model
         #Use dictionary with key : value pairs with key being what needs to be on command line taken from BLASTn_Help
         #All keys are deinfed in apendix C of BLAST® Command Line Applications User Manual, http://www.ncbi.nlm.nih.gov/books/NBK279690/
+        
+        """
+        self.view_refs = { 'BLAST_Main' : None, 'Enter_Query_Sequence' : None, 'Enter_Subject_Sequence' : None, 'Choose_Search_Set' : None, 
+                   'Program_Selection' : None, 'BLAST' : [], 'General_Parameters' : None, 'Scoring_Parameters' : None, 
+                   'Filters_and_Masking' : None }
+        """
+        self.Enter_Subject_Sequence = { '-query' : tk.StringVar(), '-query_loc' : tk.StringVar(), '-entrez_query' : tk.StringVar(), 
+                             '-out' : tk.StringVar(), '-outfmt' : tk.StringVar()}
 
-        self.enter_query_sequence = { '-query' : tk.StringVar(), '-query_loc' : tk.StringVar(), '-entrez_query' : tk.StringVar(), 
+        self.Enter_Query_Sequence = { '-query' : tk.StringVar(), '-query_loc' : tk.StringVar(), '-entrez_query' : tk.StringVar(), 
                                      '-out' : tk.StringVar(), '-outfmt' : tk.StringVar()}
         
 

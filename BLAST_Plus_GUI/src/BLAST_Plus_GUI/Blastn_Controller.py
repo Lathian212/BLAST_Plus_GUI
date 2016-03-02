@@ -80,6 +80,7 @@ class Blastn_Controller(object):
         #If below is true the check box for triggering a subject against query has just been triggered 
         if self.view_refs['Enter_Query_Sequence'].if_subject.get():
             #The forget method defaults everything to smart container packing and loses set pixel dimensions
+            self.printKeyValue (self.view_refs)
             self.view_refs['Choose_Search_Set'].grid_forget()
             self.view_refs['Enter_Subject_Sequence'].grid (row = 3, column =1, sticky = 'W')
             self.view_refs['Enter_Subject_Sequence'] = self.makeWidgetWidthEven( self.view_refs['Enter_Subject_Sequence'])
@@ -192,10 +193,17 @@ class Blastn_Controller(object):
         widget.configure (width = self.model.frame_width, height = widget_height)
         return widget
     
-    def printKeyValue (self, widget):
-        """Helper function to see that I captured all the variables for a widget in the dictionary"""
-        for k, v in widget.vars_dict.items():
+    def printKeyValue (self, dictionary):
+        """Helper function to print key value pairs in a dictionary"""
+        for k, v in dictionary.items():
             print('Key = ' + str(k), ' value = '+str(v))
+            
+    def register_view(self, view_name, view_reference):
+        """Puts reference to view objects into Controller's Dictionary and returns the appropriate dict vars from model"""       
+        self.view_refs[view_name] = view_reference
+        #print(view_name + ' = ' + str(self.view_refs[view_name]))
+
+        return getattr(self.model, str(view_name))
     
     #Methods to Interact with Model
     def set_frames_width(self, width):

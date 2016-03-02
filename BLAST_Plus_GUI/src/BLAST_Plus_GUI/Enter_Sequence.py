@@ -13,17 +13,19 @@ import Blastn_Controller as BC
 
 #Unfinished because the text entry box has to lead to a pop up which saves the contents to file
 class Enter_Sequence(ttk.Labelframe):
-    def __init__(self, parent, SubOrQuery, controller = None, left_row_limit = 10, *args, **kwargs):
+    def __init__(self, parent, view_name, controller = None, left_row_limit = 10, *args, **kwargs):
         ttk.Labelframe.__init__(self, parent, *args, **kwargs)
+        self.view_name = view_name
         self.parent = parent
         self.ROW = 1
         if controller is None:
             self.controller = BC.Blastn_Controller()
         else :
             self.controller = controller
-        #To identify the container as a Subject or Query container a String is passed in when constructor is called
-        self.SubOrQuery = SubOrQuery
-        self.outer_label = ttk.Label(self, text = 'Enter ' + self.SubOrQuery + ' Sequence', font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue', background = 'white')
+        #View object registers with controller with it's string name and self as the reference
+        self.vars_dict = self.controller.register_view(self.view_name, self)
+        #self.controller.printKeyValue(self.vars_dict)
+        self.outer_label = ttk.Label(self, text = self.view_name, font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue', background = 'white')
         self.config(labelwidget = self.outer_label)
         self.left_row_limit = left_row_limit 
         #All the references the controller will need to handle
@@ -39,7 +41,7 @@ class Enter_Sequence(ttk.Labelframe):
         self.clear_button = tk.Button(self, text='Clear', font=('Arial', '9', 'underline'),command = 
                                       (lambda view = self: self.controller.clear_query(view)))
         self.clear_button.grid(row = self.ROW, column =5, sticky = 'E')
-        ttk.Label(self, text = self.SubOrQuery + ' subrange:', font=('Arial', '12', 'bold', 'underline')
+        ttk.Label(self, text = 'Subrange:', font=('Arial', '12', 'bold', 'underline')
                  ).grid(row = self.ROW, column = 6, columnspan = 2, sticky = 'E')
         self.ROW += 1
         
@@ -49,12 +51,10 @@ class Enter_Sequence(ttk.Labelframe):
         #Event generated only refers to scrolledtext need a reference to load_query_button
          
         self.query_box.bind('<Key>', lambda event, view = self : self.controller.temp_file(event, view))
-        self.vars_dict['query_box'] = self.query_box
 
         tk.Label(self, text = 'From:').grid(row = self.ROW, column = 6, sticky = 'E')
         #All variables need to be moved to the Model
         self.query_from_Var = tk.StringVar()
-        self.vars_dict['query_from_Var'] = self.query_from_Var
         self.query_from = ttk.Entry(self, textvariable = self.query_from_Var, font=('Arial', 10), width = 15)
         self.query_from.grid(row = self.ROW, column = 7, columnspan = 2, sticky = 'W')
         
@@ -62,7 +62,6 @@ class Enter_Sequence(ttk.Labelframe):
         
         tk.Label(self, text = 'To:').grid(row = self.ROW, column = 6, sticky = 'E')
         self.query_to_Var = tk.StringVar()
-        self.vars_dict['query_to_Var'] = self.query_to_Var
         self.query_to = tk.Entry(self, textvariable = self.query_to_Var, font=('Arial', 10), width = 15)
         self.query_to.grid(row = self.ROW, column = 7, columnspan =2 , sticky = 'W')
     
@@ -83,10 +82,7 @@ if __name__ == "__main__":
     root=tk.Tk()
     w, h = root.winfo_screenwidth(), root.winfo_screenheight()
     root.geometry("%dx%d+0+0" % (w, h))
-    
-    blast_controller = BC.Blastn_Controller()
-    frame = Enter_Sequence(root, 'Subject')
-    #blast_controller.printKeyValue(frame)
+    frame = Enter_Sequence(root, 'Enter_Subject_Sequence')
     frame.grid(row = 0, column = 0)
     root.mainloop()       
     

@@ -14,8 +14,8 @@ from tkinter import scrolledtext
 
 
 class Enter_Query_Sequence(Enter_Sequence):
-    def __init__(self, parent, SubOrQuery, controller, left_row_limit = 18, *args, **kwargs):
-        Enter_Sequence.__init__(self, parent, SubOrQuery, controller, left_row_limit, *args, **kwargs)
+    def __init__(self, parent, view_name, controller = None, left_row_limit = 18, *args, **kwargs):
+        Enter_Sequence.__init__(self, parent, view_name, controller = None, left_row_limit = 18, *args, **kwargs)
         self.parent = parent
         self.buildQuery()
 
@@ -89,8 +89,7 @@ if __name__ == "__main__":
     w, h = root.winfo_screenwidth(), root.winfo_screenheight()
     root.geometry("%dx%d+0+0" % (w, h))
     
-    blast_controller = BC.Blastn_Controller()
-    frame = Enter_Query_Sequence(root, 'Query', blast_controller)
+    frame = Enter_Query_Sequence(root, 'Enter_Subject_Sequence')
     frame.grid(row = 0, column = 1)
     
     root.mainloop()           

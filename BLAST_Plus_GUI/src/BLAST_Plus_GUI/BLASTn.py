@@ -52,20 +52,18 @@ class BLASTn(ttk.Frame):
      
     def buildWidgetLayout(self):   
         self.ROW = 1
-        self.enter_query = Enter_Query_Sequence(self, 'Query', self.controller)
-        self.enter_query.grid(row = 1, column = 1, sticky = 'W')
-        self.enter_query = self.controller.makeWidgetWidthEven(self.enter_query)
-        # Passing controller references to all view objects.
-        self.controller.view_refs['Enter_Query_Sequence'] = self.enter_query
+        self.enter_query_sequence = Enter_Query_Sequence(self, 'Enter_Query_Sequence', self.controller)
+        self.enter_query_sequence.grid(row = 1, column = 1, sticky = 'W')
+        self.enter_query_sequence = self.controller.makeWidgetWidthEven(self.enter_query_sequence)
 
         #Rows 2,3,4 will be space for Subject Query Box or Search Set Box Subject
-        self.subject_query = Enter_Sequence(self, 'Subject', self.controller)
-        self.controller.view_refs['Enter_Subject_Sequence'] = self.subject_query
+        self.enter_subject_sequence = Enter_Sequence(self, 'Enter_Subject_Sequence', self.controller)
         
         self.search_set = Choose_Search_Set(self, self.controller)
         self.search_set.grid ( row =3, column = 1, sticky = 'W')
         self.search_set = self.controller.makeWidgetWidthEven(self.search_set)
         self.controller.view_refs['Choose_Search_Set'] = self.search_set
+        #print(self.controller.view_refs['Choose_Search_Set'])
         
         self.ROW = 5
         self.prg_selection = Program_Selection(self, self.controller)
@@ -107,6 +105,8 @@ class BLASTn(ttk.Frame):
         self.blast_button2.grid (row = self.ROW, column = 1, sticky = 'W')
         self.blast_button2 = self.controller.makeWidgetWidthEven(self.blast_button2)
         self.controller.view_refs['BLAST'].append(self.blast_button2)
+        
+        self.controller.printKeyValue (self.controller.view_refs)
 
             
 
