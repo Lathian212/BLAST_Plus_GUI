@@ -16,6 +16,6 @@ class BLAST_Model(object):
         
 
 if __name__ == "__main__":
-    controller = Blastn_Controller()
-    model =
+    controller = BC.Blastn_Controller()
+
 

@@ -13,13 +13,14 @@ import Blastn_Controller as BC
 
 #Unfinished because the text entry box has to lead to a pop up which saves the contents to file
 class Enter_Sequence(ttk.Labelframe):
-    def __init__(self, parent, SubOrQuery, controller, left_row_limit = 10, *args, **kwargs):
+    def __init__(self, parent, SubOrQuery, controller = None, left_row_limit = 10, *args, **kwargs):
         ttk.Labelframe.__init__(self, parent, *args, **kwargs)
         self.parent = parent
         self.ROW = 1
-        #Each object will have all the tk.Vars BLAST button needs to execute it's task in a dictionary
-        self.vars_dict = {}
-        self.controller = controller
+        if controller is None:
+            self.controller = BC.Blastn_Controller()
+        else :
+            self.controller = controller
         #To identify the container as a Subject or Query container a String is passed in when constructor is called
         self.SubOrQuery = SubOrQuery
         self.outer_label = ttk.Label(self, text = 'Enter ' + self.SubOrQuery + ' Sequence', font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue', background = 'white')
@@ -84,7 +85,7 @@ if __name__ == "__main__":
     root.geometry("%dx%d+0+0" % (w, h))
     
     blast_controller = BC.Blastn_Controller()
-    frame = Enter_Sequence(root, 'Subject', blast_controller)
+    frame = Enter_Sequence(root, 'Subject')
     #blast_controller.printKeyValue(frame)
     frame.grid(row = 0, column = 0)
     root.mainloop()       
