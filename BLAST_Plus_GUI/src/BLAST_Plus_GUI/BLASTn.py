@@ -63,7 +63,7 @@ class BLASTn(ttk.Frame):
         self.search_set.grid ( row =3, column = 1, sticky = 'W')
         self.search_set = self.controller.makeWidgetWidthEven(self.search_set)
         self.controller.view_refs['Choose_Search_Set'] = self.search_set
-        #print(self.controller.view_refs['Choose_Search_Set'])
+        print(self.controller.view_refs['Choose_Search_Set'])
         
         self.ROW = 5
         self.prg_selection = Program_Selection(self, self.controller)
@@ -105,8 +105,6 @@ class BLASTn(ttk.Frame):
         self.blast_button2.grid (row = self.ROW, column = 1, sticky = 'W')
         self.blast_button2 = self.controller.makeWidgetWidthEven(self.blast_button2)
         self.controller.view_refs['BLAST'].append(self.blast_button2)
-        
-        self.controller.printKeyValue (self.controller.view_refs)
 
             
 
