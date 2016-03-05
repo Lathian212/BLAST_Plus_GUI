@@ -13,7 +13,7 @@ import Blastn_Controller as BC
 
 #Unfinished because the text entry box has to lead to a pop up which saves the contents to file
 class Enter_Sequence(ttk.Labelframe):
-    def __init__(self, parent, view_name, controller = None, left_row_limit = 10, *args, **kwargs):
+    def __init__(self, parent, controller = None, view_name = 'Enter_Subject_Sequence', left_row_limit = 10, *args, **kwargs):
         ttk.Labelframe.__init__(self, parent, *args, **kwargs)
         self.view_name = view_name
         self.parent = parent

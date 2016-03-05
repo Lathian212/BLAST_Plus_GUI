@@ -14,10 +14,9 @@ from tkinter import scrolledtext
 
 
 class Enter_Query_Sequence(Enter_Sequence):
-    def __init__(self, parent, view_name, controller = None, left_row_limit = 18, *args, **kwargs):
-        Enter_Sequence.__init__(self, parent, view_name, controller = None, left_row_limit = 18, *args, **kwargs)
-        self.vars_dict = self.controller.register_view(self.view_name, self)
-        self.parent = parent
+    def __init__(self, parent, controller = None, view_name = 'Enter_Query_Sequence',  left_row_limit = 18, *args, **kwargs):
+        Enter_Sequence.__init__(self, parent, controller , view_name = 'Enter_Query_Sequence', left_row_limit = 18, *args, **kwargs)
+
         self.buildQuery()
 
         """
