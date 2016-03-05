@@ -25,10 +25,22 @@ class Blastn_Controller(object):
         self.command_line_lst = ['blastn']
         #Don't know if I can make use of the MVC design pattern
         self.model = BM.BLAST_Model(self)
+        """
+        Don't need if I need this extra complexity
+        #BLAST button handler will call each individual BLAST method for each view object that maps model to correct string for it's piece
+        self.string_mapper = []
+        #Populate string_mapper
+        self.populate_string_mapper(self)
+        """
+        
+        #Example below how to work with pop up warnings.
+        #tm.showinfo('Temp File Will Be Created', 'Temp File Being Created')
         
 
         
     #Handlers
+    def populate_string_mapper(self):
+        self.string_mapper.append(object)
     #BLAST main view     
                 
     #Enter_Sequence Handlers, used by both Query and Subject View objects so need to take view as parameter
@@ -46,17 +58,38 @@ class Blastn_Controller(object):
         """Location on the query sequence in 1-based offsets (Format: start-stop)"""
         return(view.query_from.get()+'-'+view.query_to.get())
     
-    def load_handler(self, view):
+    def disable_upload_button(self, event, view):
+        view.load_query_button.configure(state = 'disabled')
+        print('disable button called')
+    
+    def load_handler(self, view): 
         filename = askopenfilename()
         view.load_status.configure(text = filename)
         #Clear Query Box and Diasble It
         self.clear_query(view)
         view.query_box.configure(state='disabled')
-        
-    def temp_file (self, event,view):
-        """Temporary hidden files need to be created in background in text entry is used for subject or query object"""
-        #tm.showinfo('Temp File Will Be Created', 'Temp File Being Created')
-        view.load_query_button.configure(state = 'disabled')
+        #Find if Query or Subject View called this method and update appropriate dictionary in model
+        for view_name, view_ref in self.view_refs.items() :
+            if view is view_ref :
+                break
+        print('view_name = ' + str(view_name))
+        sequence_dict = getattr(self.model, str(view_name))
+        sequence_dict['up_file'] = filename
+       
+    def temp_file_handler(self, view_name):
+        model_piece = getattr(self.model, str(view_name))
+        text = model_piece['textbox'].get('1.0', 'end -1c')
+        if len(text) > 0 :
+            print('tempfile being created for ' + str(view_name))
+            f = open(str(view_name)+'_Temp', 'w')
+            f.write(text)
+            model_piece['up_file'] = str(view_name)+'_Temp'
+            
+        #print('from = ' + model_piece['from'].get() + 'length = ' + str(len(model_piece['from'].get())))
+    
+    def subject_sequence_mapper(self):
+        self.temp_file_handler('Enter_Subject_Sequence')
+        return 'pass'
     
     #Enter Query Sequence (Some handlers reused from above)
         
@@ -66,7 +99,7 @@ class Blastn_Controller(object):
     
     def outputFmtHandler(self, event, view):
         print(view.save_output_box.current())
-        print(view.comboVar.get())
+        #print(view.comboVar.get())
         formatIndex = view.save_output_box.current()
         if formatIndex == 6 or formatIndex == 7 or formatIndex == 10:
             view.specify_further.grid(row = view.row_for_additional_formatting, column =5, sticky = 'E')
@@ -78,9 +111,8 @@ class Blastn_Controller(object):
     def subject_vs_search_toggle(self):
         """It's either Subject Entry Box or Choose Search Set this method toggles between them. Loads with Choose Search Set"""
         #If below is true the check box for triggering a subject against query has just been triggered 
-        if self.view_refs['Enter_Query_Sequence'].if_subject.get():
+        if self.model.Enter_Query_Sequence['if_subject'].get():
             #The forget method defaults everything to smart container packing and loses set pixel dimensions
-            self.printKeyValue (self.view_refs)
             self.view_refs['Choose_Search_Set'].grid_forget()
             self.view_refs['Enter_Subject_Sequence'].grid (row = 3, column =1, sticky = 'W')
             self.view_refs['Enter_Subject_Sequence'] = self.makeWidgetWidthEven( self.view_refs['Enter_Subject_Sequence'])
@@ -93,6 +125,11 @@ class Blastn_Controller(object):
     
     def additional_formatting_handler(self, event, view):
         pass
+    
+    def query_sequence_mapper(self):
+        self.temp_file_handler('Enter_Query_Sequence')
+        print('Entered query sequence mapper')
+        return 'pass'
     
     #Choose Search set
     def radio_db(self):
@@ -148,8 +185,12 @@ class Blastn_Controller(object):
     #BLAST Button
     def blast(self):
         """Needs to spin off a subprocess daemon"""
+        subject_commands = self.subject_sequence_mapper()
+        query_commands = self.query_sequence_mapper()
+        """
         for v in self.command_line_lst:
             print (v)
+        """
     
     def updateText(self):
         """Choose Search Set & Subject Sequence & Program Selection all change the text label associated with BLAST Button"""
@@ -160,7 +201,7 @@ class Blastn_Controller(object):
             i.text.configure(state = 'normal')
             i.text.delete('1.0', 'end')
             i.text.insert('end', 'Search ', ('normal'))
-            if self.view_refs['Enter_Query_Sequence'].if_subject.get() is True:
+            if self.model.Enter_Query_Sequence['if_subject'].get() :
                 i.text.insert('end', 'nucleotide sequence ', ('blue'))
             else :
                 database = self.view_refs['Choose_Search_Set'].combo_db_Var.get()

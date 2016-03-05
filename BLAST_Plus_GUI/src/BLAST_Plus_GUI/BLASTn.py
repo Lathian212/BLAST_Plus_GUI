@@ -105,8 +105,7 @@ class BLASTn(ttk.Frame):
         self.blast_button2 = self.controller.makeWidgetWidthEven(self.blast_button2)
         self.controller.view_refs['BLAST'].append(self.blast_button2)
         
-        self.controller.printKeyValue(self.controller.view_refs)
-        print('Break \n')
+        #self.controller.printKeyValue(self.controller.view_refs)
 
             
 

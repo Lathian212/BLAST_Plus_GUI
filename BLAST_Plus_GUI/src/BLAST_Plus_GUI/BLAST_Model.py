@@ -16,11 +16,11 @@ class BLAST_Model(object):
                    'Program_Selection' : None, 'BLAST' : [], 'General_Parameters' : None, 'Scoring_Parameters' : None, 
                    'Filters_and_Masking' : None }
         """
-        self.Enter_Subject_Sequence = { '-query' : tk.StringVar(), '-query_loc' : tk.StringVar(), '-entrez_query' : tk.StringVar(), 
-                             '-out' : tk.StringVar(), '-outfmt' : tk.StringVar()}
+        self.Enter_Subject_Sequence = { 'textbox' : None, 'from' : tk.StringVar(), 'to' : tk.StringVar(), 'up_file' : None}
 
-        self.Enter_Query_Sequence = { '-query' : tk.StringVar(), '-query_loc' : tk.StringVar(), '-entrez_query' : tk.StringVar(), 
-                                     '-out' : tk.StringVar(), '-outfmt' : tk.StringVar()}
+        self.Enter_Query_Sequence = { 'textbox' : None, 'from' : tk.StringVar(), 'to' : tk.StringVar(), 'up_file' : None, 
+                                     'save_file' : None, '-outfmt' : tk.StringVar(), 'add_fmt' : None, 'job_title' : tk.StringVar(),
+                                     'if_subject' : tk.BooleanVar()}
         
 
 if __name__ == "__main__":
