@@ -76,8 +76,8 @@ class Blastn_Controller(object):
         sequence_dict = getattr(self.model, str(view_name))
         sequence_dict['up_file'] = filename
        
-    def temp_file_handler(self, view_name):
-        model_piece = getattr(self.model, str(view_name))
+    def temp_file_handler(self, view_name, model_piece):
+        """If textbox in subject or query view object is filled a temp file is created to be funneled into command line tool"""
         text = model_piece['textbox'].get('1.0', 'end -1c')
         if len(text) > 0 :
             print('tempfile being created for ' + str(view_name))
@@ -86,10 +86,27 @@ class Blastn_Controller(object):
             model_piece['up_file'] = str(view_name)+'_Temp'
             
         #print('from = ' + model_piece['from'].get() + 'length = ' + str(len(model_piece['from'].get())))
+        
+    def is_from_to_filled(self, model_piece):
+        """returns a boolean indicating if from and to fields are filled"""
+        if len(model_piece['from'].get()) > 0 and len(model_piece['to'].get()) > 0:
+            return True
+        else :
+            return False
     
-    def subject_sequence_mapper(self):
-        self.temp_file_handler('Enter_Subject_Sequence')
-        return 'pass'
+    def enter_sequence_mapper(self, view_name):
+        cmd_string = ''
+        if view_name is 'Enter_Subject_Sequence' :
+            name = '-subject'
+        else :
+            name = '-query'
+        model_piece = getattr(self.model, str(view_name))
+        #create a file when user is using textbox
+        self.temp_file_handler(view_name, model_piece)
+        cmd_string += name + ' ' + str(model_piece['up_file'])
+        if self.is_from_to_filled(model_piece):
+            cmd_string += ' ' + name + '_loc ' + model_piece['from'].get() + '-' + model_piece['to'].get()
+        return cmd_string
     
     #Enter Query Sequence (Some handlers reused from above)
         
@@ -127,9 +144,13 @@ class Blastn_Controller(object):
         pass
     
     def query_sequence_mapper(self):
-        self.temp_file_handler('Enter_Query_Sequence')
+        cmd_string = ''
+        view_name = 'Enter_Query_Sequence'
+        model_piece = getattr(self.model, view_name)
+        cmd_string = self.enter_sequence_mapper(view_name)
+        
         print('Entered query sequence mapper')
-        return 'pass'
+        return cmd_string
     
     #Choose Search set
     def radio_db(self):
@@ -185,8 +206,10 @@ class Blastn_Controller(object):
     #BLAST Button
     def blast(self):
         """Needs to spin off a subprocess daemon"""
-        subject_commands = self.subject_sequence_mapper()
         query_commands = self.query_sequence_mapper()
+        if self.model.Enter_Query_Sequence['if_subject'].get() :
+            subject_commands = self.enter_sequence_mapper('Enter_Subject_Sequence')
+        print (subject_commands)
         """
         for v in self.command_line_lst:
             print (v)
