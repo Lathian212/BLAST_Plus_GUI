@@ -19,7 +19,7 @@ class BLAST_Model(object):
         self.Enter_Subject_Sequence = { 'textbox' : None, 'from' : tk.StringVar(), 'to' : tk.StringVar(), 'up_file' : None}
 
         self.Enter_Query_Sequence = { 'textbox' : None, 'from' : tk.StringVar(), 'to' : tk.StringVar(), 'up_file' : None, 
-                                     'save_file' : None, '-outfmt' : tk.StringVar(), 'add_fmt' : None, 'job_title' : tk.StringVar(),
+                                     'save_file' : None, '-outfmt' : None, 'add_fmt' : None, 'job_title' : tk.StringVar(),
                                      'if_subject' : tk.BooleanVar()}
         
 

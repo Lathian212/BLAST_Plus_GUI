@@ -34,7 +34,7 @@ class Enter_Query_Sequence(Enter_Sequence):
         
         ttk.Label(self, text ='Save File:', font=('Arial', 10, 'bold')).grid(row = self.ROW, 
                                                                                                  column=1, sticky = 'E')
-        self.save_query_button = ttk.Button(self, text='Choose File', command = (lambda : self.controller.save_handler(self)))
+        self.save_query_button = ttk.Button(self, text='Choose File', command = (lambda : self.controller.save_handler('Enter_Query_Sequence')))
         self.save_query_button.grid(row = self.ROW, column = 2)
         self.save_status = ttk.Label(self, text='No file chosen', font=('Arial', '10'))
         self.save_status.grid(row = self.ROW , column = 3, columnspan = 7, sticky = 'W')
@@ -47,7 +47,7 @@ class Enter_Query_Sequence(Enter_Sequence):
         #bd is the blastFuncsDictionaries module
         self.save_output_box = ttk.Combobox(self, values= BD.blastn_outputfmt, state='readonly', width = 30)
         #XML format is suggested by NCBI so make it default
-        self.model_vars['outfmt'] = self.save_output_box
+        self.model_vars['-outfmt'] = self.save_output_box
         self.save_output_box.current(5)
         self.save_output_box.bind("<<ComboboxSelected>>", lambda event, view = self : self.controller.outputFmtHandler(event, view))
         self.save_output_box.grid(row = self.ROW, column = 2, columnspan = 4, sticky = 'W', padx = 10)
@@ -65,13 +65,15 @@ class Enter_Query_Sequence(Enter_Sequence):
                                             self.controller.additional_formatting_handler(event, view))
 
         #If 6,7 or 10 picked additional options must open up
-        
+        """
+        This widget is not supported in the command line tool
         self.ROW+=2
         ttk.Label(self, text ='Job Title', font=('Arial', 12, 'bold')).grid(row = self.ROW, column=1, sticky = 'E')
         self.job_title = ttk.Entry(self, textvariable = self.model_vars['job_title'], font=('Arial', 10))
         self.job_title.grid(row = self.ROW, column = 2, columnspan = 8, sticky = 'W', padx = 10)
         self.job_title.configure(width=80)
         self.ROW+=2
+        """
         
         self.model_vars['if_subject'].set(False)
         #Temporary all the control stuff needs to go to the controller

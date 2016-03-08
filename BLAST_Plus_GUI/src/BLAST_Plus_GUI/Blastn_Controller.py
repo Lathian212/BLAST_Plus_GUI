@@ -110,9 +110,11 @@ class Blastn_Controller(object):
     
     #Enter Query Sequence (Some handlers reused from above)
         
-    def save_handler(self, view):
+    def save_handler(self, view_name):
+        model_piece = getattr(self.model, str(view_name))
         savefilename = asksaveasfilename()
-        view.save_status.configure(text = savefilename)
+        self.view_refs[view_name].save_status.configure(text = savefilename)
+        model_piece['save_file'] = savefilename
     
     def outputFmtHandler(self, event, view):
         print(view.save_output_box.current())
@@ -148,6 +150,7 @@ class Blastn_Controller(object):
         view_name = 'Enter_Query_Sequence'
         model_piece = getattr(self.model, view_name)
         cmd_string = self.enter_sequence_mapper(view_name)
+        cmd_string += ' -out ' + str(model_piece['save_file']) + ' -outfmt ' + str(model_piece['-outfmt'].current())
         
         print('Entered query sequence mapper')
         return cmd_string
@@ -207,9 +210,11 @@ class Blastn_Controller(object):
     def blast(self):
         """Needs to spin off a subprocess daemon"""
         query_commands = self.query_sequence_mapper()
+        print ('Query commands = ' + query_commands)
         if self.model.Enter_Query_Sequence['if_subject'].get() :
             subject_commands = self.enter_sequence_mapper('Enter_Subject_Sequence')
-        print (subject_commands)
+            print ('Subject commands = ' +subject_commands)
+
         """
         for v in self.command_line_lst:
             print (v)
