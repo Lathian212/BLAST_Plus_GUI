@@ -72,7 +72,6 @@ class Blastn_Controller(object):
         for view_name, view_ref in self.view_refs.items() :
             if view is view_ref :
                 break
-        print('view_name = ' + str(view_name))
         sequence_dict = getattr(self.model, str(view_name))
         sequence_dict['up_file'] = filename
        
@@ -117,8 +116,6 @@ class Blastn_Controller(object):
         model_piece['save_file'] = savefilename
     
     def outputFmtHandler(self, event, view):
-        print(view.save_output_box.current())
-        #print(view.comboVar.get())
         formatIndex = view.save_output_box.current()
         if formatIndex == 6 or formatIndex == 7 or formatIndex == 10:
             view.specify_further.grid(row = view.row_for_additional_formatting, column =5, sticky = 'E')
@@ -198,7 +195,7 @@ class Blastn_Controller(object):
         view = self.view_refs['Choose_Search_Set']
         view.grid_forget()
         view.grid(row =3, column =1, sticky = 'W')
-        HF.makeWidgetWidthEven(view, view.set_width, view.search_set)
+        HF.makeWidgetWidthEven(view, self.model.frame_width, view.search_set)
     #Program selection
     def blastnTypeHandler(self):
         """Radio buttons for type of Blastn, needs to update text associated with BLAST button"""

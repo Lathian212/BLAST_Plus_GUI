@@ -59,10 +59,9 @@ class BLASTn(ttk.Frame):
         #Rows 2,3,4 will be space for Subject Query Box or Search Set Box Subject
         self.enter_subject_sequence = Enter_Sequence(self, controller = self.controller)
         
-        self.search_set = Choose_Search_Set(self, self.controller)
+        self.search_set = Choose_Search_Set(self, controller = self.controller)
         self.search_set.grid ( row =3, column = 1, sticky = 'W')
         self.search_set = self.controller.makeWidgetWidthEven(self.search_set)
-        self.controller.view_refs['Choose_Search_Set'] = self.search_set
         
         self.ROW = 5
         self.prg_selection = Program_Selection(self, self.controller)

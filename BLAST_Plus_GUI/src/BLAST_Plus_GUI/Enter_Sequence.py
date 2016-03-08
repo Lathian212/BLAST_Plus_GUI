@@ -25,9 +25,6 @@ class Enter_Sequence(ttk.Labelframe):
         #View object registers with controller with it's string name and self as the reference
         self.model_vars = self.controller.register_view(self.view_name, self)
         
-        #print(str(self.view_name))
-        #self.controller.printKeyValue(self.vars_dict)
-        
         self.outer_label = ttk.Label(self, text = self.view_name, font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue', background = 'white')
         self.config(labelwidget = self.outer_label)
         self.left_row_limit = left_row_limit 

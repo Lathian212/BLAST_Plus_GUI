@@ -11,12 +11,18 @@ import Helper_Functions as HF
 import Blastn_Controller as BC
 
 class Choose_Search_Set(ttk.Labelframe):
-    def __init__(self, parent, controller, left_row_limit = 9, *args, **kwargs):
+    def __init__(self, parent, controller = None, view_name = 'Choose_Search_Set', left_row_limit = 9, *args, **kwargs):
         ttk.Labelframe.__init__(self, parent, *args, **kwargs)
-        self.parent = parent 
-        self.ROW = 1
-        self.controller = controller
+        self.view_name = view_name
         self.parent = parent
+        self.ROW = 1
+        if controller is None:
+            self.controller = BC.Blastn_Controller()
+        else :
+            self.controller = controller
+        #View object registers with controller with it's string name and self as the reference
+        self.model_vars = self.controller.register_view(self.view_name, self)
+        
         self.outer_label = ttk.Label(self, text = 'Choose Search Set', font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue',
                                       background = 'white')
         self.config(labelwidget = self.outer_label)

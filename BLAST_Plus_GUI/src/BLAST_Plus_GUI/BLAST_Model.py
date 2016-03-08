@@ -22,6 +22,8 @@ class BLAST_Model(object):
                                      'save_file' : None, '-outfmt' : None, 'add_fmt' : None, 'job_title' : tk.StringVar(),
                                      'if_subject' : tk.BooleanVar()}
         
+        self.Choose_Search_Set = {'-db' : tk.StringVar(),  'organisms' : [],  '-entrez_query' : tk.StringVar()}
+        
 
 if __name__ == "__main__":
     controller = BC.Blastn_Controller()
