@@ -29,7 +29,10 @@ class Program_Selection(ttk.Labelframe):
                 'megablast' 'rmblastn' > Task to execute Default = `megablast' """
         ttk.Label(self, text='Optimize for:', font=('Arial', '12', 'bold')).grid(row = self.ROW , column = 1, 
                                                                                             columnspan=2, sticky = 'w')
-        
+        self.R0 = tk.Radiobutton(self, text="Short Query Sequence (blastn-short)", font=('Arial', '12'),
+                             variable=self.blastn_type, value=0, command=self.controller.blastnTypeHandler)
+        self.R0.grid(row = self.ROW, column = 3, columnspan = 4, sticky = 'w')  
+        self.ROW+=1     
         self.R1 = tk.Radiobutton(self, text="Highly similar sequences (megablast)", font=('Arial', '12'),
                              variable=self.blastn_type, value=1, command=self.controller.blastnTypeHandler)
         self.R1.grid(row = self.ROW, column = 3, columnspan = 4, sticky = 'w')

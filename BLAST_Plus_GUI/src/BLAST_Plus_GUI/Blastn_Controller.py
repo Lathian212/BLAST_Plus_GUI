@@ -87,18 +87,24 @@ class Blastn_Controller(object):
         #print('from = ' + model_piece['from'].get() + 'length = ' + str(len(model_piece['from'].get())))
         
     def is_from_to_filled(self, model_piece):
-        """returns a boolean indicating if from and to fields are filled"""
+        """returns a boolean indicating if from and to fields are filled, which is used when assembling the command line
+            string. If it returns False then the -from and -to strings are not added to the command."""
         if len(model_piece['from'].get()) > 0 and len(model_piece['to'].get()) > 0:
             return True
         else :
             return False
     
     def enter_sequence_mapper(self, view_name):
+        """This method creates the command line string for the blastn program for both the Enter_Query_Sequence
+            and Enter_Subject_Sequence Objects. I am calling these methods mapper because they map the information
+            in the GUI data entry fields into the correct command line string for blastn.
+        """
         cmd_string = ''
         if view_name is 'Enter_Subject_Sequence' :
             name = '-subject'
         else :
             name = '-query'
+        #Gets a piece of the model that is associated with GUI object
         model_piece = getattr(self.model, str(view_name))
         #create a file when user is using textbox
         self.temp_file_handler(view_name, model_piece)
@@ -143,6 +149,9 @@ class Blastn_Controller(object):
         pass
     
     def query_sequence_mapper(self):
+        """Calls the generic enter_sequence_mapper which is used by the query mapper and the subject mapper and adds on
+            the file save name for the remote blast and the output format.
+        """
         cmd_string = ''
         view_name = 'Enter_Query_Sequence'
         model_piece = getattr(self.model, view_name)
@@ -154,7 +163,10 @@ class Blastn_Controller(object):
     
     #Choose Search set
     def radio_db(self):
-        """Linked to combo_db_handler"""
+        """Linked to combo_db_handler. That is the three radio buttons for database choices which are: 1)Human genomic
+            2) mouse genomic and 3)others. These buttons are linked to the combo box below it in the choose search set
+            view
+        """
         view = self.view_refs['Choose_Search_Set']
         if view.radio_int.get() == 1 :
             view.db_box.current(0)
@@ -168,7 +180,7 @@ class Blastn_Controller(object):
                 view.organism_frame.grid(row = view.row_organism, column = 1, columnspan = 10, sticky = 'W')
                 
     def combo_db_handler(self, event):
-        """When you change the drop down combo box this makes the radio buttons move apropiately"""
+        """When you change the drop down combo box this makes the radio buttons move appropriately"""
         view = self.view_refs['Choose_Search_Set']
         if view.db_box.current() == 0 :
             view.radio_int.set(1)
