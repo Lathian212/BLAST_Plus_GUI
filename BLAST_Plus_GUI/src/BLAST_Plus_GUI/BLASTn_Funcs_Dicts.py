@@ -45,8 +45,9 @@ db_box = ['Human genomic plus transcript (Human G+T)', 'Mouse genomic plus trans
               'Transcriptome Shotgun Assembly (TSA)', '16S ribosomal RNA sequences (Bacteria and Archaea)', 'Sequences Read Archive (SRA)']
 
 #Text for last pieces of textbox text
-blast_fourth_text_piece = ['Megablast (Optimize for highly similar sequences)', 'Discontiguous megablast'+
-                           ' (Optimize for highly similar sequences)', 'Blastn (Optimize for somewhat similar sequences)']
+blast_fourth_text_piece = ['Short Query Sequence (blastn-short)', 'Megablast (Optimize for highly similar sequences)', 
+                           'Discontiguous megablast (Optimize for highly similar sequences)', 
+                           'Blastn (Optimize for somewhat similar sequences)']
 
 #For command line
 db_abrv = ['"Human G+T"', '"Mouse G+T"', '"nr/nt"', 'refseq_rna', 'refseq_genomic', 'refseq_representative_genomes', 

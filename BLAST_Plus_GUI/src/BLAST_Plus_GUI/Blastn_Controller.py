@@ -233,7 +233,7 @@ class Blastn_Controller(object):
         """Choose Search Set & Subject Sequence & Program Selection all change the text label associated with BLAST Button"""
         #there are two BLAST button references stored in BLAST
         prg_sel = self.view_refs['Program_Selection']
-        fourth_string_index = prg_sel.blastn_type.get()-1
+        fourth_string_index = prg_sel.blastn_type.get()
         for i in self.view_refs['BLAST']:
             i.text.configure(state = 'normal')
             i.text.delete('1.0', 'end')
