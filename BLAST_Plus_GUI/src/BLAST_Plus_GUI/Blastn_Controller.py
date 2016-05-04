@@ -211,9 +211,18 @@ class Blastn_Controller(object):
     #Program selection
     def blastnTypeHandler(self):
         """Radio buttons for type of Blastn, needs to update text associated with BLAST button"""
-        view = self.view_refs['Program_Selection']
-        print(str(view.blastn_type.get()))
         self.updateText()
+    
+    def program_selection_mapper(self):
+        """
+        """
+        cmd_string = ''
+        view_name = 'Program_Selection'
+        view_ref = self.view_refs[view_name]
+        model_piece = getattr(self.model, view_name)
+        cmd_string += ' -task ' + str(model_piece[view_ref.blastn_type.get()])
+        print('Entered program_selection_mapper')
+        return cmd_string
     
     #BLAST Button
     def blast(self):
@@ -223,7 +232,9 @@ class Blastn_Controller(object):
         if self.model.Enter_Query_Sequence['if_subject'].get() :
             subject_commands = self.enter_sequence_mapper('Enter_Subject_Sequence')
             print ('Subject commands = ' +subject_commands)
-
+            
+        task = self.program_selection_mapper()
+        print(task)
         """
         for v in self.command_line_lst:
             print (v)

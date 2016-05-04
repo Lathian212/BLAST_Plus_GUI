@@ -24,6 +24,8 @@ class BLAST_Model(object):
         
         self.Choose_Search_Set = {'-db' : tk.StringVar(),  'organisms' : [],  '-entrez_query' : tk.StringVar()}
         
+        self.Program_Selection = ['blastn-short', 'megablast', 'dc-megablast', 'blastn']  
+        
 
 if __name__ == "__main__":
     controller = BC.Blastn_Controller()
