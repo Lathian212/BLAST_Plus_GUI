@@ -288,7 +288,7 @@ class Blastn_Controller(object):
             print('Key = ' + str(k), ' value = '+str(v))
             
     def register_view(self, view_name, view_reference):
-        """Puts reference to view objects into Controller's Dictionary and returns the appropriate dict vars from model"""      
+        """Puts reference to view objects into Controller's Dictionary and returns the appropriate dictionary variable from model"""      
         self.view_refs[view_name] = view_reference
         #print(view_name + ' = ' + str(self.view_refs[view_name]))
 

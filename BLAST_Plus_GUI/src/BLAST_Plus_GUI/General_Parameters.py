@@ -9,15 +9,26 @@ import Helper_Functions as HF
 import Blastn_Controller as BC
 
 class General_Parameters(ttk.Labelframe):
-    def __init__(self, parent, controller, left_row_limit = 8, expectVar = 10, wordValues = ['0'], maxMatches = 0, *args, **kwargs):
+    def __init__(self, parent, controller = None, view_name = 'General_Parameters', left_row_limit = 8, *args, **kwargs):
         ttk.Labelframe.__init__(self, parent, *args, **kwargs)
-        self.controller = controller 
+        self.view_name = view_name
         self.parent = parent
+        if controller is None:
+            self.controller = BC.Blastn_Controller()
+        else :
+            self.controller = controller
+        #View object registers with controller with it's string name and self as the reference
+        self.model_vars = self.controller.register_view(self.view_name, self)
         self.expectVar = tk.StringVar()
         self.expectVar.set(expectVar)
         self.wordValues = wordValues
         self.maxMatches = tk.StringVar()
         self.maxMatches.set(maxMatches)
+        self.expectVar = 10
+        self.wordValues = ['16', '20', '24', '28', '32', '48', '64', '128', '256']
+        self.maxMatches = 0
+        #In parent is self.word_size_box
+        self.word_size_box.current(3)
         self.ROW = 1
         self.outer_label = ttk.Label(self, text = 'General Parameters', font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue', 
                                      background = 'white')

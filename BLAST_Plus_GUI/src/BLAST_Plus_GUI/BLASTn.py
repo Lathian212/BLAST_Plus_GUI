@@ -14,7 +14,7 @@ from Enter_Sequence import Enter_Sequence
 from Choose_Search_Set import Choose_Search_Set
 from Program_Selection import Program_Selection
 from BLAST_Button import BLAST_Button 
-import General_Parameters_Blastn as GP
+import General_Parameters as GP
 import Scoring_Parameters as SP
 import Filters_and_Masking as FM
 import Helper_Functions as HF
@@ -81,7 +81,7 @@ class BLASTn(ttk.Frame):
                  ).grid(row = self.ROW, column = 1)
                  
         self.ROW += 2
-        self.general_parameters = GP.General_Parameters_Blastn(self, self.controller)
+        self.general_parameters = GP.General_Parameters(self, self.controller)
         self.general_parameters.grid (row = self.ROW, column = 1, sticky = 'W')
         self.general_parameters = self.controller.makeWidgetWidthEven(self.general_parameters)
         self.controller.view_refs['General_Parameters'] = self.general_parameters
