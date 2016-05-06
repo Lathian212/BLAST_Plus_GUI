@@ -18,27 +18,6 @@ class General_Parameters_Blastn(GP.General_Parameters):
         #In parent is self.word_size_box
         self.word_size_box.current(3)
 
-    #Override method to add Short Queries CheckBox
-    def buildWidgetSpecifics(self):
-        self.ROW += 1
-        ttk.Label(self, text='Short queries', font=('Arial', '10', 'bold')).grid(row = self.ROW , column = 1, 
-                                                                                    columnspan=2, sticky = 'w')
-        self.if_adjust_short = tk.BooleanVar()
-        self.if_adjust_short.set(True)
-        self.check_if_adjust_short = tk.Checkbutton(self, text = 'Automatically adjust parameters for short input sequences', font=('Arial', 9, 'bold'),
-                                      variable = self.if_adjust_short, command = self.adjustShort)
-        self.check_if_adjust_short.grid(row = self.ROW, column = 3, columnspan = 4, sticky = 'W')
-        
-        GP.General_Parameters.buildWidgetSpecifics(self)
-        
-    def adjustShort(self):
-        pass
-
-
-
-
-
-
 if __name__ == "__main__":
     root=tk.Tk()
     w, h = root.winfo_screenwidth(), root.winfo_screenheight()

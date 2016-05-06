@@ -44,14 +44,7 @@ class General_Parameters(ttk.Labelframe):
         self.word_size_box = ttk.Combobox(self, values = self.wordValues ,  textvariable = self.wordValues, state='readonly', width = 7)
         self.word_size_box.bind("<<ComboboxSelected>>", self.wordSizeHandler)
         self.word_size_box.grid(row = self.ROW, column = 3, sticky = 'W')
-        
-        self.ROW += 2
-        ttk.Label(self, text='Max matches in a', font=('Arial', '10', 'bold')).grid(row = self.ROW , column = 1, 
-                                                                                    columnspan=2, sticky = 'w')
-        self.ROW += 1
-        ttk.Label(self, text='query range:', font=('Arial', '10', 'bold')).grid(row = self.ROW , column = 1, 
-                                                                                    columnspan=2, sticky = 'w')
-        self.max_matches = ttk.Entry(self, textvariable = self.maxMatches, width = 8).grid(row = self.ROW, column = 3, sticky = 'W')
+
         
     #Handlers (Move Everything to Controllers?)
     def wordSizeHandler(self):

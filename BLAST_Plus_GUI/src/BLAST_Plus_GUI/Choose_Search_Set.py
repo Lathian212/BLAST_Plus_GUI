@@ -66,27 +66,6 @@ class Choose_Search_Set(ttk.Labelframe):
         self.organism_frame.grid(row = self.row_organism, column = 1, columnspan = 10, sticky = 'W')
         self.ROW+=1 
         
-        ttk.Label(self, text = 'Exclude', font = ('Arial', '10', 'bold')).grid(row = self.ROW, column = 1)
-        self.check_models = tk.BooleanVar()
-        self.check_modelsB = tk.Checkbutton(self, text = 'Models(XM/XP)', font=('Arial', 9, 'bold'),
-                                      variable = self.check_models)
-        self.check_modelsB.grid(row = self.ROW, column = 2)
-    
-        self.check_env_samp = tk.BooleanVar()
-        self.check_env_sampB = tk.Checkbutton(self, text = 'Uncultured/evironmental sample sequences', font=('Arial', 9, 'bold'),
-                                      variable = self.check_env_samp)
-        self.check_env_sampB.grid(row = self.ROW, column = 3, columnspan = 4)
-        self.ROW+=1
-        ttk.Label(self, text = 'Optional', font = ('Arial', '10'), foreground = 'light sky blue').grid(row = self.ROW, column =1)
-        self.ROW+=1
-        ttk.Label(self, text = 'Limit to', font = ('Arial', '10', 'bold')).grid(row = self.ROW, column = 1)
-        self.check_sequences = tk.BooleanVar()
-        self.check_sequencesB = tk.Checkbutton(self, text = 'Sequences from type material', font=('Arial', 9, 'bold'),
-                                      variable = self.check_sequences)
-        self.check_sequencesB.grid(row = self.ROW, column = 2, columnspan = 2)
-        self.ROW+=1
-        ttk.Label(self, text = 'Optional', font = ('Arial', '10'), foreground = 'light sky blue').grid(row = self.ROW, column =1)
-        self.ROW+=1
         ttk.Label(self, text = 'Entrez Query', font = ('Arial', '10', 'bold')).grid(row = self.ROW, column = 1)
         self.entrez_query = ttk.Entry(self, width = 50)
         self.entrez_query.grid(row = self.ROW, column = 2, columnspan = 4)
