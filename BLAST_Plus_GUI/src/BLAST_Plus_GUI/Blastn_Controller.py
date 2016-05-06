@@ -145,9 +145,6 @@ class Blastn_Controller(object):
         #BLAST button text needs to be updated
         self.updateText()
     
-    def additional_formatting_handler(self, event, view):
-        pass
-    
     def query_sequence_mapper(self):
         """Calls the generic enter_sequence_mapper which is used by the query mapper and the subject mapper and adds on
             the file save name for the remote blast and the output format.
@@ -214,8 +211,7 @@ class Blastn_Controller(object):
         self.updateText()
     
     def program_selection_mapper(self):
-        """
-        """
+        """ Returns a string of '-task <type of blastn>' """
         cmd_string = ''
         view_name = 'Program_Selection'
         view_ref = self.view_refs[view_name]
@@ -235,6 +231,8 @@ class Blastn_Controller(object):
             
         task = self.program_selection_mapper()
         print(task)
+        general_parameters = self.general_parameters_mapper()
+        print(general_parameters)
         """
         for v in self.command_line_lst:
             print (v)
@@ -259,6 +257,17 @@ class Blastn_Controller(object):
             i.text.configure(state = 'disabled')
     
     #General parameters
+    def general_parameters_mapper(self):
+        """Returns a command string for the expect threshold and the word size"""
+        print('Entered general parameters mapper')
+        cmd_string = ''
+        view_name = 'General_Parameters'
+        #Returns the dictionary holding the model variables associated with general parameter view
+        model_piece = getattr(self.model, view_name)
+        cmd_string += ' -evalue ' + str(model_piece['expect_threshold'].get())
+        cmd_string += ' -word_size ' +str(model_piece['word_size'].get())
+        return cmd_string
+        
     
     #Scoring parameters
     

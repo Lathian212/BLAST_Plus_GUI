@@ -26,6 +26,11 @@ class BLAST_Model(object):
         
         self.Program_Selection = ['blastn-short', 'megablast', 'dc-megablast', 'blastn']  
         
+        self.General_Parameters = {'expect_threshold' : tk.StringVar(), 'word_size' : tk.StringVar()}
+        #Default expect_threshold is 10 so set it here.
+        self.General_Parameters['expect_threshold'].set(10)
+        
+        
 
 if __name__ == "__main__":
     controller = BC.Blastn_Controller()
