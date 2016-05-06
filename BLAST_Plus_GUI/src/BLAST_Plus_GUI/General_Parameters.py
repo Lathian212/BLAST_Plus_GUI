@@ -19,7 +19,6 @@ class General_Parameters(ttk.Labelframe):
             self.controller = controller
         #View object registers with controller with it's string name and self as the reference
         self.model_vars = self.controller.register_view(self.view_name, self)
-        self.wordValues = ['16', '20', '24', '28', '32', '48', '64', '128', '256']
         self.ROW = 1
         self.outer_label = ttk.Label(self, text = 'General Parameters', font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue', 
                                      background = 'white')
@@ -36,14 +35,16 @@ class General_Parameters(ttk.Labelframe):
         ttk.Label(self, text='Expect threshold:', font=('Arial', '10', 'bold')).grid(row = self.ROW , column = 1, 
                                                                                     columnspan=2, sticky = 'w')
         
-        self.expect_entry = ttk.Entry(self, textvariable = self.model_vars['expect_threshold'], width = 8).grid(row = self.ROW, column = 3, sticky = 'W')
+        self.expect_entry = ttk.Entry(self, textvariable = self.model_vars['expect_threshold'], 
+                                      width = 8).grid(row = self.ROW, column = 3, sticky = 'W')
         
         self.ROW += 2
         ttk.Label(self, text='Word size:', font=('Arial', '10', 'bold')).grid(row = self.ROW, column = 1, 
                                                                                     columnspan=2, sticky = 'w')
         #Word Size Combo Box values differs for each of the various BLAST have Controller Set Them
         
-        self.word_size_box = ttk.Combobox(self, values = self.wordValues ,  textvariable = self.model_vars['word_size'],
+        self.word_size_box = ttk.Combobox(self, values = self.model_vars['wordValues'] , 
+                                           textvariable = self.model_vars['word_size'],
                                            state='readonly', width = 7)
         self.word_size_box.grid(row = self.ROW, column = 3, sticky = 'W')
         #Deafult word size is 28

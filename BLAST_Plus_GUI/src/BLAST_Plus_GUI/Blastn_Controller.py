@@ -233,6 +233,8 @@ class Blastn_Controller(object):
         print(task)
         general_parameters = self.general_parameters_mapper()
         print(general_parameters)
+        scoring_parameters = self.scoring_parameters_mapper()
+        print(scoring_paramters)
         """
         for v in self.command_line_lst:
             print (v)
@@ -270,6 +272,20 @@ class Blastn_Controller(object):
         
     
     #Scoring parameters
+    def scoring_parameters_mapper(self):
+        """Returns the match mismatch reward/penalty for BLAST search and 
+            gap insertion/extension cost for command line blastn
+        """
+        print('Entered general parameters mapper')
+        cmd_string = ''
+        view_name = 'Scoring_Parameters'
+        #Returns the dictionary holding the model variables associated with general parameter view
+        model_piece = getattr(self.model, view_name)
+        #Get match_mismatch, cast into string, slice string for match / mismatch
+        match_mismatch_string = str(model_piece['match_mismatch'])
+        cmd_string += ' -reward ' + match_mismatch_string[0]
+        cmd_string += ' -penalty ' + match_mismatch_string[2:]
+        return cmd_string
     
     #Filters and masking
     

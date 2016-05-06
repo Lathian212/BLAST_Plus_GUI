@@ -27,8 +27,27 @@ class BLAST_Model(object):
         self.Program_Selection = ['blastn-short', 'megablast', 'dc-megablast', 'blastn']  
         
         self.General_Parameters = {'expect_threshold' : tk.StringVar(), 'word_size' : tk.StringVar()}
+        #Data for the word_size combo box
+        self.General_Parameters['wordValues'] = ['16', '20', '24', '28', '32', '48', '64', '128', '256']
         #Default expect_threshold is 10 so set it here.
         self.General_Parameters['expect_threshold'].set(10)
+        
+        #The model besides holding tk global vars used by the mapper methods in the controller
+        #can also be used to hold the initializing data.
+        self.Scoring_Parameters = {}
+        #Note if the key is not present in the dictionary as below it is added to the dictionary
+        #These numbers reflect the reward for a match and the penalty for a mismatch
+        self.Scoring_Parameters['match_mismatch'] = ['1,-2', '1,-3', '1,-4', '2,-3', '4,-5', '1,-1']
+        #The matching tk.StringVar() will be used by the mapper in the control module to retrieve the values
+        self.Scoring_Parameters['tkVar_match_mismatch'] = tk.StringVar()
+        #Below values are for gap and gap extension costs.
+        self.Scoring_Parameters['gap_costs'] = ['Linear', 'Existence:5 Extension:2', 'Existence:2 Extension:2', 
+                                                'Existence:1 Extension:2', 'Existence:0 Extension:2', 
+                                                'Existence:3 Extension:1', 'Existence:2 Extension:1', 
+                                                'Existence:1 Extension:1']
+        self.Scoring_Parameters['tkVar_gap_costs'] = tk.StringVar()
+        
+        
         
         
 
