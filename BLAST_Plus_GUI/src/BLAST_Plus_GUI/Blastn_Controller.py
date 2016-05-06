@@ -234,7 +234,7 @@ class Blastn_Controller(object):
         general_parameters = self.general_parameters_mapper()
         print(general_parameters)
         scoring_parameters = self.scoring_parameters_mapper()
-        print(scoring_paramters)
+        print(scoring_parameters)
         """
         for v in self.command_line_lst:
             print (v)
@@ -276,15 +276,23 @@ class Blastn_Controller(object):
         """Returns the match mismatch reward/penalty for BLAST search and 
             gap insertion/extension cost for command line blastn
         """
-        print('Entered general parameters mapper')
+        print('Entered scoring parameters mapper')
         cmd_string = ''
         view_name = 'Scoring_Parameters'
         #Returns the dictionary holding the model variables associated with general parameter view
         model_piece = getattr(self.model, view_name)
         #Get match_mismatch, cast into string, slice string for match / mismatch
-        match_mismatch_string = str(model_piece['match_mismatch'])
+        match_mismatch_string = str(model_piece['tkVar_match_mismatch'].get())
         cmd_string += ' -reward ' + match_mismatch_string[0]
         cmd_string += ' -penalty ' + match_mismatch_string[2:]
+        gap_cost = str(model_piece['tkVar_gap_costs'].get())
+        index_colon = gap_cost.find(':')
+        if index_colon != -1:
+            gap_insertion_cost = gap_cost[(index_colon+1):(index_colon+2)]
+            second_colon = gap_cost.find(':', index_colon+1)
+            gap_extension_cost = gap_cost[(second_colon+1):(second_colon+2)]
+            cmd_string += ' -gapopen ' + gap_insertion_cost
+            cmd_string += ' -gapextend ' + gap_extension_cost
         return cmd_string
     
     #Filters and masking
