@@ -11,7 +11,6 @@ import tkinter.messagebox as tm
 import Helper_Functions as HF
 import Organism_Exclude as OE
 import BLAST_Model as BM
-import BLASTn_Funcs_Dicts as BD
 
 class Blastn_Controller(object):
     """Controller, handlers of All the GUI widgets in the view with a dictionary to hold all the tk global variables and references to make a mapping to
@@ -235,6 +234,8 @@ class Blastn_Controller(object):
         print(general_parameters)
         scoring_parameters = self.scoring_parameters_mapper()
         print(scoring_parameters)
+        filters_and_masking = self.filters_and_masking_mapper()
+        print(filters_and_masking)
         """
         for v in self.command_line_lst:
             print (v)
@@ -245,6 +246,7 @@ class Blastn_Controller(object):
         #there are two BLAST button references stored in BLAST
         prg_sel = self.view_refs['Program_Selection']
         fourth_string_index = prg_sel.blastn_type.get()
+        model_piece = getattr(self.model, 'BLAST_Button')
         for i in self.view_refs['BLAST']:
             i.text.configure(state = 'normal')
             i.text.delete('1.0', 'end')
@@ -255,7 +257,7 @@ class Blastn_Controller(object):
                 database = self.view_refs['Choose_Search_Set'].combo_db_Var.get()
                 i.text.insert('end', 'database ' + str(database), ('blue'))
             i.text.insert('end', ' using ', ('normal'))
-            i.text.insert('end', BD.blast_fourth_text_piece[fourth_string_index] , ('blue'))
+            i.text.insert('end', model_piece['blast_fourth_text_piece'][fourth_string_index] , ('blue'))
             i.text.configure(state = 'disabled')
     
     #General parameters
@@ -279,7 +281,7 @@ class Blastn_Controller(object):
         print('Entered scoring parameters mapper')
         cmd_string = ''
         view_name = 'Scoring_Parameters'
-        #Returns the dictionary holding the model variables associated with general parameter view
+        #Returns the dictionary holding the model variables associated with view
         model_piece = getattr(self.model, view_name)
         #Get match_mismatch, cast into string, slice string for match / mismatch
         match_mismatch_string = str(model_piece['tkVar_match_mismatch'].get())
@@ -296,6 +298,21 @@ class Blastn_Controller(object):
         return cmd_string
     
     #Filters and masking
+    def filters_and_masking_mapper(self):
+        """Returns a flag of -lcase_masking if switch is checked which ignores
+            any lower case nucleotides in the query box when the BLAST
+            is executed.
+        """
+        print('Entered filters and masking mapper')
+        cmd_string = ''
+        view_name = 'Filters_and_Masking'
+        #Returns the dictionary holding the model variables associated with view
+        model_piece = getattr(self.model, view_name)
+        #Check to see if checkbox is checked if so return -lcase_masking
+        #otherwise return void
+        if (model_piece['if_mask_lower'].get()):
+            cmd_string += ' -lcase_masking '
+        return cmd_string
     
     #Helper Methods For View
     def buildMargins(self, view, left_row_limit):

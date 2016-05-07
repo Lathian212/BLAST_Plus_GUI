@@ -5,7 +5,6 @@ Created on Jan 13, 2016
 '''
 import tkinter as tk
 from tkinter import ttk
-import BLASTn_Funcs_Dicts as BD
 import Organism_Exclude as OE
 import Helper_Functions as HF
 import Blastn_Controller as BC
@@ -36,24 +35,26 @@ class Choose_Search_Set(ttk.Labelframe):
                   ).grid(row = self.ROW, column = 1, columnspan = 1, sticky = 'W')
         
         #Radio buttons linked to combo box each sets the other
-        self.radio_int = tk.IntVar()
         self.R1 = tk.Radiobutton(self, text="Human genomic + transcript", font=('Arial', '12'),
-                             variable=self.radio_int, value=1, command=self.controller.radio_db)
+                             variable=self.model_vars['radio_button'], value=1, 
+                             command=self.controller.radio_db)
         self.R1.grid(row = self.ROW, column = 2, columnspan = 3, sticky = 'w')
         
         self.R2 = tk.Radiobutton(self, text="Mouse genomic + transcript", font=('Arial', '12'),
-                             variable=self.radio_int, value=2, command=self.controller.radio_db)
+                             variable=self.model_vars['radio_button'], value=2, 
+                             command=self.controller.radio_db)
         self.R2.grid(row = self.ROW, column = 5, columnspan = 3, sticky = 'w')
         
         self.R3 = tk.Radiobutton(self, text="Others (nr etc.)", font=('Arial', '12'),
-                             variable=self.radio_int, value=3, command=self.controller.radio_db)
+                             variable=self.model_vars['radio_button'], value=3, 
+                             command=self.controller.radio_db)
         self.R3.grid(row = self.ROW, column = 8, columnspan = 3, sticky = 'w')
-        self.radio_int.set(3)
         self.ROW+=1
         
         #Combobox for select the database linked to the radio buttons
         self.combo_db_Var = tk.StringVar()
-        self.db_box = ttk.Combobox(self, values= BD.db_box,  textvariable = self.combo_db_Var, state='readonly', width = 50)
+        self.db_box = ttk.Combobox(self, values= self.model_vars['db_box'],  textvariable = self.model_vars['-db'], 
+                                   state='readonly', width = 50)
         #XML format is suggested by NCBI so make it default
         self.db_box.current(2)
         self.db_box.bind("<<ComboboxSelected>>", self.controller.combo_db_handler)

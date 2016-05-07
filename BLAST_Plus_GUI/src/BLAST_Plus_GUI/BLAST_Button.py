@@ -18,7 +18,8 @@ class BLAST_Button(tk.Frame):
         self.left_row_limit = left_row_limit 
         self.controller.buildMargins(self, self.left_row_limit)
         #BLAST text can be replaced with graphics
-        self.BLAST_button = tk.Button(self, text = 'BLAST', command = self.controller.blast, foreground = 'black', background = 'light sky blue')
+        self.BLAST_button = tk.Button(self, text = 'BLAST', command = self.controller.blast, foreground = 'black', 
+                                      background = 'light sky blue')
         self.BLAST_button.grid ( row = 1, column = 1)
         
         self.text = tk.Text(self, width = 150, height = 1, bd = -1)

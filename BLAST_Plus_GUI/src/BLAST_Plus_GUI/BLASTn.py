@@ -7,7 +7,6 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfilename
-import BLASTn_Funcs_Dicts as bd
 from tkinter import scrolledtext
 from Enter_Query_Sequence import Enter_Query_Sequence
 from Enter_Sequence import Enter_Sequence

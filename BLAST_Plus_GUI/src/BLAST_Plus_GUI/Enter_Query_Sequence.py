@@ -7,7 +7,6 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfilename
-import BLASTn_Funcs_Dicts as BD
 from Enter_Sequence import Enter_Sequence
 import Blastn_Controller as BC
 from tkinter import scrolledtext
@@ -45,7 +44,7 @@ class Enter_Query_Sequence(Enter_Sequence):
                                                                                          column=1, sticky = 'E')
         
         #bd is the blastFuncsDictionaries module
-        self.save_output_box = ttk.Combobox(self, values= BD.blastn_outputfmt, state='readonly', width = 30)
+        self.save_output_box = ttk.Combobox(self, values= self.model_vars['blastn_outputfmt'], state='readonly', width = 30)
         #XML format is suggested by NCBI so make it default
         self.model_vars['-outfmt'] = self.save_output_box
         self.save_output_box.current(5)
@@ -55,25 +54,6 @@ class Enter_Query_Sequence(Enter_Sequence):
         self.row_for_additional_formatting = self.ROW
         
         self.ROW += 1
-        #If 6,7 or 10 picked additional options must open up
-        
-        self.specify_further = tk.Label(self, text = 'Specify Further', font=('Arial', 10, 'bold'))
-        #A list of additional formating index with a slice on the abbreviated list would work easier here.
-        self.additional_formatting_box = ttk.Combobox(self, values= ['Complicated' , 'are', 'dummies'], state='readonly', width = 30)
-        self.model_vars['add_fmt'] = self.additional_formatting_box
-        self.additional_formatting_box.bind("<<ComboboxSelected>>", lambda event, view = self :
-                                            self.controller.additional_formatting_handler(event, view))
-
-        #If 6,7 or 10 picked additional options must open up
-        """
-        This widget is not supported in the command line tool
-        self.ROW+=2
-        ttk.Label(self, text ='Job Title', font=('Arial', 12, 'bold')).grid(row = self.ROW, column=1, sticky = 'E')
-        self.job_title = ttk.Entry(self, textvariable = self.model_vars['job_title'], font=('Arial', 10))
-        self.job_title.grid(row = self.ROW, column = 2, columnspan = 8, sticky = 'W', padx = 10)
-        self.job_title.configure(width=80)
-        self.ROW+=2
-        """
         
         self.model_vars['if_subject'].set(False)
         #Temporary all the control stuff needs to go to the controller
