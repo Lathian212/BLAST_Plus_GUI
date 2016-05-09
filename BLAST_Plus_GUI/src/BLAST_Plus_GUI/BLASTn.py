@@ -16,13 +16,12 @@ from BLAST_Button import BLAST_Button
 import General_Parameters as GP
 import Scoring_Parameters as SP
 import Filters_and_Masking as FM
-import Helper_Functions as HF
 import ScrollableCanvas as sc 
 import Blastn_Controller as BC
 
 class BLASTn(ttk.Frame):
     #Attached to radio buttons for switching between Blast types.
-    def __init__(self, parent, *args, **kwargs):
+    def __init__(self, parent, controller = None, *args, **kwargs):
         if 'left_row_limit' in kwargs :
             self.left_row_limit = kwargs['left_row_limit']
             del kwargs['left_row_limit']
@@ -33,8 +32,11 @@ class BLASTn(ttk.Frame):
         #Get width of scrolled canvas parent in pixels, chop off some padding and then pass along to each frame so all same width 
         self.parent = parent
         self.parent.update()
-        
-        """Declare a controller object to take care of all callbacks/events and model"""
+        #If Blastn is not running from main it declares its own controller otherwise it uses main's
+        if controller is None:
+            self.controller = BC.Blastn_Controller()
+        else :
+            self.controller = controller
         self.controller = BC.Blastn_Controller()
         self.controller.view_refs['BLAST_Main'] = self
         

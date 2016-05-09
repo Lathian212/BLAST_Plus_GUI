@@ -1,36 +1,32 @@
 '''
 Created on Jan 24, 2016
 
-@author: lathian
+@author: Jonathan Kwiat
+Master controller for all the view objects that are instantiated in Blastn. All the 'mapper' methods assembly the command
+line string for that view objects.
 '''
 import tkinter as tk
 from tkinter import ttk
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfilename
 import tkinter.messagebox as tm
-import Helper_Functions as HF
 import Organism_Exclude as OE
 import BLAST_Model as BM
+import subprocess
 
 class Blastn_Controller(object):
-    """Controller, handlers of All the GUI widgets in the view with a dictionary to hold all the tk global variables and references to make a mapping to
-    the blastn_dict, which holds the command line options, when the BLAST button is pushed. Also the subprocess method """
+    """Controller, handlers of All the GUI widgets in the view with a dictionary to hold all the tk global variables and
+         references to make a mapping to the blastn_dict, which holds the command line options, 
+         when the BLAST button is pushed. Also the subprocess method """
     def __init__(self):        
-        self.view_refs = { 'BLAST_Main' : None, 'Enter_Query_Sequence' : None, 'Enter_Subject_Sequence' : None, 'Choose_Search_Set' : None, 
-                           'Program_Selection' : None, 'BLAST' : [], 'General_Parameters' : None, 'Scoring_Parameters' : None, 
-                           'Filters_and_Masking' : None }
+        self.view_refs = { 'BLAST_Main' : None, 'Enter_Query_Sequence' : None, 'Enter_Subject_Sequence' : None, 
+                          'Choose_Search_Set' : None,  'Program_Selection' : None, 'BLAST' : [], 
+                          'General_Parameters' : None, 'Scoring_Parameters' : None,  'Filters_and_Masking' : None }
         
         #Each view object will have a vars_dict containing tk.Vars and other references needed to map info to the command_line string
         self.command_line_lst = ['blastn']
         #Don't know if I can make use of the MVC design pattern
         self.model = BM.BLAST_Model(self)
-        """
-        Don't need if I need this extra complexity
-        #BLAST button handler will call each individual BLAST method for each view object that maps model to correct string for it's piece
-        self.string_mapper = []
-        #Populate string_mapper
-        self.populate_string_mapper(self)
-        """
         
         #Example below how to work with pop up warnings.
         #tm.showinfo('Temp File Will Be Created', 'Temp File Being Created')
@@ -50,8 +46,8 @@ class Blastn_Controller(object):
         view.load_query_button.configure(state = 'normal')
             
     def get_query(self, view):
-        input = view.query_box.get('1.0', 'end-1c')
-        return input
+        input_query = view.query_box.get('1.0', 'end-1c')
+        return input_query
     
     def get_query_loc(self, view):
         """Location on the query sequence in 1-based offsets (Format: start-stop)"""
@@ -82,8 +78,6 @@ class Blastn_Controller(object):
             f = open(str(view_name)+'_Temp', 'w')
             f.write(text)
             model_piece['up_file'] = str(view_name)+'_Temp'
-            
-        #print('from = ' + model_piece['from'].get() + 'length = ' + str(len(model_piece['from'].get())))
         
     def is_from_to_filled(self, model_piece):
         """returns a boolean indicating if from and to fields are filled, which is used when assembling the command line
@@ -163,29 +157,33 @@ class Blastn_Controller(object):
             2) mouse genomic and 3)others. These buttons are linked to the combo box below it in the choose search set
             view
         """
-        view = self.view_refs['Choose_Search_Set']
-        if view.radio_int.get() == 1 :
-            view.db_box.current(0)
+        view_name = 'Choose_Search_Set'
+        view = self.view_refs[view_name]
+        model_piece = getattr(self.model, view_name)
+        if model_piece['radio_button'].get() == 1 :
+            model_piece['db_box_reference'].current(0)
             view.organism_frame.grid_forget()
-        elif view.radio_int.get() == 2 :
-            view.db_box.current(1)
+        elif model_piece['radio_button'].get() == 2 :
+            model_piece['db_box_reference'].current(1)
             view.organism_frame.grid_forget()
         else :
-            view.db_box.current(2)
+            model_piece['db_box_reference'].current(2)
             if not view.organism_frame.winfo_ismapped() :
                 view.organism_frame.grid(row = view.row_organism, column = 1, columnspan = 10, sticky = 'W')
                 
     def combo_db_handler(self, event):
         """When you change the drop down combo box this makes the radio buttons move appropriately"""
-        view = self.view_refs['Choose_Search_Set']
-        if view.db_box.current() == 0 :
-            view.radio_int.set(1)
+        view_name = 'Choose_Search_Set'
+        view = self.view_refs[view_name]
+        model_piece = getattr(self.model, view_name)
+        if model_piece['db_box_reference'].current() == 0 :
+            model_piece['radio_button'].set(1)
             view.organism_frame.forget()
-        elif view.db_box.current() == 1 :
-            view.radio_int.set(2)
+        elif model_piece['db_box_reference'].current() == 1 :
+            model_piece['radio_button'].set(2)
             view.organism_frame.forget()
         else :
-            view.radio_int.set(3)
+            model_piece['radio_button'].set(3)
             if not view.organism_frame.winfo_ismapped() :
                 view.organism_frame.grid(row = view.row_organism, column = 1, columnspan = 10, sticky = 'W')
         self.updateText()
@@ -203,7 +201,56 @@ class Blastn_Controller(object):
         view = self.view_refs['Choose_Search_Set']
         view.grid_forget()
         view.grid(row =3, column =1, sticky = 'W')
-        HF.makeWidgetWidthEven(view, self.model.frame_width, view.search_set)
+        self.makeWidgetWidthEven(view)
+        
+    def choose_search_set_mapper(self):
+        """Returns the databse to be search -db, limit to organism or exclude organism, and any other entrez query the user
+        selects. This method is complicated by the fact that the first two radio button for the human and mouse databse
+        do not map to an actual -db on the ncbi end put are just entrez query restrictions.
+        """
+        print('Enter choose_search_set_mapper')
+        cmd_string = ''
+        entrez_query = ''
+        database =' -db '
+        view_name = 'Choose_Search_Set'
+        model_piece = getattr(self.model, view_name)
+        if model_piece['radio_button'].get() == 1:
+            database += 'nt '
+            entrez_query += ' Homo sapiens[Organism] '
+        elif model_piece['radio_button'].get() == 2:
+            database += 'nt'
+            entrez_query += ' Mus musculus[Organism] '
+        elif model_piece['radio_button'].get() == 3:
+            long_database_name = model_piece['-db'].get()
+            if long_database_name.find('Nucleotide collection') > -1:
+                database += 'nt'
+            else:
+                #Strip out proper databse name from long description open and closing marked by ()
+                begin_db = long_database_name.find('(')
+                end_db = long_database_name.find(')')
+                database += long_database_name[(begin_db+1):end_db]
+        #Now add to entry_query any organisms user wants to limite search to or exclude from search
+        for organism_object in model_piece['organisms'] :
+            entry_temp = organism_object.entry_var.get()
+            #Have to skip default text organism fields are loaded with
+            if entry_temp == 'Enter organism name or id':
+                continue
+            if len(entry_temp) > 0:
+                if organism_object.check_button.get() :
+                    entrez_query = ' NOT ' + entry_temp +'[Organism]' + entrez_query
+                else :
+                    entrez_query = ' AND ' + entry_temp +'[Organism]' + entrez_query
+        #Check if the user has added any additional terms in the entrez_query box.
+        entrez_query_box = str(model_piece['-entrez_query'].get())
+        if len(entrez_query) == 0 and len(entrez_query_box) ==0:
+            entrez_query_full = ''
+        elif len(entrez_query_box) > 0:
+            entrez_query_full = ' -entrez_query ' + '"' + entrez_query_box + entrez_query + '"'
+        else:
+            entrez_query_full = ' -entrez_query ' + '"' + entrez_query + '"'
+        cmd_string = database + entrez_query_full
+        return cmd_string
+                
     #Program selection
     def blastnTypeHandler(self):
         """Radio buttons for type of Blastn, needs to update text associated with BLAST button"""
@@ -222,20 +269,40 @@ class Blastn_Controller(object):
     #BLAST Button
     def blast(self):
         """Needs to spin off a subprocess daemon"""
+        blastn_cmd = '/usr/local/ncbi/blast/bin/blastn '
         query_commands = self.query_sequence_mapper()
-        print ('Query commands = ' + query_commands)
+        blastn_cmd += query_commands
+        #print ('Query commands = ' + query_commands)
         if self.model.Enter_Query_Sequence['if_subject'].get() :
             subject_commands = self.enter_sequence_mapper('Enter_Subject_Sequence')
-            print ('Subject commands = ' +subject_commands)
-            
+            #print ('Subject commands = ' +subject_commands)
+            blastn_cmd += subject_commands
+        else:
+            choose_search_set = self.choose_search_set_mapper()
+            #print(choose_search_set)
+            blastn_cmd += choose_search_set
         task = self.program_selection_mapper()
-        print(task)
+        #print(task)
+        blastn_cmd += task
         general_parameters = self.general_parameters_mapper()
-        print(general_parameters)
+        #print(general_parameters)
+        blastn_cmd += general_parameters
         scoring_parameters = self.scoring_parameters_mapper()
-        print(scoring_parameters)
+        #print(scoring_parameters)
+        blastn_cmd += scoring_parameters
         filters_and_masking = self.filters_and_masking_mapper()
-        print(filters_and_masking)
+        #print(filters_and_masking)
+        blastn_cmd += filters_and_masking
+        #Now for the reomote flag which this program is all about
+        blastn_cmd = blastn_cmd + ' -remote'
+        print(blastn_cmd)
+        if tm.askokcancel("Do you want to execute the following command?", blastn_cmd) :
+            p = subprocess.Popen(blastn_cmd, shell = True)
+            
+        #print(blastn_cmd)
+        #print('blastn_cmd = ' + blastn_cmd)
+        
+        
         """
         for v in self.command_line_lst:
             print (v)
@@ -324,14 +391,14 @@ class Blastn_Controller(object):
                 
     def makeWidgetWidthEven (self, widget):
         """Resizes widget to set_width"""
-        self.view_refs['BLAST_Main'].parent.update()
+        widget.parent.update()
         widget_height = widget.winfo_height()
         #Turn off propagate which sets widget size based on what it contains and what it is contained in
         widget.grid_propagate(False)
         #widget.configure (width = self.model.frame_width, height = 500)
         widget.configure (width = self.model.frame_width, height = widget_height)
         return widget
-    
+
     def printKeyValue (self, dictionary):
         """Helper function to print key value pairs in a dictionary"""
         for k, v in dictionary.items():

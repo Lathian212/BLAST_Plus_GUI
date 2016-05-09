@@ -6,8 +6,7 @@ Created on Jan 9, 2016
 import BLASTn as bn
 import tkinter as tk
 from tkinter import ttk
-import ScrollableCanvas as sc 
-import Helper_Functions as HF
+import ScrollableCanvas as SC 
 
 root = tk.Tk()
 root.title('GUI for NCBI Blast+')
@@ -20,7 +19,7 @@ styles = ttk.Style()
 styles.configure('TLabelframe', borderwidth = '5')
 
 """Use scrollable canvas case in case widgets go vertical past the height of the screen"""
-sCanvas = sc.ScrollableCanvas(root)
+sCanvas = SC.ScrollableCanvas(root)
 sFrame = sCanvas.getScrFrame()
 #HF.buildMargins(sFrame, 100)
 

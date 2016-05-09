@@ -6,7 +6,6 @@ Created on Jan 13, 2016
 import tkinter as tk
 from tkinter import ttk
 import Organism_Exclude as OE
-import Helper_Functions as HF
 import Blastn_Controller as BC
 
 class Choose_Search_Set(ttk.Labelframe):
@@ -21,12 +20,13 @@ class Choose_Search_Set(ttk.Labelframe):
             self.controller = controller
         #View object registers with controller with it's string name and self as the reference
         self.model_vars = self.controller.register_view(self.view_name, self)
+        self.organism_list = self.model_vars['organisms']
         
         self.outer_label = ttk.Label(self, text = 'Choose Search Set', font=('Arial', '14'), relief = 'raised', foreground = 'light sky blue',
                                       background = 'white')
         self.config(labelwidget = self.outer_label)
         self.left_row_limit = left_row_limit 
-        HF.buildMargins(self, self.left_row_limit)
+        self.controller.buildMargins(self, self.left_row_limit)
         self.buildSearchSet()
             
     def buildSearchSet(self):
@@ -52,11 +52,12 @@ class Choose_Search_Set(ttk.Labelframe):
         self.ROW+=1
         
         #Combobox for select the database linked to the radio buttons
-        self.combo_db_Var = tk.StringVar()
         self.db_box = ttk.Combobox(self, values= self.model_vars['db_box'],  textvariable = self.model_vars['-db'], 
                                    state='readonly', width = 50)
+
+        self.model_vars['db_box_reference'] = self.db_box
         #XML format is suggested by NCBI so make it default
-        self.db_box.current(2)
+        self.model_vars['db_box_reference'].current(2)
         self.db_box.bind("<<ComboboxSelected>>", self.controller.combo_db_handler)
         self.db_box.grid(row = self.ROW, column = 2, columnspan = 8, sticky = 'W', padx = 10)
         self.ROW+=1
@@ -68,14 +69,13 @@ class Choose_Search_Set(ttk.Labelframe):
         self.ROW+=1 
         
         ttk.Label(self, text = 'Entrez Query', font = ('Arial', '10', 'bold')).grid(row = self.ROW, column = 1)
-        self.entrez_query = ttk.Entry(self, width = 50)
+        self.entrez_query = ttk.Entry(self, width = 50, textvariable = self.model_vars['-entrez_query'])
         self.entrez_query.grid(row = self.ROW, column = 2, columnspan = 4)
         
     def buildOrganismExlude(self):
         self.organism_frame = ttk.Frame(self)
         ttk.Label(self.organism_frame, text = 'Organism', font = ('Arial', '10', 'bold')).grid(row = 0, column =0)
         ttk.Label(self.organism_frame, text = 'Optional', font = ('Arial', '10'), foreground = 'light sky blue').grid(row = 1, column =0)
-        self.organism_list = []
         self.organism_list.append(OE.Organism_Exclude(self.organism_frame, row = 0))
         self.organism_list[0].grid(row = 0, column = 1, padx = 23)
         self.plus_org = ttk.Button(self.organism_frame, text = '+', width = 3, command = self.controller.addOrganismEntry)

@@ -8,7 +8,6 @@ from tkinter import ttk
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfilename
 from tkinter import scrolledtext
-import Helper_Functions as HF
 import Blastn_Controller as BC
 
 #Unfinished because the text entry box has to lead to a pop up which saves the contents to file
@@ -29,7 +28,7 @@ class Enter_Sequence(ttk.Labelframe):
         self.config(labelwidget = self.outer_label)
         self.left_row_limit = left_row_limit 
         #All the references the controller will need to handle
-        HF.buildMargins(self, self.left_row_limit) 
+        self.controller.buildMargins(self, self.left_row_limit) 
         self.buildEnter()
 
     #Widget Layout

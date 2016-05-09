@@ -18,9 +18,9 @@ class Organism_Exclude(tk.Frame):
         self.entry.insert(0, 'Enter organism name or id')
         self.entry.grid(row = 0, column = 0, padx = 5)
         self.check_button = tk.BooleanVar()
-        self.check_button = tk.Checkbutton(self, text = 'Exclude', font=('Arial', 9, 'bold'),
+        self.check_button_box = tk.Checkbutton(self, text = 'Exclude', font=('Arial', 9, 'bold'),
                                       variable = self.check_button)
-        self.check_button.grid(row = 0, column =2)
+        self.check_button_box.grid(row = 0, column =2)
         
     def clear(self, event):
         """Clear Entry box of default text and set foreground back to black"""

@@ -5,7 +5,6 @@ Created on Jan 17, 2016
 '''
 import tkinter as tk
 from tkinter import ttk
-import Helper_Functions as HF
 import Blastn_Controller as BC
 
 class Program_Selection(ttk.Labelframe):
@@ -20,7 +19,7 @@ class Program_Selection(ttk.Labelframe):
         self.config(labelwidget = self.outer_label)
         self.blastn_type = tk.IntVar()
         self.left_row_limit = left_row_limit
-        HF.buildMargins(self, self.left_row_limit)
+        self.controller.buildMargins(self, self.left_row_limit)
         self.buildPrgSelection()
         
     def buildPrgSelection(self):

@@ -5,7 +5,6 @@ Created on Jan 18, 2016
 '''
 import tkinter as tk
 from tkinter import ttk
-import Helper_Functions as HF
 import Blastn_Controller as BC
 
 class General_Parameters(ttk.Labelframe):
@@ -24,7 +23,7 @@ class General_Parameters(ttk.Labelframe):
                                      background = 'white')
         self.config(labelwidget = self.outer_label)
         self.left_row_limit = left_row_limit 
-        HF.buildMargins(self, self.left_row_limit)
+        self.controller.buildMargins(self, self.left_row_limit)
          
         self.buildWidgetSpecifics()
         

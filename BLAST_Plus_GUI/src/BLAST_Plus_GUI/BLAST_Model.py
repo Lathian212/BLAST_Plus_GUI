@@ -14,7 +14,7 @@ import Blastn_Controller as BC
 class BLAST_Model(object):
     def __init__(self, controller, *args, **kwargs):
         #Default label frame width reset by setter in controller
-        self.frame_width = 1500
+        self.frame_width = 1000
         
         #Let's say store and declare all tk.Vars in model
         #Use dictionary with key : value pairs with key being what needs to be on command line taken from BLASTn_Help
@@ -34,9 +34,10 @@ class BLAST_Model(object):
                     'Text ASN.1'  , 'Binary ASN.1'  , 'Comma-separated values'  , 'BLAST archive format (ASN.1)'  , 
                     'JSON Seqalign output'  , 'JSON Blast output'  , 'XML2 Blast output']
         
-        """Choose search set: Picks the database and included/excluded organisms"""
-        self.Choose_Search_Set = {'radio_button' : tk.IntVar(), '-db' : tk.StringVar(),  'organisms' : [],
-                                    '-entrez_query' : tk.StringVar()}
+        """Choose search set: Picks the database and included/excluded organisms. db_box gets set in Choose_Search_Set"""
+        #db_box_reference is associate with the database combobox in the view not here. 
+        self.Choose_Search_Set = {'radio_button' : tk.IntVar(), 'db_box_reference' : None, '-db' : tk.StringVar(),  
+                                  'organisms' : [],  '-entrez_query' : tk.StringVar()}
         #Set radio_button to 3 which is the default (which selects database nt)
         self.Choose_Search_Set['radio_button'].set(3)
         #Labels for database search combobox
