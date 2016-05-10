@@ -8,15 +8,15 @@ from tkinter import ttk
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfilename
 from tkinter import scrolledtext
-from Enter_Query_Sequence import Enter_Query_Sequence
-from Enter_Sequence import Enter_Sequence
-from Choose_Search_Set import Choose_Search_Set
-from Program_Selection import Program_Selection
-from BLAST_Button import BLAST_Button 
+import Enter_Query_Sequence as EQS
+import Enter_Sequence as ES
+import Choose_Search_Set as CSS
+import Program_Selection as PS
+import BLAST_Button as BB 
 import General_Parameters as GP
 import Scoring_Parameters as SP
 import Filters_and_Masking as FM
-import ScrollableCanvas as sc 
+import ScrollableCanvas as SC  
 import Blastn_Controller as BC
 
 class BLASTn(ttk.Frame):
@@ -53,26 +53,32 @@ class BLASTn(ttk.Frame):
      
     def buildWidgetLayout(self):   
         self.ROW = 1
-        self.enter_query_sequence = Enter_Query_Sequence(self, controller = self.controller)
-        self.enter_query_sequence.grid(row = 1, column = 1, sticky = 'W')
+        self.BLAST_reset = tk.Button(self, text = 'RESET PAGE', command = self.controller.blast_reset, foreground = 'black', 
+                                      background = 'light sky blue')
+        self.BLAST_reset.grid ( row = self.ROW, column = 1)
+        self.ROW += 1
+        
+        self.enter_query_sequence = EQS.Enter_Query_Sequence(self, controller = self.controller)
+        self.enter_query_sequence.grid(row = self.ROW, column = 1, sticky = 'W')
         self.enter_query_sequence = self.controller.makeWidgetWidthEven(self.enter_query_sequence)
+        self.ROW += 1
 
         #Rows 2,3,4 will be space for Subject Query Box or Search Set Box Subject
-        self.enter_subject_sequence = Enter_Sequence(self, controller = self.controller)
+        self.enter_subject_sequence = ES.Enter_Sequence(self, controller = self.controller)
         
-        self.search_set = Choose_Search_Set(self, controller = self.controller)
-        self.search_set.grid ( row =3, column = 1, sticky = 'W')
+        self.search_set = CSS.Choose_Search_Set(self, controller = self.controller)
+        self.search_set.grid ( row = self.ROW, column = 1, sticky = 'W')
         self.search_set = self.controller.makeWidgetWidthEven(self.search_set)
         
         self.ROW = 5
-        self.prg_selection = Program_Selection(self, self.controller)
+        self.prg_selection = PS.Program_Selection(self, self.controller)
         self.prg_selection.grid (row = self.ROW, column = 1, sticky = 'W')
         self.prg_selection = self.controller.makeWidgetWidthEven(self.prg_selection)
         self.controller.view_refs['Program_Selection'] = self.prg_selection
         
         
         self.ROW += 2
-        self.blast_button = BLAST_Button(self, self.controller)
+        self.blast_button = BB.BLAST_Button(self, self.controller)
         self.blast_button.grid (row = self.ROW, column = 1, sticky = 'W')
         self.blast_button = self.controller.makeWidgetWidthEven(self.blast_button)
         self.controller.view_refs['BLAST'].append(self.blast_button)
@@ -100,7 +106,7 @@ class BLASTn(ttk.Frame):
         self.controller.view_refs['Filters_and_Masking'] = self.filters_and_masking
         
         self.ROW += 2
-        self.blast_button2 = BLAST_Button(self, self.controller)
+        self.blast_button2 = BB.BLAST_Button(self, self.controller)
         self.blast_button2.grid (row = self.ROW, column = 1, sticky = 'W')
         self.blast_button2 = self.controller.makeWidgetWidthEven(self.blast_button2)
         self.controller.view_refs['BLAST'].append(self.blast_button2)
@@ -115,7 +121,7 @@ if __name__ == "__main__":
     root=tk.Tk()
     w, h = root.winfo_screenwidth(), root.winfo_screenheight()
     root.geometry("%dx%d+0+0" % (w, h))
-    sCanvas = sc.ScrollableCanvas(root)
+    sCanvas = SC.ScrollableCanvas(root)
     sFrame = sCanvas.getScrFrame()
     blastn = BLASTn(sFrame, left_row_limit = 20).grid(row = 0, column = 0)
     root.mainloop()

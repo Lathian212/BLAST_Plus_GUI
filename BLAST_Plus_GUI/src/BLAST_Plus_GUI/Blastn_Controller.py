@@ -12,7 +12,11 @@ from tkinter.filedialog import asksaveasfilename
 import tkinter.messagebox as tm
 import Organism_Exclude as OE
 import BLAST_Model as BM
+import BLASTn as BN
 import subprocess
+from subprocess import CalledProcessError
+import shlex
+from tkinter.tix import COLUMN
 
 class Blastn_Controller(object):
     """Controller, handlers of All the GUI widgets in the view with a dictionary to hold all the tk global variables and
@@ -36,7 +40,14 @@ class Blastn_Controller(object):
     #Handlers
     def populate_string_mapper(self):
         self.string_mapper.append(object)
-    #BLAST main view     
+    #BLAST main view 
+    def blast_reset(self):
+        """Destroys the whole blastn page and rebuilds it; a crude but effective way of resetting the data"""
+        parent_is_tab1 = self.view_refs['BLAST_Main'].parent
+        self.view_refs['BLAST_Main'].destroy()
+        blastn = BN.BLASTn(parent_is_tab1)
+        blastn.grid(row = 0, column = 0) 
+            
                 
     #Enter_Sequence Handlers, used by both Query and Subject View objects so need to take view as parameter
     def clear_query(self, view):
@@ -55,7 +66,6 @@ class Blastn_Controller(object):
     
     def disable_upload_button(self, event, view):
         view.load_query_button.configure(state = 'disabled')
-        print('disable button called')
     
     def load_handler(self, view): 
         filename = askopenfilename()
@@ -147,8 +157,6 @@ class Blastn_Controller(object):
         model_piece = getattr(self.model, view_name)
         cmd_string = self.enter_sequence_mapper(view_name)
         cmd_string += ' -out ' + str(model_piece['save_file']) + ' -outfmt ' + str(model_piece['-outfmt'].current())
-        
-        print('Entered query sequence mapper')
         return cmd_string
     
     #Choose Search set
@@ -208,7 +216,6 @@ class Blastn_Controller(object):
         selects. This method is complicated by the fact that the first two radio button for the human and mouse databse
         do not map to an actual -db on the ncbi end put are just entrez query restrictions.
         """
-        print('Enter choose_search_set_mapper')
         cmd_string = ''
         entrez_query = ''
         database =' -db '
@@ -263,7 +270,6 @@ class Blastn_Controller(object):
         view_ref = self.view_refs[view_name]
         model_piece = getattr(self.model, view_name)
         cmd_string += ' -task ' + str(model_piece[view_ref.blastn_type.get()])
-        print('Entered program_selection_mapper')
         return cmd_string
     
     #BLAST Button
@@ -272,32 +278,38 @@ class Blastn_Controller(object):
         blastn_cmd = '/usr/local/ncbi/blast/bin/blastn '
         query_commands = self.query_sequence_mapper()
         blastn_cmd += query_commands
-        #print ('Query commands = ' + query_commands)
         if self.model.Enter_Query_Sequence['if_subject'].get() :
             subject_commands = self.enter_sequence_mapper('Enter_Subject_Sequence')
-            #print ('Subject commands = ' +subject_commands)
             blastn_cmd += subject_commands
         else:
             choose_search_set = self.choose_search_set_mapper()
             #print(choose_search_set)
             blastn_cmd += choose_search_set
         task = self.program_selection_mapper()
-        #print(task)
         blastn_cmd += task
         general_parameters = self.general_parameters_mapper()
-        #print(general_parameters)
         blastn_cmd += general_parameters
         scoring_parameters = self.scoring_parameters_mapper()
-        #print(scoring_parameters)
         blastn_cmd += scoring_parameters
         filters_and_masking = self.filters_and_masking_mapper()
-        #print(filters_and_masking)
         blastn_cmd += filters_and_masking
         #Now for the reomote flag which this program is all about
         blastn_cmd = blastn_cmd + ' -remote'
-        print(blastn_cmd)
-        if tm.askokcancel("Do you want to execute the following command?", blastn_cmd) :
-            p = subprocess.Popen(blastn_cmd, shell = True)
+        args = shlex.split(blastn_cmd)
+        args_new_lines = []
+        for arg in args:
+            args_new_lines.append(arg + '\n')
+        print(args_new_lines)
+        if tm.askokcancel("Do you want to execute the following command?", blastn_cmd):
+            try:
+                #check = True means it will throw the exception if command illegal and stderr = subprocess.STDOUT means
+                #stdout and stderr are combined into one string.
+                p = subprocess.run(blastn_cmd, shell = True, check = True, stdout = subprocess.PIPE, 
+                                     stderr = subprocess.PIPE, universal_newlines=True)
+            except CalledProcessError:
+                print('Entered caught exception')
+                tm.showinfo('The blastn command exited with an error code', 'Temp File Being Created')
+                
             
         #print(blastn_cmd)
         #print('blastn_cmd = ' + blastn_cmd)
