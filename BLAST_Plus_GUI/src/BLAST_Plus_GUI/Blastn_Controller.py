@@ -125,13 +125,18 @@ class Blastn_Controller(object):
         model_piece['save_file'] = savefilename
     
     def outputFmtHandler(self, event, view):
+        pass
+        """
         formatIndex = view.save_output_box.current()
+        This code is for additional formatting options that were not implemented.
         if formatIndex == 6 or formatIndex == 7 or formatIndex == 10:
             view.specify_further.grid(row = view.row_for_additional_formatting, column =5, sticky = 'E')
-            view.additional_formatting_box.grid(row = view.row_for_additional_formatting, column = 6, columnspan = 4, sticky = 'W', padx = 10)
+            view.additional_formatting_box.grid(row = view.row_for_additional_formatting, column = 6, 
+                columnspan = 4, sticky = 'W', padx = 10)
         else :
             view.specify_further.grid_forget()
             view.additional_formatting_box.grid_forget()
+        """
                     
     def subject_vs_search_toggle(self):
         """It's either Subject Entry Box or Choose Search Set this method toggles between them. Loads with Choose Search Set"""
