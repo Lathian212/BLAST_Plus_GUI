@@ -309,16 +309,6 @@ class Blastn_Controller(object):
             except CalledProcessError:
                 print('Entered caught exception')
                 tm.showinfo('The blastn command exited with an error code', 'Temp File Being Created')
-                
-            
-        #print(blastn_cmd)
-        #print('blastn_cmd = ' + blastn_cmd)
-        
-        
-        """
-        for v in self.command_line_lst:
-            print (v)
-        """
     
     def updateText(self):
         """Choose Search Set & Subject Sequence & Program Selection all change the text label associated with BLAST Button"""
@@ -342,7 +332,6 @@ class Blastn_Controller(object):
     #General parameters
     def general_parameters_mapper(self):
         """Returns a command string for the expect threshold and the word size"""
-        print('Entered general parameters mapper')
         cmd_string = ''
         view_name = 'General_Parameters'
         #Returns the dictionary holding the model variables associated with general parameter view
@@ -357,7 +346,6 @@ class Blastn_Controller(object):
         """Returns the match mismatch reward/penalty for BLAST search and 
             gap insertion/extension cost for command line blastn
         """
-        print('Entered scoring parameters mapper')
         cmd_string = ''
         view_name = 'Scoring_Parameters'
         #Returns the dictionary holding the model variables associated with view
@@ -382,7 +370,6 @@ class Blastn_Controller(object):
             any lower case nucleotides in the query box when the BLAST
             is executed.
         """
-        print('Entered filters and masking mapper')
         cmd_string = ''
         view_name = 'Filters_and_Masking'
         #Returns the dictionary holding the model variables associated with view
