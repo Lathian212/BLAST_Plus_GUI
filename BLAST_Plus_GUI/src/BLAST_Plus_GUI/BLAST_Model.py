@@ -14,7 +14,7 @@ import Blastn_Controller as BC
 class BLAST_Model(object):
     def __init__(self, controller, *args, **kwargs):
         #Default label frame width reset by setter in controller
-        self.frame_width = 1000
+        self.frame_width = 1500
         
         #Let's say store and declare all tk.Vars in model
         #Use dictionary with key : value pairs with key being what needs to be on command line taken from BLASTn_Help

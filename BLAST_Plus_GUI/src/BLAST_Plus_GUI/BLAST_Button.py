@@ -22,7 +22,7 @@ class BLAST_Button(tk.Frame):
                                       background = 'light sky blue')
         self.BLAST_button.grid ( row = 1, column = 1)
         
-        self.text = tk.Text(self, width = 150, height = 1, bd = -1)
+        self.text = tk.Text(self, width = 200, height = 2, bd = -1)
         self.text.tag_config('blue', foreground = 'light sky blue', font = 'arial 10 bold')
         self.text.tag_config('normal', font = 'arial 10')
         self.text.grid( row =1, column = 2, columnspan = 8, sticky = 'W')
