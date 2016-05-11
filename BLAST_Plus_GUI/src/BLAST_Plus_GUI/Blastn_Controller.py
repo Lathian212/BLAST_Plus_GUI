@@ -17,6 +17,8 @@ import subprocess
 from subprocess import CalledProcessError
 import shlex
 from tkinter.tix import COLUMN
+#To get whether running on OSX or Linux import platform
+import platform
 
 class Blastn_Controller(object):
     """Controller, handlers of All the GUI widgets in the view with a dictionary to hold all the tk global variables and
@@ -280,7 +282,12 @@ class Blastn_Controller(object):
     #BLAST Button
     def blast(self):
         """Needs to spin off a subprocess daemon"""
-        blastn_cmd = '/usr/local/ncbi/blast/bin/blastn '
+        #Get system it's working on because Mac OSX put's the binary in a weird place
+        os_system = str(platform.system())
+        if os_system.find('Linux') :
+            blastn_cmd = '/usr/bin/blastn'
+        else:
+            blastn_cmd = '/usr/local/ncbi/blast/bin/blastn '
         query_commands = self.query_sequence_mapper()
         blastn_cmd += query_commands
         if self.model.Enter_Query_Sequence['if_subject'].get() :
