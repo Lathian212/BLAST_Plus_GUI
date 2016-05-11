@@ -16,7 +16,7 @@ class BLAST_Button(tk.Frame):
         self.parent = parent
         #buildMargins allows easy frame expansion and makes gridding easier
         self.left_row_limit = left_row_limit 
-        self.controller.buildMargins(self, self.left_row_limit)
+        #self.controller.buildMargins(self, self.left_row_limit)
         #BLAST text can be replaced with graphics
         self.BLAST_button = tk.Button(self, text = 'BLAST', command = self.controller.blast, foreground = 'black', 
                                       background = 'light sky blue')

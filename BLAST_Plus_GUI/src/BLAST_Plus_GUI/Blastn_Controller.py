@@ -296,19 +296,21 @@ class Blastn_Controller(object):
         #Now for the reomote flag which this program is all about
         blastn_cmd = blastn_cmd + ' -remote'
         args = shlex.split(blastn_cmd)
-        args_new_lines = []
-        for arg in args:
-            args_new_lines.append(arg + '\n')
-        print(args_new_lines)
         if tm.askokcancel("Do you want to execute the following command?", blastn_cmd):
-            try:
+            #blastn command does not exit with a non-zero error code even if you feed into it nonsense. Therefore a try-except
+            #block is useless and the best that can be done is show the messages if any on the command line.
                 #check = True means it will throw the exception if command illegal and stderr = subprocess.STDOUT means
                 #stdout and stderr are combined into one string.
-                p = subprocess.run(blastn_cmd, shell = True, check = True, stdout = subprocess.PIPE, 
-                                     stderr = subprocess.PIPE, universal_newlines=True)
-            except CalledProcessError:
-                print('Entered caught exception')
-                tm.showinfo('The blastn command exited with an error code', 'Temp File Being Created')
+                p = subprocess.run(blastn_cmd, shell = True, stdout = subprocess.PIPE, 
+                                     stderr = subprocess.STDOUT, universal_newlines=True)
+                if  len(p.stdout):
+                    tm.showinfo('The blastn failed with the following command line message:', p.stdout)
+                else :
+                    file_created = ''
+                    for index , value in enumerate (args):
+                        if value == '-out':
+                            file_created += args[index+1]
+                    tm.showinfo('The blastn succeeded:', "Your results are in the following file: " + file_created)
     
     def updateText(self):
         """Choose Search Set & Subject Sequence & Program Selection all change the text label associated with BLAST Button"""
@@ -382,11 +384,13 @@ class Blastn_Controller(object):
     
     #Helper Methods For View
     def buildMargins(self, view, left_row_limit):
-        """This method makes cells along the top and right side of the frame so that gridding can easier when it's time to place widgets""" 
+        """This method makes cells along the top and right side of the frame so that gridding can easier when 
+            it's time to place widgets
+        """ 
         for col in range(10):
-            ttk.Label(view, text= '%s' % (col+1) , width =10).grid(row = 0, column = (col+1))
+            ttk.Label(view, text= '  ', width =10).grid(row = 0, column = (col+1))
         for row in range(left_row_limit):
-            ttk.Label(view, text= '%s' % row, width = 3).grid(row = row, column = 0)
+            ttk.Label(view, text= '  ' ,width = 3).grid(row = row, column = 0)
                 
     def makeWidgetWidthEven (self, widget):
         """Resizes widget to set_width"""
