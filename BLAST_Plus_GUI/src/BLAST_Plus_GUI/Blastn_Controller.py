@@ -18,6 +18,8 @@ from subprocess import CalledProcessError
 import shlex
 from tkinter.tix import COLUMN
 import platform
+#To get whether running on OSX or Linux import platform
+import platform
 
 class Blastn_Controller(object):
     """Controller, handlers of All the GUI widgets in the view with a dictionary to hold all the tk global variables and
