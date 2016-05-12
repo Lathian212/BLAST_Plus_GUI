@@ -17,6 +17,7 @@ import subprocess
 from subprocess import CalledProcessError
 import shlex
 from tkinter.tix import COLUMN
+import platform
 
 class Blastn_Controller(object):
     """Controller, handlers of All the GUI widgets in the view with a dictionary to hold all the tk global variables and
@@ -280,7 +281,14 @@ class Blastn_Controller(object):
     #BLAST Button
     def blast(self):
         """Needs to spin off a subprocess daemon"""
-        blastn_cmd = '/usr/local/ncbi/blast/bin/blastn '
+        #Depending on platform binary is in different places
+        system_platform = platform.system()
+        if 'Linux' in system_platform:
+            blastn_cmd = '/usr/bin/blastn '
+        elif 'Darwin' in system_platform:
+            blastn_cmd = '/usr/local/ncbi/blast/bin/blastn '
+        else:
+            tm.showinfo('You are probably using Windows', 'This Code is Not Set up for Windows.')
         query_commands = self.query_sequence_mapper()
         blastn_cmd += query_commands
         if self.model.Enter_Query_Sequence['if_subject'].get() :
@@ -306,10 +314,12 @@ class Blastn_Controller(object):
             #block is useless and the best that can be done is show the messages if any on the command line.
                 #check = True means it will throw the exception if command illegal and stderr = subprocess.STDOUT means
                 #stdout and stderr are combined into one string.
-                p = subprocess.run(blastn_cmd, shell = True, stdout = subprocess.PIPE, 
+                p = subprocess.Popen(blastn_cmd, shell= True, stdout = subprocess.PIPE, 
                                      stderr = subprocess.STDOUT, universal_newlines=True)
-                if  len(p.stdout):
-                    tm.showinfo('The blastn failed with the following command line message:', p.stdout)
+                #Program will suspend on communicate method until program returns
+                stdout_and_stderr = p.communicate()
+                if  len(stdout_and_stderr[0]) != 0:
+                    tm.showinfo('The blastn failed with the following command line message:', stdout_and_stderr[0])
                 else :
                     file_created = ''
                     for index , value in enumerate (args):
