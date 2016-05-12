@@ -186,6 +186,7 @@ class Blastn_Controller(object):
             model_piece['db_box_reference'].current(2)
             if not view.organism_frame.winfo_ismapped() :
                 view.organism_frame.grid(row = view.row_organism, column = 1, columnspan = 10, sticky = 'W')
+        self.updateText()
                 
     def combo_db_handler(self, event):
         """When you change the drop down combo box this makes the radio buttons move appropriately"""
@@ -335,6 +336,7 @@ class Blastn_Controller(object):
         prg_sel = self.view_refs['Program_Selection']
         fourth_string_index = prg_sel.blastn_type.get()
         model_piece = getattr(self.model, 'BLAST_Button')
+        model_choose_search = getattr(self.model, 'Choose_Search_Set')
         for i in self.view_refs['BLAST']:
             i.text.configure(state = 'normal')
             i.text.delete('1.0', 'end')
@@ -342,7 +344,7 @@ class Blastn_Controller(object):
             if self.model.Enter_Query_Sequence['if_subject'].get() :
                 i.text.insert('end', 'nucleotide sequence ', ('blue'))
             else :
-                database = self.view_refs['Choose_Search_Set'].combo_db_Var.get()
+                database = model_choose_search['-db'].get()
                 i.text.insert('end', 'database ' + str(database), ('blue'))
             i.text.insert('end', ' using ', ('normal'))
             i.text.insert('end', model_piece['blast_fourth_text_piece'][fourth_string_index] , ('blue'))
