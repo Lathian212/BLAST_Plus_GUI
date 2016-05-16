@@ -2,6 +2,9 @@
 Created on Jan 18, 2016
 
 @author: lathian
+The blast algorithm is a heuristic tool that speeds up tremendously its basic goal of find nucleotide sequences that
+'align' that is that are similiar. This object connects to the part of the model reflecting reward for matches;
+penalties for mismatches; and costs for indels (insertion deleltions) in the DNA sequence and extensions.
 '''
 import tkinter as tk
 from tkinter import ttk

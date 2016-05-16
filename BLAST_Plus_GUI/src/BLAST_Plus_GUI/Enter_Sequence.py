@@ -2,6 +2,8 @@
 Created on Jan 17, 2016
 
 @author: lathian
+Used as is for the Enter_Subject_Sequence view object which is why the view_name is intialized to that. It gets
+overriden for the Choose_Search_Sequence
 '''
 import tkinter as tk
 from tkinter import ttk

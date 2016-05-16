@@ -2,6 +2,12 @@
 Created on Jan 18, 2016
 
 @author: lathian
+The expect threshold is a test of statistical significance of the degree of similarity between the nucleotide query
+and the 'hit' in the database. The higher this value is set to the more hits the program will come back with. The default
+of '10' is very generous and most such hits are not significant.
+
+The word size value reflects the starting nucleotide 'block' the program tries to match against the databse. Once it has
+such an anchor it tries to extend upstream and downstream and produce a signficant alignment.
 '''
 import tkinter as tk
 from tkinter import ttk

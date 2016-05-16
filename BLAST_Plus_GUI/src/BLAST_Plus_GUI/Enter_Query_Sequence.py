@@ -2,6 +2,8 @@
 Created on Jan 17, 2016
 
 @author: lathian
+Note this is using inheritance on a simpler view object I created (Enter_Squence). It allows you to pick the
+save file, the load file, and the output format.
 '''
 import tkinter as tk
 from tkinter import ttk

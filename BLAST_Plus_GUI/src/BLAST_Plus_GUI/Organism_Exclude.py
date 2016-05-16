@@ -2,6 +2,11 @@
 Created on Jan 15, 2016
 
 @author: lathian
+This is a part of the Choose_Search_Set it is a text entry box with a check box that serves the purpose of
+a boolean. Note the dictionary in the Model for Choose_Search_Set starts with an empty list '[]' to which
+these objects are appended if the user starts selecting organisms to include or exclude. If the list does
+not have a value of 'None' these Organism_Exclude objects get accessed an parse into -entrez_query statements
+such as -entrez_query'NOT Mus musculus[Organism] AND Homo sapiens[Organism]
 '''
 import tkinter as tk
 from tkinter import ttk

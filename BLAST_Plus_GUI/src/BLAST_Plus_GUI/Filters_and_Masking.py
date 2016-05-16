@@ -2,6 +2,12 @@
 Created on Jan 18, 2016
 
 @author: lathian
+Originally I built all my view objects first without consulting the command line too which was a big mistake.
+On the NCBI web page there were a lot of filtering options that do not exist in the command line tool and
+I had to delete them from my code after I had written them.
+
+Note however that for local searches the command line tool offers more advanced filtering and masking then
+the web page such as 'soft masking', 'hard masking', and 'dusk masking'.
 '''
 import tkinter as tk
 from tkinter import ttk

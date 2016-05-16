@@ -2,6 +2,14 @@
 Created on Jan 9, 2016
 
 @author: lathian
+Main implements the NoteBook widget that comes from the more advanced ttk extension of tk. This would
+have allowed increased performance because flipping between the tabs does not require TCL to call
+'forget' or 'destroy' methods on the widgets that need to be hidden and so metadata such as whether
+there is text in an Entry Box is also preserved.
+
+tk.Styles is a prowerful; albiet arcanely implemented; way of changing the global appearance of the
+widgets. Here I just used it to thinken up the frame borders so each view object is clearly 
+deliniated from the other as in the web page.
 '''
 import BLASTn as bn
 import tkinter as tk

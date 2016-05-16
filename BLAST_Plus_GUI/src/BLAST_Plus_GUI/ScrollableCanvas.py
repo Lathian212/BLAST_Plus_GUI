@@ -1,3 +1,12 @@
+'''
+This is not my code. I found it at the below web sight. It is necessary because the default area that
+tkinter tacks widgets to has a maximum size limit that is the size of the screen. So if you have 
+widgets that go off the bottom of the screen you cannot have a scrollbar to scroll you down to them.
+The answer is to use the tk.Canvas object along with a scrollbar.
+
+Note:I did not bind the mouse wheel to the scrollbar as that is dicey; it turns out to be plaftform
+dependent.
+'''
 # http://stackoverflow.com/questions/3085696/adding-a-scrollbar-to-a-grid-of-widgets-in-tkinter
 # on Mac sometimes scrollbar sticks when window size is small.
 import tkinter as tk

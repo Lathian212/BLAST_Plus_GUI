@@ -2,6 +2,11 @@
 Created on Jan 18, 2016
 
 @author: lathian
+Button object is instantiated two different times in the Blastn view. What makes it complicated is that it has to use
+tk.Text box for a single line. tk.Text supports advanced formatting including having part of the string explaining
+what pressing the button be blue and part be regular text. The reason I wrote this is that it mimics the appearance of
+the web page. The BLAST button calls self.controller.blast in Blastn_Controller which assembles the needed command line
+string and uses subprocess.Popen to pass in the command.
 '''
 import tkinter as tk
 from tkinter import ttk

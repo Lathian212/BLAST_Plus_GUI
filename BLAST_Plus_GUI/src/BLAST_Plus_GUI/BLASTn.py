@@ -2,6 +2,12 @@
 Created on Jan 9, 2016
 
 @author: lathian
+This contains the view of Blastn which is associated with one of the tabs in Main. It was originally
+intended to have four more of these for each other the other types of Blast but time does do permit.
+Note that grid is being used to place widgets/objects on the view but that grid is 'smart and dynamic':
+It adjusts each cell to be the biggest needed to what's pasted there. This can cause all sorts of
+havoc even when using rowspan, colspan, so each object has dummy insivisble cells of standard width
+self.controller.buildMargins.
 '''
 import tkinter as tk
 from tkinter import ttk

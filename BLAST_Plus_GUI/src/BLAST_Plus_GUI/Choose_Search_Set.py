@@ -2,6 +2,9 @@
 Created on Jan 13, 2016
 
 @author: lathian
+Allows user to select database to be searched. Not the radio buttons give access to the Homo sapeins and
+Mus musculus database which does not exist in actuality. They are implemented on the NCBI end with a restricted
+entrez_query such as -entrez_query"Homo sapiens[Organism]"
 '''
 import tkinter as tk
 from tkinter import ttk

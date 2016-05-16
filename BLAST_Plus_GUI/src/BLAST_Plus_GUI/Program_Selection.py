@@ -2,6 +2,9 @@
 Created on Jan 17, 2016
 
 @author: lathian
+The web page automatically selects for a short blastn search here it has to be done manually with one of the
+radio buttons. Please note the command that will be implemented is blastn but it is -task blastn-short that this
+view object is associated with in the model
 '''
 import tkinter as tk
 from tkinter import ttk
